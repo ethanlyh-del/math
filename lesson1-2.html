@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>函數的家族</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  .eyebrow{font-size:.8rem;letter-spacing:.24em;color:var(--coral);font-weight:700;margin-bottom:14px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .lede{margin-top:16px;font-size:1.08rem;color:var(--ink-soft);max-width:56ch}
+  .bigidea{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin-top:18px;font-weight:500}
+  .bigidea b{color:var(--violet)}
+  .part{display:flex;align-items:center;gap:14px;margin:44px 2px 12px;color:var(--teal);font-weight:800;font-size:1rem}
+  .part::before,.part::after{content:"";flex:1;height:2px;background:var(--grid-strong);border-radius:2px}
+  .brk{text-align:center;color:var(--ink-soft);font-size:.9rem;margin:34px 0 6px;font-weight:700;
+    background:#F3F6F9;border-radius:20px;padding:8px}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .tagx{display:inline-block;background:var(--teal-tint);color:var(--teal);font-size:.74rem;font-weight:700;padding:2px 9px;border-radius:20px;margin-bottom:10px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .say{background:var(--gold-tint);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .say::before{content:"💬 "}
+  .say b{display:block;margin-top:4px;font-weight:700}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .vocab{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+  .vrow{display:flex;gap:13px;align-items:baseline;background:#F3F6F9;border-radius:10px;padding:11px 14px}
+  .vk{flex:none;min-width:70px;font-weight:800;color:var(--violet);font-size:1rem}
+  .vv{font-size:.95rem;color:var(--ink-soft)}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .press{font-weight:800;font-size:1.02rem;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:11px 24px;cursor:pointer;box-shadow:3px 4px 0 rgba(34,48,60,.2);transition:.1s;font-family:inherit}
+  .press:active{transform:translate(2px,3px);box-shadow:1px 1px 0 rgba(34,48,60,.2)}
+  .drop{font-size:2.4rem;margin:12px 0 4px;min-height:44px}
+  .prnote{font-size:.9rem;color:var(--ink-soft)}
+  .prnote .yes{color:var(--teal);font-weight:700} .prnote .no{color:var(--no);font-weight:700}
+  .testgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:4px}
+  @media(max-width:560px){.testgrid{grid-template-columns:1fr}}
+  .tcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:14px;cursor:pointer;transition:.18s;background:#fff;user-select:none}
+  .tcard:hover{border-color:var(--violet);transform:translateY(-2px)}
+  .tcard .rel{font-weight:700;font-size:.98rem;margin-bottom:3px}
+  .tcard .q{font-size:.8rem;color:var(--ink-soft)}
+  .tcard .verdict{margin-top:9px;font-weight:700;font-size:.9rem;display:none;padding-top:9px;border-top:1.5px dashed var(--grid-strong)}
+  .tcard.revealed .verdict{display:block}
+  .tcard.revealed .tap{display:none}
+  .tap{margin-top:9px;font-size:.78rem;color:var(--violet);font-weight:700}
+  .yes{color:var(--teal)} .no{color:var(--no)}
+  .verdict .why{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem;margin-top:3px}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:62px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:66px;text-align:right;color:var(--coral)}
+  .readout{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:8px}
+  .gallery{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+  
+  .gcard{border:1.5px solid var(--grid-strong);border-radius:14px;padding:18px 16px;background:#fff;text-align:center;cursor:default}
+  .gcard .feat{font-size:1rem;font-weight:700;color:var(--ink);margin-top:10px}
+  .gcard .why{font-size:.9rem;color:var(--ink-soft);margin:6px auto 12px;line-height:1.75;
+    text-align:left;max-width:460px;background:#F3F6F9;border-radius:9px;padding:11px 14px}
+  .gcard .note2{font-size:.86rem;color:var(--ink-soft);margin-top:4px;line-height:1.6}
+  .gcard .formula2{font-family:"JetBrains Mono",monospace;font-size:1.05rem;font-weight:700;
+    background:#F3F6F9;border-radius:9px;padding:9px;margin:10px auto 4px;max-width:340px}
+  .sl-row{display:flex;align-items:center;gap:10px;margin:12px auto 6px;max-width:400px}
+  .sl-lab{font-size:.82rem;color:var(--ink-soft);flex:none;min-width:78px;text-align:right}
+  .sl-val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1rem;min-width:44px;text-align:left;color:var(--ink)}
+  .gcard svg{max-width:440px;margin:0 auto}
+  .say2{font-size:.98rem;margin-top:8px;color:var(--ink)}
+  .lim2{font-size:.84rem;color:var(--ink-soft);margin-top:10px;padding-top:9px;
+    border-top:1.5px dashed var(--grid-strong);line-height:1.6;text-align:left;
+    max-width:440px;margin-left:auto;margin-right:auto}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 4px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.hl2{background:var(--teal-tint);color:var(--teal);font-weight:700}
+  .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
+  .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+  footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
+  .wall{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:15px 18px;text-align:left}
+  .wall b{color:var(--coral)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>函數<br><span class="hl">長什麼樣子？</span></h1>
+  
+</header>
+
+
+<!-- B 函數家族 -->
+<section class="card">
+  <h2>函數有好多家族</h2>
+  <p class="desc">函數不只有直線。下面是幾種不同的函數畫出來的樣子。</p>
+  <div class="gallery" id="gallery"></div>
+  <div class="plain">常見的函數家族與它們描述的現象：<b style="color:#0E9C8B">一次函數</b>（直線，變化率固定）、<b style="color:#7A5CC7">二次函數</b>（拋物線，左右對稱）、<b style="color:#E8593F">指數函數</b>（越來越陡，永遠不會低於 0）、<b style="color:#E0A32E">對數函數</b>（越來越平緩，只存在於 x&gt;0）、<b style="color:#2F7FD1">三角函數</b>（上下起伏、不斷重複，其中正切函數會在特定位置斷開）、<b style="color:#B4529E">反比函數</b>（分成兩段，永遠不通過原點）、<b style="color:#C77B2E">絕對值函數</b>（V 字形轉折）。</div>
+  <div class="note">以上皆符合「唯一決定」：一個 x 只對應一個 y，因此都是函數，差別在於圖形的形狀。</div>
+
+  
+</section>
+
+
+</div>
+<script>
+/* 函數家族圖庫 */
+(function(){
+  // full: 數學上完整的繪圖範圍　real: 情境有意義的範圍（會標亮）
+  const fns=[
+    {id:'taxi',nm:'一次函數',eqn:'y = ax + b',c:'#0E9C8B',use:'計程車車資',
+     feat:'圖形是一條直線',
+     why:'因為每增加 1 單位，y 就固定增加同一個量（變化率固定），每一步跳的高度都一樣，點就排成直線。變化率越大，直線越陡。',
+     note:'起跳 85 元，之後每公里 25 元',form:'y = 25x + 85',
+     xlab:'公里數',ylab:'車資（元）',
+     full:[-6,12], real:[0,12], yrange:[-80,400],
+     min:0,max:12,step:1,init:4, f:x=>25*x+85,
+     say:x=>`坐 ${x} 公里 → 25×${x} + 85 = <b>${25*x+85}</b> 元`,
+     lim:'公里數不會是負數，所以現實只用得到 x ≥ 0 的部分'},
+
+    {id:'ball',nm:'二次函數',eqn:'y = ax² + bx + c',c:'#7A5CC7',use:'投籃的高度',
+     feat:'圖形是拋物線，左右對稱',
+     why:'因為 x 要用兩次（x²），而平方會把正負消掉——x=3 和 x=−3 的平方都是 9，所以以頂點為中心左右對稱。又因為每一步增加的量本身越來越大，線會越來越陡，就彎了。',
+     note:'球出手後的水平距離與高度（示意值，實際取決於出手力道與角度）',form:'y = −0.25x² + 2x',
+     xlab:'水平距離（公尺）',ylab:'高度（公尺）',
+     full:[-3,11], real:[0,8], yrange:[-8,5],
+     min:0,max:8,step:1,init:4, f:x=>-0.25*x*x+2*x,
+     say:x=>{const v=-0.25*x*x+2*x; return `飛出 ${x} 公尺 → 高度 <b>${v.toFixed(2)}</b> 公尺${x===4?'（最高點）':''}`},
+     lim:'球落地後就沒有意義了，高度也不會是負的'},
+
+    {id:'cell',nm:'指數函數',eqn:'y = aˣ',c:'#E8593F',use:'細胞分裂',
+     feat:'越來越陡，而且永遠不會低於 0',
+     why:'越來越陡，是因為每一步都「乘」固定倍數，數字越大、增加的量也越大。永遠不會到 0，是因為正數不管自乘幾次都還是正數；指數為負時變成分數（2⁻³ = 1/8），會越來越小但碰不到 0。圖形無限接近 x 軸的這條線，稱為漸近線。',
+     note:'一個細胞每次分裂成兩個',form:'y = 2ˣ',
+     xlab:'分裂次數',ylab:'細胞數',
+     full:[-4,10], real:[0,10], yrange:[0,1100],
+     min:0,max:10,step:1,init:4, f:x=>Math.pow(2,x),
+     say:x=>`分裂 ${x} 次 → 2^${x} = <b>${Math.pow(2,x).toLocaleString('en-US')}</b> 個`,
+     lim:'分裂次數不會是負數。數學上 x 為負時會是分數，圖形無限接近 0 但碰不到'},
+
+    {id:'quake',nm:'對數函數',eqn:'y = logₐx',c:'#E0A32E',use:'細胞要分裂幾次（指數的反問）',
+     feat:'越來越平緩，而且只存在於 x > 0',
+     why:'越來越平緩，是因為它是指數的反函數——指數衝得越快，反過來問「要幾次」時增加得就越慢。只存在於 x > 0，是因為正數的任何次方都是正數，不可能得到 0 或負數，所以那裡沒有對應的答案。',
+     note:'指數問「分裂 10 次有幾個」，對數反過來問「要幾次才會達到這個數量」',form:'y = log₂x',
+     xlab:'細胞數',ylab:'需要的分裂次數',
+     full:[0.5,1024], real:[1,1024], yrange:[-1,10.5],
+     min:2,max:1024,step:1,init:512, f:x=>Math.log2(x),
+     say:x=>`要有 ${x} 個細胞 → log₂${x} = <b>${Math.log2(x).toFixed(2)}</b> 次分裂`,
+     lim:'同樣的對數尺度也用在地震規模、聲音分貝、pH 值——差一級就是十倍，用它才能把巨大的範圍壓成看得懂的數字'},
+
+    {id:'wheel',nm:'正弦函數',eqn:'y = a sin(bx)',c:'#2F7FD1',use:'摩天輪的高度',
+     feat:'上下起伏、不斷重複',
+     why:'因為它描述的是旋轉。摩天輪轉一圈回到原位，高度也回到原本的值，所以圖形每隔一個週期就重複一次。高度被限制在最高與最低之間，因為半徑是固定的。',
+     note:'半徑 25 公尺、中心離地 30 公尺、轉一圈 20 分鐘',form:'y = 25 sin(360° × x ÷ 20) + 30',
+     xlab:'時間（分鐘）',ylab:'離地高度（公尺）',
+     full:[-20,40], real:[0,20], yrange:[0,60],
+     min:0,max:20,step:1,init:5, f:t=>25*Math.sin(2*Math.PI*t/20)+30,
+     say:t=>{const v=25*Math.sin(2*Math.PI*t/20)+30; return `第 ${t} 分鐘 → 離地 <b>${v.toFixed(1)}</b> 公尺`},
+     lim:'x 是時間，但 sin 括號裡放的是「轉過的角度」。轉一圈 360 度要 20 分鐘，所以角度 = 360° × 時間 ÷ 20。第 5 分鐘轉了 90 度（最高點）、第 15 分鐘轉了 270 度（最低點）。摩天輪會一直轉下去，圖形也會一直重複，標亮的是其中一圈'},
+
+    {id:'temp',nm:'餘弦函數',eqn:'y = a cos(bx)',c:'#1F9CB0',use:'一天的氣溫',
+     feat:'和正弦一樣起伏，只是從不同的位置開始',
+     why:'cos 和 sin 的形狀完全相同，差別只在起點：sin 從中間開始上升，cos 從最大值開始下降。實際用哪一個，看那個現象從什麼狀態開始。',
+     note:'午後最高、清晨最低，一天一個週期（示意值，實際依季節與地區而異）',form:'y = −5 cos(360° × (x−2) ÷ 24) + 25',
+     xlab:'時刻',ylab:'氣溫（度）',
+     full:[-24,48], real:[0,24], yrange:[15,32],
+     min:0,max:24,step:1,init:14, f:h=>-5*Math.cos(2*Math.PI*(h-2)/24)+25,
+     say:h=>{const v=-5*Math.cos(2*Math.PI*(h-2)/24)+25; return `${h} 點 → 約 <b>${v.toFixed(1)}</b> 度`},
+     lim:'氣溫並沒有東西在旋轉，這裡是「借用」cos 的波形來描述一天重複一次的變化：把一天 24 小時對應成一圈 360 度。只要現象會週期性重複，就可以用三角函數描述，不必真的有旋轉。每天都會重複同樣的起伏，標亮的是其中一天'},
+
+    {id:'slope',nm:'正切函數',eqn:'y = tan x',c:'#5B7FD4',use:'坡度',
+     feat:'在特定位置斷開，分成一段一段',
+     why:'因為 tan x = sin x ÷ cos x，當 cos x = 0 時分母為零，那裡沒有定義，所以圖形斷開。角度接近 90 度就是這種情況——那代表垂直的牆，上升高度變成無限大。',
+     note:'路標上的坡度百分比，就是「前進 100 公尺會上升幾公尺」',form:'y = 100 × tan(x°)',
+     xlab:'傾斜角度',ylab:'每 100 公尺上升（公尺）',
+     full:[-89,89], real:[1,30], yrange:[-120,120],
+     min:1,max:30,step:1,init:6, f:d=>100*Math.tan(d*Math.PI/180),
+     say:d=>{const v=100*Math.tan(d*Math.PI/180); return `傾斜 ${d} 度 → 100 × tan(${d}°) = <b>${v.toFixed(1)}</b><br>前進 100 公尺會上升 ${v.toFixed(1)} 公尺，路標寫「坡度 ${v.toFixed(0)}%」`},
+     lim:'tan(角度) 算出來的是「上升高度 ÷ 水平距離」這個比值，乘以 100 就變成前進 100 公尺的上升量。這裡的 x 是真正量得到的傾斜角度。角度接近 90 度時會衝向無限大（等於垂直的牆），真實道路很少超過 30 度'},
+
+    {id:'trip',nm:'反比函數',eqn:'y = k/x',c:'#B4529E',use:'開車所需時間',
+     feat:'分成兩段，永遠不通過原點',
+     why:'因為 x = 0 時分母為零，算不出來，圖形在那裡斷開成兩支。而且不管 x 多大，120 除以它都不會等於 0，所以曲線無限接近兩軸卻永遠碰不到。',
+     note:'路程固定 120 公里',form:'y = 120 / x',
+     xlab:'時速（公里）',ylab:'所需時間（小時）',
+     full:[-120,120], real:[20,120], yrange:[-6,6],
+     min:20,max:120,step:10,init:60, f:v=>120/v,
+     say:v=>`時速 ${v} → 需要 <b>${(120/v).toFixed(2)}</b> 小時`,
+     lim:'時速為 0 時算不出來（永遠到不了），圖形在此斷開'},
+
+    {id:'ac',nm:'絕對值函數',eqn:'y = |x − a|',c:'#C77B2E',use:'與設定溫度的差距',
+     feat:'V 字形，在轉折點有一個尖角',
+     why:'因為它其實是兩條直線接在一起：右邊是 y = x−25，左邊是 y = 25−x。兩條線的斜率一正一負，在交會處突然改變方向，所以形成尖角，不像拋物線那樣圓滑。',
+     note:'冷氣設定 25 度',form:'y = |x − 25|',
+     xlab:'室溫（度）',ylab:'差距（度）',
+     full:[10,40], real:[18,32], yrange:[0,16],
+     min:18,max:32,step:1,init:27, f:t=>Math.abs(t-25),
+     say:t=>`室溫 ${t} 度 → |${t}−25| = <b>${Math.abs(t-25)}</b> 度`,
+     lim:'數學上兩側可以無限延伸，但室溫不會出現極端值'}
+  ];
+
+  const g=document.getElementById('gallery');
+  const W=340,H=250,PL=54,PB=42,PT=18,PR=16;
+  const PW=W-PL-PR, PH=H-PT-PB;
+
+  fns.forEach(o=>{
+    const [fx0,fx1]=o.full, [ry0,ry1]=o.yrange;
+    const X=x=>PL+((x-fx0)/(fx1-fx0))*PW;
+    const Y=y=>PT+PH-((y-ry0)/(ry1-ry0))*PH;
+
+    const card=document.createElement('div');
+    card.className='gcard';
+    card.innerHTML=`
+      <div class="nm">${o.nm}</div>
+      <div class="eqn">${o.eqn}</div>
+      <div class="use">${o.use}</div>
+      <div class="feat">${o.feat}</div>
+      <div class="why">${o.why}</div>
+      <div class="note2">${o.note}</div>
+      <div class="formula2">${o.form}</div>
+      <div class="sl-row">
+        <span class="sl-lab">${o.xlab}</span>
+        <input type="range" min="${o.min}" max="${o.max}" step="${o.step}" value="${o.init}">
+        <span class="sl-val">${o.init}</span>
+      </div>
+      <svg viewBox="0 0 ${W} ${H}"></svg>
+      <div class="say2"></div>
+      <div class="lim2">${o.lim}</div>`;
+    g.appendChild(card);
+
+    const svg=card.querySelector('svg'), sl=card.querySelector('input');
+
+    function path(x0,x1){
+      let p='',pen=false;
+      const N=420;
+      for(let i=0;i<=N;i++){
+        const x=x0+(x1-x0)*i/N;
+        const y=o.f(x);
+        if(y===null||!isFinite(y)||y>ry1+ (ry1-ry0)*0.05||y<ry0-(ry1-ry0)*0.05){pen=false;continue;}
+        p+=(pen?'L':'M')+X(x).toFixed(1)+' '+Y(y).toFixed(1)+' ';
+        pen=true;
+      }
+      return p;
+    }
+
+    function draw(){
+      const cur=+sl.value;
+      let s='';
+      // 格線
+      for(let i=0;i<=5;i++){
+        const gy=PT+(i/5)*PH;
+        s+=`<line x1="${PL}" y1="${gy}" x2="${PL+PW}" y2="${gy}" stroke="#F1F5F8" stroke-width="1.2"/>`;
+      }
+      // 情境區間底色
+      const rx0=Math.max(X(o.real[0]),PL), rx1=Math.min(X(o.real[1]),PL+PW);
+      s+=`<rect x="${rx0}" y="${PT}" width="${rx1-rx0}" height="${PH}" fill="${o.c}" opacity="0.06"/>`;
+      // 座標軸（若 0 在範圍內就畫在 0，否則畫在邊緣）
+      const axY = (ry0<=0&&ry1>=0)?Y(0):PT+PH;
+      const axX = (fx0<=0&&fx1>=0)?X(0):PL;
+      s+=`<line x1="${PL}" y1="${axY}" x2="${PL+PW}" y2="${axY}" stroke="#22303C" stroke-width="1.8"/>`;
+      s+=`<line x1="${axX}" y1="${PT}" x2="${axX}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+      // 完整曲線（淡）
+      s+=`<path d="${path(fx0,fx1)}" fill="none" stroke="${o.c}" stroke-width="2.4" opacity="0.28" stroke-linecap="round"/>`;
+      // 情境區間（實）
+      s+=`<path d="${path(o.real[0],o.real[1])}" fill="none" stroke="${o.c}" stroke-width="3.6" stroke-linecap="round"/>`;
+      // 目前點
+      const cy=o.f(cur);
+      if(isFinite(cy)){
+        s+=`<line x1="${X(cur)}" y1="${Y(cy)}" x2="${X(cur)}" y2="${axY}" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+        s+=`<line x1="${axX}" y1="${Y(cy)}" x2="${X(cur)}" y2="${Y(cy)}" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+        s+=`<circle cx="${X(cur)}" cy="${Y(cy)}" r="7" fill="#E8593F"/>`;
+        s+=`<text x="${PL-6}" y="${Y(cy)+4}" fill="#E8593F" font-size="12" font-weight="700" text-anchor="end">${Math.abs(cy)>=100?Math.round(cy):cy.toFixed(1)}</text>`;
+      }
+      // 軸標
+      s+=`<text x="${PL+PW/2}" y="${H-8}" fill="#5B6B77" font-size="12" text-anchor="middle">${o.xlab} →</text>`;
+      s+=`<text x="${PL-6}" y="${PT-4}" fill="#5B6B77" font-size="11.5" text-anchor="end">${o.ylab}</text>`;
+      s+=`<text x="${(rx0+rx1)/2}" y="${PT+PH+16}" fill="${o.c}" font-size="10.5" font-weight="700" text-anchor="middle">情境範圍</text>`;
+      svg.innerHTML=s;
+      card.querySelector('.sl-val').textContent=cur;
+      card.querySelector('.say2').innerHTML=o.say(cur);
+      const pct=(cur-o.min)/(o.max-o.min)*100;
+      sl.style.background=`linear-gradient(90deg,${o.c} ${pct}%,var(--grid-strong) ${pct}%)`;
+    }
+    sl.addEventListener('input',draw);
+    draw();
+  });
+})();
+</script>
+</body>
+</html>

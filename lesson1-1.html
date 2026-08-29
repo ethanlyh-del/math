@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>認識函數</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  .eyebrow{font-size:.8rem;letter-spacing:.24em;color:var(--coral);font-weight:700;margin-bottom:14px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .lede{margin-top:16px;font-size:1.08rem;color:var(--ink-soft);max-width:56ch}
+  .bigidea{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin-top:18px;font-weight:500}
+  .bigidea b{color:var(--violet)}
+  .part{display:flex;align-items:center;gap:14px;margin:44px 2px 12px;color:var(--teal);font-weight:800;font-size:1rem}
+  .part::before,.part::after{content:"";flex:1;height:2px;background:var(--grid-strong);border-radius:2px}
+  .brk{text-align:center;color:var(--ink-soft);font-size:.9rem;margin:34px 0 6px;font-weight:700;
+    background:#F3F6F9;border-radius:20px;padding:8px}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .tagx{display:inline-block;background:var(--teal-tint);color:var(--teal);font-size:.74rem;font-weight:700;padding:2px 9px;border-radius:20px;margin-bottom:10px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .say{background:var(--gold-tint);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .say::before{content:"💬 "}
+  .say b{display:block;margin-top:4px;font-weight:700}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .vocab{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+  .vrow{display:flex;gap:13px;align-items:baseline;background:#F3F6F9;border-radius:10px;padding:11px 14px}
+  .vk{flex:none;min-width:70px;font-weight:800;color:var(--violet);font-size:1rem}
+  .vv{font-size:.95rem;color:var(--ink-soft)}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .press{font-weight:800;font-size:1.02rem;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:11px 24px;cursor:pointer;box-shadow:3px 4px 0 rgba(34,48,60,.2);transition:.1s;font-family:inherit}
+  .press:active{transform:translate(2px,3px);box-shadow:1px 1px 0 rgba(34,48,60,.2)}
+  .drop{font-size:2.4rem;margin:12px 0 4px;min-height:44px}
+  .prnote{font-size:.9rem;color:var(--ink-soft)}
+  .prnote .yes{color:var(--teal);font-weight:700} .prnote .no{color:var(--no);font-weight:700}
+  .testgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:4px}
+  @media(max-width:560px){.testgrid{grid-template-columns:1fr}}
+  .tcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:14px;cursor:pointer;transition:.18s;background:#fff;user-select:none}
+  .tcard:hover{border-color:var(--violet);transform:translateY(-2px)}
+  .tcard .rel{font-weight:700;font-size:.98rem;margin-bottom:3px}
+  .tcard .q{font-size:.8rem;color:var(--ink-soft)}
+  .tcard .verdict{margin-top:9px;font-weight:700;font-size:.9rem;display:none;padding-top:9px;border-top:1.5px dashed var(--grid-strong)}
+  .tcard.revealed .verdict{display:block}
+  .tcard.revealed .tap{display:none}
+  .tap{margin-top:9px;font-size:.78rem;color:var(--violet);font-weight:700}
+  .yes{color:var(--teal)} .no{color:var(--no)}
+  .verdict .why{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem;margin-top:3px}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:62px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:66px;text-align:right;color:var(--coral)}
+  .readout{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:8px}
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+  @media(max-width:560px){.gallery{grid-template-columns:repeat(2,1fr)}}
+  .gcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:12px;cursor:pointer;transition:.18s;background:#fff;user-select:none;text-align:center}
+  .gcard:hover{border-color:var(--teal)}
+  .gcard .nm{font-weight:800;font-size:.95rem;margin-top:6px;display:none}
+  .gcard .eqn{font-family:"JetBrains Mono",monospace;font-size:.9rem;color:var(--violet);display:none}
+  .gcard.on .nm,.gcard.on .eqn{display:block}
+  .gcard .use{display:none;font-size:.78rem;color:var(--ink-soft);margin-top:5px;line-height:1.5}
+  .gcard.on .use{display:block}
+  .gcard .hint{font-size:.76rem;color:var(--teal);font-weight:700;margin-top:6px}
+  .gcard.on .hint{display:none}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 4px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.hl2{background:var(--teal-tint);color:var(--teal);font-weight:700}
+  .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
+  .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+  footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
+  .wall{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:15px 18px;text-align:left}
+  .wall b{color:var(--coral)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>什麼樣的關係，<br><span class="hl">能夠預測？</span></h1>
+  <div class="bigidea">今天要回答的問題：<b>什麼樣的關係，能讓我們算出還沒發生的事？</b></div>
+</header>
+<!-- A1 -->
+<section class="card">
+  <h2>先認識四個字</h2>
+  <div class="vocab">
+    <div class="vrow"><span class="vk">量</span><span class="vv">可以測量或計數的事物，能比較大小、也能進行運算。長度、時間、溫度、價錢、人數都是量。<br>座號、電話號碼、色碼雖然是數字，但只是<b>編號</b>——兩個座號相加沒有意義，因此不是量。</span></div>
+    <div class="vrow"><span class="vk">變數</span><span class="vv">數值會改變的量。在某個時刻有一個確定的值，但在不同時刻可能不同，例如氣溫、遊戲分數。（數值固定不變的稱為常數，例如一週 7 天。）</span></div>
+    <div class="vrow"><span class="vk">對應</span><span class="vv">一個事物配到另一個事物。販賣機按 A3 掉出可樂，A3 即對應到可樂。</span></div>
+    <div class="vrow"><span class="vk">唯一決定</span><span class="vv">同一個輸入，永遠得到同一個輸出，不會出現第二種結果。</span></div>
+  </div>
+
+  <p class="desc" style="margin-top:18px">「唯一決定」可對照<b>販賣機是否正常運作</b>。</p>
+  <div class="toggle">
+    <button class="tbtn on" data-m="good">好的販賣機</button>
+    <button class="tbtn" data-m="broken">壞掉的販賣機</button>
+  </div>
+  <div class="fig" style="text-align:center">
+    <button id="pressBtn" class="press">按 A3</button>
+    <div id="drop" class="drop">?</div>
+    <div id="pressNote" class="prnote">按幾次都掉一樣的 → <span class="yes">唯一決定</span></div>
+  </div>
+  <div class="plain">正常的販賣機：按 A3 永遠掉可樂，結果可<b>預測</b>。故障的販賣機：同一個按鍵可能掉出不同東西，結果無法預測。</div>
+  <div class="plain" style="border-left:4px solid var(--violet);border-radius:0 10px 10px 0;margin-top:14px">
+    <b>把四個詞組合起來，就是函數的定義：</b><br><br>
+    兩個<b>變數</b>（會變的<b>量</b>）之間有一種<b>對應</b>關係，<br>
+    若其中一個的值確定後，另一個就被<b>唯一決定</b>，<br>
+    這樣的對應關係就稱為 <b style="color:var(--violet)">函數</b>。
+  </div>
+
+  <div class="vocab" style="margin-top:14px">
+    <div class="vrow"><span class="vk">自變數</span><span class="vv">可以自由決定的那個變數。買飲料時「買幾杯」由自己決定，杯數就是自變數。它是先給定的值，也稱為<b>輸入</b>，習慣寫成 x。</span></div>
+    <div class="vrow"><span class="vk">應變數</span><span class="vv">隨著自變數而被決定的那個變數。杯數決定後「要付多少錢」就跟著確定，價錢就是應變數。它是算出來的結果，也稱為<b>輸出</b>，習慣寫成 y。</span></div>
+  </div>
+  <div class="plain" style="margin-top:12px">「自變」是自己會變、可以自由選；「應變」是<b>回應</b>前者而變，自己作不了主。</div>
+</section>
+
+<!-- A2 核心探究 -->
+<section class="card" style="border-color:var(--violet)">
+  <h2>能不能「一定算出」？</h2>
+  <p class="desc">判斷的規則只有一句：<b>知道左邊的值，能不能確定唯一的右邊。</b></p>
+  <div class="testgrid" id="testGrid"></div>
+  <div class="plain">x 的值確定後，y 就被唯一決定的對應關係，稱為 <b style="color:var(--violet)">函數</b>。<br><br>同一個 x 可能對應到多個 y 的（如身高與體重、一個人與他的好朋友），仍然是一種<b>對應關係</b>，只是<b>不是函數</b>——函數是對應關係中「唯一決定」的那一類。不是函數的關係無法用來做確定的預測。</div>
+</section>
+
+<!-- A3 一次函數 -->
+<section class="card">
+  <h2>最單純的一種：每次固定多同一個數</h2>
+  <p class="desc">一杯飲料 50 元。</p>
+  <div class="slider-row"><span class="slabel">杯數</span>
+    <input type="range" id="cup" min="0" max="8" value="3" step="1">
+    <span class="val" id="cupV">3 杯</span>
+  </div>
+  <div class="toggle">
+    <button class="tbtn on" data-f="a">只買飲料</button>
+    <button class="tbtn" data-f="b">另加 30 元外送費</button>
+    <button class="tbtn" data-f="both">兩條一起看</button>
+  </div>
+  <div class="fig"><svg id="lineSvg" viewBox="0 0 340 240" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="readout" id="lineRead"><span>價錢 = <b id="cost" style="color:var(--teal)">150</b> 元</span></div>
+  <div class="ask">一杯 50 元，另加 30 元外送費（不論買幾杯都要付一次）。<br>請列出「價錢」與「杯數」的關係式，並比較兩條線的差異。</div>
+  <div class="plain"><b>變化率</b>：x 每增加 1，y 增加的量。<br>
+  此例中杯數每增加 1，價錢固定增加 50，因此變化率為 50。<br><br>
+  變化率固定，代表每一步增加的量都相同，各點才會連成一條<b>直線</b>；變化率越大，直線越<b>陡</b>。<br>
+  這類「變化率固定」的函數，稱為<b>一次函數</b>，一般寫成 <b>y = ax + b</b>，其中 a 是變化率，b 是 x 為 0 時的起點。</div>
+</section>
+
+
+</div>
+<script>
+/* 販賣機 */
+(function(){
+  let mode='good';
+  const drop=document.getElementById('drop'), note=document.getElementById('pressNote');
+  const broken=['🥤','💧','🥫','🚫','🧃'];
+  document.querySelectorAll('[data-m]').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('[data-m]').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); mode=b.dataset.m; drop.textContent='?';
+    note.innerHTML = mode==='good'
+      ? '按幾次都掉一樣的 → <span class="yes">唯一決定</span>'
+      : '每次掉的都不一定 → <span class="no">猜不準，機器壞了</span>';
+  }));
+  document.getElementById('pressBtn').addEventListener('click',()=>{
+    drop.textContent = mode==='good' ? '🥤' : broken[Math.floor(Math.random()*broken.length)];
+  });
+})();
+
+
+/* 核心探究卡 */
+(function(){
+  const cards=[
+    {rel:'杯數 → 要付的錢',q:'知道杯數，能算出唯一的金額嗎？',yes:true,why:'一杯 50，幾杯就唯一決定。'},
+    {rel:'正方形邊長 → 面積',q:'知道邊長，能算出唯一的面積嗎？',yes:true,why:'邊長定了，面積只有一個。'},
+    {rel:'出生年 → 今年幾歲',q:'知道出生年，能算出唯一的年齡嗎？',yes:true,why:'算得出來，只有一個答案。'},
+    {rel:'身高 → 體重',q:'知道身高，能確定唯一的體重嗎？',yes:false,why:'同樣身高有一堆種體重，猜不準。'},
+    {rel:'一個人 → 他的好朋友',q:'知道是誰，能確定唯一的好朋友嗎？',yes:false,why:'一個人有好多朋友，不只一個答案。'},
+    {rel:'今天日期 → 星期幾',q:'知道日期，能確定唯一的星期幾嗎？',yes:true,why:'每個日期只對一個星期幾。'}
+  ];
+  const g=document.getElementById('testGrid');
+  cards.forEach(c=>{
+    const d=document.createElement('div');
+    d.className='tcard';
+    d.innerHTML=`<div class="rel">${c.rel}</div><div class="q">${c.q}</div>`+
+      `<div class="tap">點開</div>`+
+      `<div class="verdict ${c.yes?'yes':'no'}">${c.yes?'✓ 是函數（能預測）':'✗ 不是函數（猜不準）'}<span class="why">${c.why}</span></div>`;
+    d.addEventListener('click',()=>d.classList.toggle('revealed'));
+    g.appendChild(d);
+  });
+})();
+
+
+/* 一次函數 */
+(function(){
+  const sl=document.getElementById('cup'), svg=document.getElementById('lineSvg');
+  let mode='a';
+  const x0=46,y0=196,w=266,h=160,N=8,ymax=460;
+  const X=i=>x0+(i/N)*w, Y=v=>y0-(v/ymax)*h;
+  function series(col,fee,dash){
+    let p='';
+    for(let i=0;i<=N;i++)p+=(i?'L':'M')+X(i)+' '+Y(50*i+fee)+' ';
+    let s=`<path d="${p}" fill="none" stroke="${col}" stroke-width="3.5" stroke-linecap="round"${dash?' stroke-dasharray="6 4"':''}/>`;
+    for(let i=0;i<=N;i++)s+=`<circle cx="${X(i)}" cy="${Y(50*i+fee)}" r="3.6" fill="${col}"/>`;
+    return s;
+  }
+  function draw(){
+    const n=+sl.value;
+    document.getElementById('cupV').textContent=n+' 杯';
+    let s='';
+    for(let i=0;i<=N;i++)s+=`<line x1="${X(i)}" y1="${y0}" x2="${X(i)}" y2="${y0-h}" stroke="#EEF3F7"/>`;
+    s+=`<line x1="${x0}" y1="${y0}" x2="${x0+w}" y2="${y0}" stroke="#22303C" stroke-width="2"/>`;
+    s+=`<line x1="${x0}" y1="${y0}" x2="${x0}" y2="${y0-h}" stroke="#22303C" stroke-width="2"/>`;
+    if(mode==='a'||mode==='both') s+=series('#0E9C8B',0,false);
+    if(mode==='b'||mode==='both') s+=series('#7A5CC7',30,mode==='both');
+    // 變化率標記（只在單條時顯示）
+    if(mode!=='both'){
+      const fee = mode==='b'?30:0;
+      for(let i=0;i<3;i++){
+        s+=`<line x1="${X(i+1)}" y1="${Y(50*i+fee)}" x2="${X(i+1)}" y2="${Y(50*(i+1)+fee)}" stroke="#E8593F" stroke-width="2" stroke-dasharray="3 2"/>`;
+        s+=`<text x="${X(i+1)+4}" y="${(Y(50*i+fee)+Y(50*(i+1)+fee))/2}" fill="#E8593F" font-size="10" font-weight="700">+50</text>`;
+      }
+      s+=`<circle cx="${X(n)}" cy="${Y(50*n+fee)}" r="7" fill="#E8593F"/>`;
+    }
+    // 起點標記
+    if(mode==='b'||mode==='both'){
+      s+=`<circle cx="${X(0)}" cy="${Y(30)}" r="5" fill="#7A5CC7"/>`;
+      s+=`<text x="${X(0)+9}" y="${Y(30)-7}" fill="#7A5CC7" font-size="11" font-weight="700">起點 30</text>`;
+    }
+    if(mode==='both'){
+      s+=`<text x="${X(8)}" y="${Y(400)-6}" fill="#7A5CC7" font-size="11" font-weight="700" text-anchor="end">+30 外送費</text>`;
+      s+=`<text x="${X(8)}" y="${Y(400)+22}" fill="#0E9C8B" font-size="11" font-weight="700" text-anchor="end">只買飲料</text>`;
+    }
+    s+=`<text x="${x0+w/2}" y="${y0+22}" fill="#5B6B77" font-size="12" text-anchor="middle">杯數 →</text>`;
+    s+=`<text x="${x0-6}" y="${y0-h+2}" fill="#5B6B77" font-size="12" text-anchor="end">價錢</text>`;
+    svg.innerHTML=s;
+    const rd=document.getElementById('lineRead');
+    if(mode==='a') rd.innerHTML=`<span>價錢 = 50 × ${n} = <b style="color:#0E9C8B">${50*n}</b> 元</span>`;
+    else if(mode==='b') rd.innerHTML=`<span>價錢 = 50 × ${n} + 30 = <b style="color:#7A5CC7">${50*n+30}</b> 元</span>`;
+    else rd.innerHTML=`<span style="color:#0E9C8B">50×${n} = ${50*n}</span><span style="color:#7A5CC7">50×${n}+30 = ${50*n+30}</span><span>兩條線的陡度相同，整條往上平移 30</span>`;
+  }
+  document.querySelectorAll('[data-f]').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('[data-f]').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); mode=b.dataset.f; draw();
+  }));
+  sl.addEventListener('input',draw); draw();
+})();
+
+
+</script>
+</body>
+</html>

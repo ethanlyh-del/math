@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>圍出最大的地</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  .eyebrow{font-size:.8rem;letter-spacing:.24em;color:var(--coral);font-weight:700;margin-bottom:14px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .lede{margin-top:16px;font-size:1.08rem;color:var(--ink-soft);max-width:56ch}
+  .bigidea{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin-top:18px;font-weight:500}
+  .bigidea b{color:var(--violet)}
+  .part{display:flex;align-items:center;gap:14px;margin:44px 2px 12px;color:var(--teal);font-weight:800;font-size:1rem}
+  .part::before,.part::after{content:"";flex:1;height:2px;background:var(--grid-strong);border-radius:2px}
+  .brk{text-align:center;color:var(--ink-soft);font-size:.9rem;margin:34px 0 6px;font-weight:700;
+    background:#F3F6F9;border-radius:20px;padding:8px}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .tagx{display:inline-block;background:var(--teal-tint);color:var(--teal);font-size:.74rem;font-weight:700;padding:2px 9px;border-radius:20px;margin-bottom:10px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .say{background:var(--gold-tint);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .say::before{content:"💬 "}
+  .say b{display:block;margin-top:4px;font-weight:700}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .vocab{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+  .vrow{display:flex;gap:13px;align-items:baseline;background:#F3F6F9;border-radius:10px;padding:11px 14px}
+  .vk{flex:none;min-width:70px;font-weight:800;color:var(--violet);font-size:1rem}
+  .vv{font-size:.95rem;color:var(--ink-soft)}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .press{font-weight:800;font-size:1.02rem;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:11px 24px;cursor:pointer;box-shadow:3px 4px 0 rgba(34,48,60,.2);transition:.1s;font-family:inherit}
+  .press:active{transform:translate(2px,3px);box-shadow:1px 1px 0 rgba(34,48,60,.2)}
+  .drop{font-size:2.4rem;margin:12px 0 4px;min-height:44px}
+  .prnote{font-size:.9rem;color:var(--ink-soft)}
+  .prnote .yes{color:var(--teal);font-weight:700} .prnote .no{color:var(--no);font-weight:700}
+  .testgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:4px}
+  @media(max-width:560px){.testgrid{grid-template-columns:1fr}}
+  .tcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:14px;cursor:pointer;transition:.18s;background:#fff;user-select:none}
+  .tcard:hover{border-color:var(--violet);transform:translateY(-2px)}
+  .tcard .rel{font-weight:700;font-size:.98rem;margin-bottom:3px}
+  .tcard .q{font-size:.8rem;color:var(--ink-soft)}
+  .tcard .verdict{margin-top:9px;font-weight:700;font-size:.9rem;display:none;padding-top:9px;border-top:1.5px dashed var(--grid-strong)}
+  .tcard.revealed .verdict{display:block}
+  .tcard.revealed .tap{display:none}
+  .tap{margin-top:9px;font-size:.78rem;color:var(--violet);font-weight:700}
+  .yes{color:var(--teal)} .no{color:var(--no)}
+  .verdict .why{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem;margin-top:3px}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:62px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:66px;text-align:right;color:var(--coral)}
+  .readout{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:8px}
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+  @media(max-width:560px){.gallery{grid-template-columns:repeat(2,1fr)}}
+  .gcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:12px;cursor:pointer;transition:.18s;background:#fff;user-select:none;text-align:center}
+  .gcard:hover{border-color:var(--teal)}
+  .gcard .nm{font-weight:800;font-size:.95rem;margin-top:6px;display:none}
+  .gcard .eqn{font-family:"JetBrains Mono",monospace;font-size:.9rem;color:var(--violet);display:none}
+  .gcard.on .nm,.gcard.on .eqn{display:block}
+  .gcard .use{display:none;font-size:.78rem;color:var(--ink-soft);margin-top:5px;line-height:1.5}
+  .gcard.on .use{display:block}
+  .gcard .hint{font-size:.76rem;color:var(--teal);font-weight:700;margin-top:6px}
+  .gcard.on .hint{display:none}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 4px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.hl2{background:var(--teal-tint);color:var(--teal);font-weight:700}
+  .fillbox{background:#fff;border:2px solid var(--coral);border-radius:13px;padding:18px 20px;margin:16px 0}
+  .fill-lead{font-size:.96rem;color:var(--ink-soft);line-height:1.8;margin-bottom:14px}
+  .diagram{max-width:340px;margin:6px auto 0;display:block}
+  .fill-row{display:flex;align-items:center;gap:14px;margin:12px 0}
+  .fk{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.15rem;min-width:74px;color:var(--coral)}
+  .blank{flex:1;border-bottom:2.5px solid var(--grid-strong);height:34px;max-width:300px}
+  .task{display:flex;gap:14px;align-items:flex-start;background:#F3F6F9;border-radius:12px;padding:15px 17px;margin:18px 0 10px}
+  .tnum{flex:none;width:28px;height:28px;border-radius:50%;background:var(--coral);color:#fff;
+    display:grid;place-items:center;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.9rem}
+  .tbody{font-size:.98rem;line-height:1.8}
+  .tbody b{color:var(--coral)}
+  .twocol{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;align-items:start;margin-top:16px}
+  @media(max-width:600px){.twocol{grid-template-columns:1fr}}
+  .twocol table.worksheet td{padding:7px 4px;font-size:.92rem}
+  .twocol table.worksheet th{padding:7px 4px}
+  .twocol .fig{margin-bottom:0}
+  tr.cur td{background:var(--coral-tint);color:var(--coral);font-weight:700}
+  table.worksheet{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:1rem;margin-top:8px}
+  table.worksheet th{background:var(--coral-tint);color:var(--coral);border:1.5px solid var(--grid-strong);padding:9px 4px;font-size:.85rem}
+  table.worksheet td{border:1.5px solid var(--grid-strong);padding:13px 4px;text-align:center}
+  table.worksheet td:first-child{background:#F3F6F9;font-weight:700}
+  .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
+  .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+  footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
+  .wall{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:15px 18px;text-align:left}
+  .wall b{color:var(--coral)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>同樣的材料，<br><span class="hl">怎麼圍最大？</span></h1>
+</header>
+
+<section class="card" style="border-color:var(--coral)">
+  <p class="desc">以 <b>40 公尺</b>籬笆靠牆圍出一塊長方形的地（靠牆一側不需圍）。<b>如何圍出最大面積？</b></p>
+
+  <div class="fillbox">
+    <div class="fill-lead">籬笆總共 40 公尺，只圍三邊：左右兩條「寬」與前面一條「長」。</div>
+    <svg class="diagram" viewBox="0 0 320 190" preserveAspectRatio="xMidYMid meet">
+      <line x1="20" y1="34" x2="300" y2="34" stroke="#22303C" stroke-width="7" stroke-linecap="round"/>
+      <text x="160" y="22" fill="#22303C" font-size="13" font-weight="700" text-anchor="middle">牆（不用圍）</text>
+      <rect x="70" y="34" width="180" height="105" fill="#DCF1EE"/>
+      <line x1="70" y1="34" x2="70" y2="139" stroke="#E8593F" stroke-width="5"/>
+      <line x1="250" y1="34" x2="250" y2="139" stroke="#E8593F" stroke-width="5"/>
+      <line x1="70" y1="139" x2="250" y2="139" stroke="#0E9C8B" stroke-width="5"/>
+      <text x="56" y="92" fill="#E8593F" font-size="20" font-weight="700" text-anchor="end">?</text>
+      <text x="266" y="92" fill="#E8593F" font-size="20" font-weight="700">?</text>
+      <text x="160" y="165" fill="#0E9C8B" font-size="20" font-weight="700" text-anchor="middle">?</text>
+      <text x="160" y="95" fill="#0E9C8B" font-size="13" font-weight="700" text-anchor="middle">面積 = ?</text>
+    </svg>
+    <div class="fill-lead" style="margin-top:12px">用 x 把它們表示出來：</div>
+    <div class="fill-row"><span class="fk">寬 =</span><span class="blank"></span></div>
+    <div class="fill-row"><span class="fk">長 =</span><span class="blank"></span></div>
+    <div class="fill-row"><span class="fk">面積 =</span><span class="blank"></span></div>
+  </div>
+
+  <div class="slider-row"><span class="slabel">寬</span>
+    <input type="range" id="wS" min="1" max="19" value="1" step="1">
+    <span class="val" id="wV">1 m</span>
+  </div>
+  <div class="fig"><svg id="penSvg" viewBox="0 0 300 150" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="readout">
+    <span>寬 = <b id="fW">1</b></span>
+    <span>長 = <b id="fL">38</b></span>
+    <span>面積 = <b id="fA" style="color:var(--teal)">38</b></span>
+  </div>
+
+  <div class="say">最大的面積是多少？那時候的寬是多少？</div>
+
+  <div class="twocol">
+    <table class="worksheet">
+      <thead><tr><th>寬</th><th>長</th><th>面積</th></tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+    <div>
+      <div class="slider-row" style="margin-top:0"><span class="slabel">寬</span>
+        <input type="range" id="wS2" min="1" max="19" value="1" step="1">
+        <span class="val" id="wV2">1 m</span>
+      </div>
+      <div class="fig"><svg id="curveSvg" viewBox="0 0 320 250" preserveAspectRatio="xMidYMid meet"></svg></div>
+    </div>
+  </div>
+
+  <div class="ask">如果籬笆改成 37 公尺呢？<br>用試的，能保證找到的就是最大值嗎？</div>
+</section>
+
+<script>
+/* 圍籬 */
+(function(){
+  const sl=document.getElementById('wS'), svg=document.getElementById('penSvg');
+  function draw(wv){
+    const L=40-2*wv, sx=6.2, sy=4.4, oy=30, lpx=L*sx, wpx=wv*sy, cx=(300-lpx)/2;
+    let s=`<line x1="20" y1="${oy}" x2="280" y2="${oy}" stroke="#22303C" stroke-width="6" stroke-linecap="round"/>`;
+    s+=`<text x="150" y="${oy-10}" fill="#22303C" font-size="12" font-weight="700" text-anchor="middle">牆（不用圍）</text>`;
+    s+=`<rect x="${cx}" y="${oy}" width="${lpx}" height="${wpx}" fill="#DCF1EE"/>`;
+    s+=`<line x1="${cx}" y1="${oy}" x2="${cx}" y2="${oy+wpx}" stroke="#E8593F" stroke-width="4"/>`;
+    s+=`<line x1="${cx+lpx}" y1="${oy}" x2="${cx+lpx}" y2="${oy+wpx}" stroke="#E8593F" stroke-width="4"/>`;
+    s+=`<line x1="${cx}" y1="${oy+wpx}" x2="${cx+lpx}" y2="${oy+wpx}" stroke="#0E9C8B" stroke-width="4"/>`;
+    s+=`<text x="${cx-8}" y="${oy+wpx/2}" fill="#E8593F" font-size="13" font-weight="700" text-anchor="end">${wv}</text>`;
+    s+=`<text x="${cx+lpx/2}" y="${oy+wpx+18}" fill="#0E9C8B" font-size="13" font-weight="700" text-anchor="middle">${L}</text>`;
+    svg.innerHTML=s;
+  }
+  function upd(){
+    const wv=+sl.value, L=40-2*wv, A=wv*L;
+    document.getElementById('wV').textContent=wv+' m';
+    document.getElementById('fW').textContent=wv;
+    document.getElementById('fL').textContent=L;
+    document.getElementById('fA').textContent=A;
+    drawTable(wv); drawCurve(wv);
+    const bg=`linear-gradient(90deg,var(--coral) ${(wv-1)/18*100}%,var(--grid-strong) ${(wv-1)/18*100}%)`;
+    sl.style.background=bg;
+    const s2=document.getElementById('wS2');
+    if(s2){ s2.style.background=bg; document.getElementById('wV2').textContent=wv+' m'; }
+    draw(wv);
+  }
+
+  const rows=[2,4,6,8,10,12,14,16,18];
+  function drawTable(cur){
+    let h='';
+    rows.forEach(x=>{
+      const l=40-2*x, a=x*l;
+      h+=`<tr class="${x===cur?'cur':''}"><td>${x}</td><td>${l}</td><td>${a}</td></tr>`;
+    });
+    document.getElementById('tb').innerHTML=h;
+  }
+  function drawCurve(cur){
+    const svg=document.getElementById('curveSvg');
+    const PL=52,PB=44,PT=26,PR=18,W=320,H=250;
+    const PW=W-PL-PR, PH=H-PT-PB;
+    const XMAX=20, YMAX=220;
+    const X=x=>PL+(x/XMAX)*PW, Y=y=>PT+PH-(y/YMAX)*PH;
+    let s='';
+    // 水平格線 + y 刻度
+    for(let v=0;v<=200;v+=50){
+      s+=`<line x1="${PL}" y1="${Y(v)}" x2="${PL+PW}" y2="${Y(v)}" stroke="#F1F5F8" stroke-width="1.2"/>`;
+      s+=`<text x="${PL-7}" y="${Y(v)+4}" fill="#5B6B77" font-size="10.5" text-anchor="end">${v}</text>`;
+    }
+    // 垂直格線 + x 刻度
+    for(let x=0;x<=20;x+=4){
+      s+=`<line x1="${X(x)}" y1="${PT}" x2="${X(x)}" y2="${PT+PH}" stroke="#F1F5F8" stroke-width="1.2"/>`;
+      s+=`<text x="${X(x)}" y="${PT+PH+16}" fill="#5B6B77" font-size="10.5" text-anchor="middle">${x}</text>`;
+    }
+    // 軸
+    s+=`<line x1="${PL}" y1="${PT+PH}" x2="${PL+PW}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+    s+=`<line x1="${PL}" y1="${PT}" x2="${PL}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+    // 連續曲線（從 0 到 20，讓任何一個寬都落在線上）
+    let p='';
+    for(let i=0;i<=200;i++){
+      const x=i/10, a=x*(40-2*x);
+      p+=(i?'L':'M')+X(x).toFixed(1)+' '+Y(a).toFixed(1)+' ';
+    }
+    s+=`<path d="${p}" fill="none" stroke="#7A5CC7" stroke-width="2.8" stroke-linecap="round"/>`;
+    // 表格上的九個點
+    rows.forEach(x=>{s+=`<circle cx="${X(x)}" cy="${Y(x*(40-2*x))}" r="4" fill="#7A5CC7"/>`;});
+    // 目前的點：虛線對到兩軸 + 座標
+    const a=cur*(40-2*cur);
+    if(a>=0&&a<=YMAX){
+      s+=`<line x1="${X(cur)}" y1="${Y(a)}" x2="${X(cur)}" y2="${PT+PH}" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+      s+=`<line x1="${PL}" y1="${Y(a)}" x2="${X(cur)}" y2="${Y(a)}" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+      s+=`<circle cx="${X(cur)}" cy="${Y(a)}" r="7" fill="#E8593F"/>`;
+      s+=`<text x="${X(cur)}" y="${PT+PH+16}" fill="#E8593F" font-size="11" font-weight="700" text-anchor="middle">${cur}</text>`;
+      s+=`<text x="${PL-7}" y="${Y(a)+4}" fill="#E8593F" font-size="11" font-weight="700" text-anchor="end">${a}</text>`;
+      const lx = cur>14 ? X(cur)-8 : X(cur)+10;
+      const anc = cur>14 ? 'end' : 'start';
+      s+=`<text x="${lx}" y="${Y(a)-11}" fill="#E8593F" font-size="12" font-weight="700" text-anchor="${anc}">(${cur}, ${a})</text>`;
+    }
+    s+=`<text x="${PL+PW/2}" y="${H-6}" fill="#5B6B77" font-size="11.5" text-anchor="middle">寬 →</text>`;
+    s+=`<text x="${PL-4}" y="${PT-10}" fill="#5B6B77" font-size="11.5" text-anchor="end">面積</text>`;
+    svg.innerHTML=s;
+  }
+  const sl2=document.getElementById('wS2');
+  sl.addEventListener('input',()=>{sl2.value=sl.value; upd();});
+  sl2.addEventListener('input',()=>{sl.value=sl2.value; upd();});
+  upd();
+})();
+
+</script>
+</body>
+</html>
