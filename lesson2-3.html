@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>拋物線</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  .eyebrow{font-size:.8rem;letter-spacing:.24em;color:var(--coral);font-weight:700;margin-bottom:14px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .lede{margin-top:16px;font-size:1.08rem;color:var(--ink-soft);max-width:56ch}
+  .bigidea{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin-top:18px;font-weight:500}
+  .bigidea b{color:var(--violet)}
+  .part{display:flex;align-items:center;gap:14px;margin:44px 2px 12px;color:var(--teal);font-weight:800;font-size:1rem}
+  .part::before,.part::after{content:"";flex:1;height:2px;background:var(--grid-strong);border-radius:2px}
+  .brk{text-align:center;color:var(--ink-soft);font-size:.9rem;margin:34px 0 6px;font-weight:700;
+    background:#F3F6F9;border-radius:20px;padding:8px}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .tagx{display:inline-block;background:var(--teal-tint);color:var(--teal);font-size:.74rem;font-weight:700;padding:2px 9px;border-radius:20px;margin-bottom:10px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .say{background:var(--gold-tint);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .say::before{content:"💬 "}
+  .say b{display:block;margin-top:4px;font-weight:700}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .vocab{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+  .vrow{display:flex;gap:13px;align-items:baseline;background:#F3F6F9;border-radius:10px;padding:11px 14px}
+  .vk{flex:none;min-width:70px;font-weight:800;color:var(--violet);font-size:1rem}
+  .vv{font-size:.95rem;color:var(--ink-soft)}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .press{font-weight:800;font-size:1.02rem;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:11px 24px;cursor:pointer;box-shadow:3px 4px 0 rgba(34,48,60,.2);transition:.1s;font-family:inherit}
+  .press:active{transform:translate(2px,3px);box-shadow:1px 1px 0 rgba(34,48,60,.2)}
+  .drop{font-size:2.4rem;margin:12px 0 4px;min-height:44px}
+  .prnote{font-size:.9rem;color:var(--ink-soft)}
+  .prnote .yes{color:var(--teal);font-weight:700} .prnote .no{color:var(--no);font-weight:700}
+  .testgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:4px}
+  @media(max-width:560px){.testgrid{grid-template-columns:1fr}}
+  .tcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:14px;cursor:pointer;transition:.18s;background:#fff;user-select:none}
+  .tcard:hover{border-color:var(--violet);transform:translateY(-2px)}
+  .tcard .rel{font-weight:700;font-size:.98rem;margin-bottom:3px}
+  .tcard .q{font-size:.8rem;color:var(--ink-soft)}
+  .tcard .verdict{margin-top:9px;font-weight:700;font-size:.9rem;display:none;padding-top:9px;border-top:1.5px dashed var(--grid-strong)}
+  .tcard.revealed .verdict{display:block}
+  .tcard.revealed .tap{display:none}
+  .tap{margin-top:9px;font-size:.78rem;color:var(--violet);font-weight:700}
+  .yes{color:var(--teal)} .no{color:var(--no)}
+  .verdict .why{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem;margin-top:3px}
+  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 14px}
+  .pick{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.95rem;height:42px;border-radius:11px;
+    border:1.5px solid var(--grid-strong);background:#fff;color:var(--ink);cursor:pointer;transition:.15s;padding:0 16px}
+  .pick.on{background:var(--violet);color:#fff;border-color:var(--violet)}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:62px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:66px;text-align:right;color:var(--coral)}
+  .readout{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:8px}
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+  @media(max-width:560px){.gallery{grid-template-columns:repeat(2,1fr)}}
+  .gcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:12px;cursor:pointer;transition:.18s;background:#fff;user-select:none;text-align:center}
+  .gcard:hover{border-color:var(--teal)}
+  .gcard .nm{font-weight:800;font-size:.95rem;margin-top:6px;display:none}
+  .gcard .eqn{font-family:"JetBrains Mono",monospace;font-size:.9rem;color:var(--violet);display:none}
+  .gcard.on .nm,.gcard.on .eqn{display:block}
+  .gcard .use{display:none;font-size:.78rem;color:var(--ink-soft);margin-top:5px;line-height:1.5}
+  .gcard.on .use{display:block}
+  .gcard .hint{font-size:.76rem;color:var(--teal);font-weight:700;margin-top:6px}
+  .gcard.on .hint{display:none}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 4px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.hl2{background:var(--teal-tint);color:var(--teal);font-weight:700}
+  .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
+  .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+  footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
+  .wall{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:15px 18px;text-align:left}
+  .wall b{color:var(--coral)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>這條彎線叫<span class="hl">拋物線</span></h1>
+</header>
+
+<section class="card">
+  <h2>它左右對稱</h2>
+  <p class="desc">拉一條水平線，看它跟曲線交在哪裡。</p>
+  <div class="slider-row"><span class="slabel">高度</span>
+    <input type="range" id="hS" min="0" max="200" value="150" step="10">
+    <span class="val" id="hV">150</span>
+  </div>
+  <div class="fig"><svg id="symSvg" viewBox="0 0 340 270" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="readout" id="symRead"></div>
+  <div class="plain">同一個高度，通常會交在<b>兩個</b>地方，而且這兩點離中間那條線<b>一樣遠</b>。<br><br>
+  中間那條垂直線稱為<b>對稱軸</b>，它跟曲線相交的那一點稱為<b>頂點</b>。頂點是唯一只交一個點的位置——再往上就碰不到了。</div>
+
+  <div class="plain" style="background:var(--coral-tint)">交在兩個點，在現實裡是什麼意思？<br><br>
+  以面積 150 平方公尺為例：可以圍成<b>寬 5、長 30</b>，也可以圍成<b>寬 15、長 10</b>——<b>兩種完全不同的圍法，面積一樣</b>。<br><br>
+  以前解二次方程式解出兩個答案時，可能會覺得「怎麼有兩個」。從圖形看就明白了：因為拋物線左右對稱，同一個面積本來就有兩種做法，<b>兩個答案都是真的</b>。</div>
+</section>
+
+<section class="card">
+  <h2>開口向上還是向下</h2>
+  <p class="desc">切換看看 x² 前面的數字如何影響圖形。</p>
+  <div class="controls">
+    <button class="pick ab on" data-a="-2">−2x² + 40x</button>
+    <button class="pick ab" data-a="2">2x² − 40x</button>
+  </div>
+  <div class="fig"><svg id="abSvg" viewBox="0 0 340 270" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="readout" id="abRead"></div>
+  <div class="plain">x² 前面的數字是<b>負的</b>，開口向<b>下</b>，頂點在最高處，函數有<b>最大值</b>。<br>
+  x² 前面的數字是<b>正的</b>，開口向<b>上</b>，頂點在最低處，函數有<b>最小值</b>。<br><br>
+  圍籬問題的式子是 −2x² + 40x，前面是負的，所以有最大值——這正是我們要找的最大面積。</div>
+</section>
+
+<section class="card">
+  <h2>回到那塊地</h2>
+  <div class="fig"><svg id="fenceSvg" viewBox="0 0 340 270" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="plain">頂點就在寬 = 10 的正上方，面積 200。<br><br>
+  用眼睛看得出來它在那裡，也可以拉滑桿一個一個試——但如果籬笆是 37 公尺、數字不那麼剛好呢？</div>
+  <div class="ask">有沒有辦法不用試，直接<b>算出</b>頂點的位置？</div>
+</section>
+</div>
+
+<script>
+const PL=50,PB=42,PT=24,PR=18,W=340,H=270, PW=W-PL-PR, PH=H-PT-PB;
+const X=x=>PL+(x/20)*PW, Y=y=>PT+PH-((y+220)/440)*PH;
+function axes(){
+  let s='';
+  for(let v=-200;v<=200;v+=100){
+    s+=`<line x1="${PL}" y1="${Y(v)}" x2="${PL+PW}" y2="${Y(v)}" stroke="#F1F5F8" stroke-width="1.2"/>`;
+    s+=`<text x="${PL-6}" y="${Y(v)+4}" fill="#5B6B77" font-size="10" text-anchor="end">${v}</text>`;
+  }
+  s+=`<line x1="${PL}" y1="${Y(0)}" x2="${PL+PW}" y2="${Y(0)}" stroke="#22303C" stroke-width="1.8"/>`;
+  s+=`<line x1="${PL}" y1="${PT}" x2="${PL}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+  for(let x=0;x<=20;x+=5) s+=`<text x="${X(x)}" y="${Y(0)+16}" fill="#5B6B77" font-size="10" text-anchor="middle">${x}</text>`;
+  return s;
+}
+function curve(f,color,w){
+  let p='';
+  for(let x=0;x<=20;x+=0.15){const y=f(x); if(y<-220||y>220) continue;
+    p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(y).toFixed(1)+' ';}
+  return `<path d="${p}" fill="none" stroke="${color}" stroke-width="${w||3}" stroke-linecap="round"/>`;
+}
+
+/* 對稱 */
+(function(){
+  const sl=document.getElementById('hS'), svg=document.getElementById('symSvg');
+  const f=x=>40*x-2*x*x;
+  function upd(){
+    const h=+sl.value;
+    document.getElementById('hV').textContent=h;
+    let s=axes();
+    s+=curve(f,'#7A5CC7');
+    s+=`<line x1="${X(10)}" y1="${Y(200)}" x2="${X(10)}" y2="${Y(-220)}" stroke="#0E9C8B" stroke-width="1.6" stroke-dasharray="5 4"/>`;
+    s+=`<text x="${X(10)}" y="${PT-8}" fill="#0E9C8B" font-size="11" font-weight="700" text-anchor="middle">對稱軸</text>`;
+    s+=`<circle cx="${X(10)}" cy="${Y(200)}" r="5" fill="#0E9C8B"/>`;
+    // 水平線
+    s+=`<line x1="${PL}" y1="${Y(h)}" x2="${PL+PW}" y2="${Y(h)}" stroke="#E8593F" stroke-width="2"/>`;
+    const disc=1600-8*h;
+    let msg;
+    if(disc>0){
+      const r1=(40-Math.sqrt(disc))/4, r2=(40+Math.sqrt(disc))/4;
+      s+=`<circle cx="${X(r1)}" cy="${Y(h)}" r="6" fill="#E8593F"/>`;
+      s+=`<circle cx="${X(r2)}" cy="${Y(h)}" r="6" fill="#E8593F"/>`;
+      const L1=(40-2*r1), L2=(40-2*r2);
+      msg=`寬 ${r1.toFixed(1)}、長 ${L1.toFixed(1)}　或　寬 ${r2.toFixed(1)}、長 ${L2.toFixed(1)}　→ 面積都是 ${h}`;
+    } else if(Math.abs(disc)<1){
+      s+=`<circle cx="${X(10)}" cy="${Y(h)}" r="6" fill="#E8593F"/>`;
+      msg='剛好碰到一點：頂點';
+    } else msg='碰不到，沒有交點';
+    svg.innerHTML=s;
+    document.getElementById('symRead').innerHTML=`<span>${msg}</span>`;
+  }
+  sl.addEventListener('input',upd); upd();
+})();
+
+/* 開口方向 */
+(function(){
+  const svg=document.getElementById('abSvg');
+  let a=-2;
+  function upd(){
+    const f = a<0 ? (x=>40*x-2*x*x) : (x=>2*x*x-40*x);
+    let s=axes()+curve(f, a<0?'#E8593F':'#0E9C8B');
+    const vy = a<0?200:-200;
+    if(a<0){
+      s+=`<circle cx="${X(10)}" cy="${Y(200)}" r="6" fill="#E8593F"/>`;
+      s+=`<text x="${X(10)}" y="${Y(200)-10}" fill="#E8593F" font-size="11" font-weight="700" text-anchor="middle">最高點</text>`;
+    }else{
+      s+=`<circle cx="${X(10)}" cy="${Y(-200)}" r="6" fill="#0E9C8B"/>`;
+      s+=`<text x="${X(10)}" y="${Y(-200)-10}" fill="#0E9C8B" font-size="11" font-weight="700" text-anchor="middle">最低點 (10, −200)</text>`;
+    }
+    svg.innerHTML=s;
+    document.getElementById('abRead').innerHTML= a<0
+      ? '<span style="color:#E8593F">x² 前面是 −2（負的）→ 開口向下，有最大值</span>'
+      : '<span style="color:#0E9C8B">x² 前面是 +2（正的）→ 開口向上，有最小值</span>';
+  }
+  document.querySelectorAll('.ab').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.ab').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); a=+b.dataset.a; upd();
+  }));
+  upd();
+})();
+
+/* 圍籬 */
+(function(){
+  const svg=document.getElementById('fenceSvg');
+  let s=axes()+curve(x=>40*x-2*x*x,'#7A5CC7');
+  s+=`<line x1="${X(10)}" y1="${Y(200)}" x2="${X(10)}" y2="${Y(0)}" stroke="#E8593F" stroke-width="1.6" stroke-dasharray="4 3"/>`;
+  s+=`<line x1="${PL}" y1="${Y(200)}" x2="${X(10)}" y2="${Y(200)}" stroke="#E8593F" stroke-width="1.6" stroke-dasharray="4 3"/>`;
+  s+=`<circle cx="${X(10)}" cy="${Y(200)}" r="7" fill="#E8593F"/>`;
+  s+=`<text x="${X(10)+10}" y="${Y(200)-8}" fill="#E8593F" font-size="12" font-weight="700">頂點 (10, 200)</text>`;
+  s+=`<text x="${PL+PW/2}" y="${H-6}" fill="#5B6B77" font-size="12" text-anchor="middle">寬 →</text>`;
+  s+=`<text x="${PL-6}" y="${PT-6}" fill="#5B6B77" font-size="12" text-anchor="end">面積</text>`;
+  svg.innerHTML=s;
+})();
+</script>
+</body>
+</html>

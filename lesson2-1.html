@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>為什麼叫二次</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  .eyebrow{font-size:.8rem;letter-spacing:.24em;color:var(--coral);font-weight:700;margin-bottom:14px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .lede{margin-top:16px;font-size:1.08rem;color:var(--ink-soft);max-width:56ch}
+  .bigidea{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin-top:18px;font-weight:500}
+  .bigidea b{color:var(--violet)}
+  .part{display:flex;align-items:center;gap:14px;margin:44px 2px 12px;color:var(--teal);font-weight:800;font-size:1rem}
+  .part::before,.part::after{content:"";flex:1;height:2px;background:var(--grid-strong);border-radius:2px}
+  .brk{text-align:center;color:var(--ink-soft);font-size:.9rem;margin:34px 0 6px;font-weight:700;
+    background:#F3F6F9;border-radius:20px;padding:8px}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .tagx{display:inline-block;background:var(--teal-tint);color:var(--teal);font-size:.74rem;font-weight:700;padding:2px 9px;border-radius:20px;margin-bottom:10px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .say{background:var(--gold-tint);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .say::before{content:"💬 "}
+  .say b{display:block;margin-top:4px;font-weight:700}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .vocab{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+  .vrow{display:flex;gap:13px;align-items:baseline;background:#F3F6F9;border-radius:10px;padding:11px 14px}
+  .vk{flex:none;min-width:70px;font-weight:800;color:var(--violet);font-size:1rem}
+  .vv{font-size:.95rem;color:var(--ink-soft)}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .press{font-weight:800;font-size:1.02rem;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:11px 24px;cursor:pointer;box-shadow:3px 4px 0 rgba(34,48,60,.2);transition:.1s;font-family:inherit}
+  .press:active{transform:translate(2px,3px);box-shadow:1px 1px 0 rgba(34,48,60,.2)}
+  .drop{font-size:2.4rem;margin:12px 0 4px;min-height:44px}
+  .prnote{font-size:.9rem;color:var(--ink-soft)}
+  .prnote .yes{color:var(--teal);font-weight:700} .prnote .no{color:var(--no);font-weight:700}
+  .testgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:4px}
+  @media(max-width:560px){.testgrid{grid-template-columns:1fr}}
+  .tcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:14px;cursor:pointer;transition:.18s;background:#fff;user-select:none}
+  .tcard:hover{border-color:var(--violet);transform:translateY(-2px)}
+  .tcard .rel{font-weight:700;font-size:.98rem;margin-bottom:3px}
+  .tcard .q{font-size:.8rem;color:var(--ink-soft)}
+  .tcard .verdict{margin-top:9px;font-weight:700;font-size:.9rem;display:none;padding-top:9px;border-top:1.5px dashed var(--grid-strong)}
+  .tcard.revealed .verdict{display:block}
+  .tcard.revealed .tap{display:none}
+  .tap{margin-top:9px;font-size:.78rem;color:var(--violet);font-weight:700}
+  .yes{color:var(--teal)} .no{color:var(--no)}
+  .verdict .why{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem;margin-top:3px}
+  table.tryout{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:14px}
+  table.tryout th{background:#F3F6F9;border:1.5px solid var(--grid-strong);padding:9px 4px;font-size:.82rem;font-weight:700}
+  table.tryout td{border:1.5px solid var(--grid-strong);padding:9px 4px;text-align:center}
+  table.tryout tr.best td{background:var(--teal-tint);color:var(--teal);font-weight:700}
+  .fillbox{background:#fff;border:2px solid var(--violet);border-radius:13px;padding:20px 22px;margin:14px 0}
+  .fillrow{display:flex;align-items:center;gap:12px;margin:14px 0;flex-wrap:wrap}
+  .fl{font-size:1rem;color:var(--ink);min-width:112px}
+  .fixed{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.1rem;color:var(--violet)}
+  .bk{flex:1;border-bottom:2.5px solid var(--grid-strong);height:32px;min-width:120px;max-width:260px}
+  .reveal{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;
+    cursor:pointer;transition:.15s;background:#fff;text-align:center}
+  .reveal:hover{border-color:var(--violet)}
+  .rq{font-weight:700;color:var(--violet);font-size:.96rem}
+  .ra{display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed var(--grid-strong)}
+  .reveal.on .ra{display:block}
+  .reveal.on .rq{color:var(--ink-soft)}
+  .twoway{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0 4px}
+  @media(max-width:560px){.twoway{grid-template-columns:1fr}}
+  .way{border:1.5px solid var(--grid-strong);border-radius:13px;padding:16px;text-align:center}
+  .wtag{font-weight:800;font-size:.95rem;margin-bottom:10px}
+  .way:nth-child(1) .wtag{color:var(--coral)}
+  .way:nth-child(2) .wtag{color:var(--teal)}
+  .weq{font-family:"JetBrains Mono",monospace;font-size:1rem;line-height:2}
+  .wexp{font-family:"JetBrains Mono",monospace;font-size:.95rem;line-height:1.9;margin-top:12px;
+    padding-top:12px;border-top:1.5px dashed var(--grid-strong);color:var(--ink-soft)}
+  .wexp b{color:var(--ink);font-size:1.02rem}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:62px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:66px;text-align:right;color:var(--coral)}
+  .readout{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:8px}
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+  @media(max-width:560px){.gallery{grid-template-columns:repeat(2,1fr)}}
+  .gcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:12px;cursor:pointer;transition:.18s;background:#fff;user-select:none;text-align:center}
+  .gcard:hover{border-color:var(--teal)}
+  .gcard .nm{font-weight:800;font-size:.95rem;margin-top:6px;display:none}
+  .gcard .eqn{font-family:"JetBrains Mono",monospace;font-size:.9rem;color:var(--violet);display:none}
+  .gcard.on .nm,.gcard.on .eqn{display:block}
+  .gcard .use{display:none;font-size:.78rem;color:var(--ink-soft);margin-top:5px;line-height:1.5}
+  .gcard.on .use{display:block}
+  .gcard .hint{font-size:.76rem;color:var(--teal);font-weight:700;margin-top:6px}
+  .gcard.on .hint{display:none}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 4px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.hl2{background:var(--teal-tint);color:var(--teal);font-weight:700}
+  .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
+  .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+  footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
+  .wall{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:15px 18px;text-align:left}
+  .wall b{color:var(--coral)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>為什麼叫<span class="hl">「二次」</span>？</h1>
+</header>
+
+<section class="card">
+  <h2>兩個人的做法</h2>
+  <p class="desc">同一塊地，兩位同學設 x 的方式不同。</p>
+  <div class="twoway">
+    <div class="way">
+      <div class="wtag">甲：設寬為 x</div>
+      <div class="weq">寬 = x<br>長 = 40 − 2x<br>y = x(40 − 2x)</div>
+      <div class="wexp">展開<br>= x×40 − x×2x<br>= <b>40x − 2x²</b></div>
+    </div>
+    <div class="way">
+      <div class="wtag">乙：設長為 x</div>
+      <div class="weq">長 = x<br>寬 = (40 − x) ÷ 2<br>y = x(40 − x) ÷ 2</div>
+      <div class="wexp">展開<br>= (40x − x²) ÷ 2<br>= <b>20x − 0.5x²</b></div>
+    </div>
+  </div>
+  <div class="ask">兩個人得到的式子不一樣，誰算錯了？</div>
+
+  <div class="slider-row"><span class="slabel">拉拉看</span>
+    <input type="range" id="cmpS" min="1" max="19" value="10" step="1">
+    <span class="val" id="cmpV">10</span>
+  </div>
+  <div class="fig"><svg id="cmpSvg" viewBox="0 0 340 250" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="readout" id="cmpRead"></div>
+  <div class="plain">兩條式子展開後長得不一樣（一個是 −2x²，一個是 −0.5x²），畫出來的圖也不一樣，但<b>最大面積都是 200</b>——同一塊地，兩種看法。設哪一個量為 x 是自由的，選擇會影響式子的樣子，但不會改變現實的答案。</div>
+</section>
+
+<section class="card">
+  <h2>換一個題目，一起寫一次</h2>
+  <p class="desc">一塊長方形的地，四邊都要圍，籬笆總共 60 公尺。</p>
+
+  <div class="fillbox">
+    <div class="fillrow"><span class="fl">設其中一邊為</span><span class="fixed">x</span></div>
+    <div class="fillrow"><span class="fl">另一邊 =</span><span class="bk wide"></span></div>
+    <div class="fillrow"><span class="fl">要求的是面積，所以</span><span class="fixed">y = 面積</span></div>
+    <div class="fillrow"><span class="fl">y =</span><span class="bk wide"></span></div>
+    <div class="fillrow"><span class="fl">展開後 y =</span><span class="bk wide"></span></div>
+  </div>
+
+  <div class="reveal" id="rv"><div class="rq">寫完之後，點開對答案</div>
+    <div class="ra">
+      <div class="expand">
+        另一邊 = 30 − x<br>
+        y = x(30 − x)<br>
+        = <b>30x − x²</b>
+      </div>
+      <div style="font-size:.92rem;color:var(--ink-soft);margin-top:12px;text-align:left">
+        四邊都圍，兩條長加兩條寬等於 60，所以一組長寬加起來是 30。設一邊為 x，另一邊就是 30 − x。<br><br>
+        展開時把 x 乘進括號：x×30 得 30x，x×x 得 x²，前面是減號所以是 −x²。
+      </div>
+      <div class="fig" style="margin-top:14px"><svg id="ansSvg1" viewBox="0 0 340 250" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div style="font-size:.92rem;color:var(--ink-soft);text-align:left">
+        畫出來也是一條開口向下的曲線，最高點在 x = 15（正方形的時候），面積 225。
+      </div>
+    </div>
+  </div>
+  <div class="plain">式子裡出現 <b style="color:var(--violet)">x²</b>，所以它是<b>二次函數</b>。<br><br>
+  這是因為兩個邊長<b>都含有 x</b>，兩個含 x 的東西相乘，展開後一定會出現 x²。如果其中一邊是固定的數字（例如永遠 10 公尺），展開後就只有 x 的一次項，那就是一次函數了。</div>
+</section>
+
+
+<section class="card">
+  <h2>換一個完全不同的情境</h2>
+  <p class="desc">一場演唱會，票價 800 元時大約賣出 600 張。主辦方試算過：<b>每降價 50 元，大約可以多賣 50 張</b>。</p>
+  <p class="desc">票價降低，每張賺得少，但賣得多。要降多少，總收入才最高？</p>
+
+  <div class="fillbox">
+    <div class="fillrow"><span class="fl">設降價</span><span class="fixed">x</span><span class="fl">個 50 元</span></div>
+    <div class="fillrow"><span class="fl">票價 =</span><span class="bk wide"></span></div>
+    <div class="fillrow"><span class="fl">張數 =</span><span class="bk wide"></span></div>
+    <div class="fillrow"><span class="fl">要求的是總收入，所以</span><span class="fixed">y = 總收入</span></div>
+    <div class="fillrow"><span class="fl">y =</span><span class="bk wide"></span></div>
+    <div class="fillrow"><span class="fl">展開後 y =</span><span class="bk wide"></span></div>
+  </div>
+
+  <div class="reveal" id="rv2"><div class="rq">寫完之後，點開對答案</div>
+    <div class="ra">
+      <div class="expand" style="font-size:1rem">
+        票價 = 800 − 50x　　張數 = 600 + 50x<br><br>
+        y = (800 − 50x)(600 + 50x)<br>
+        = 800×600 + 800×50x − 50x×600 − 50x×50x<br>
+        = 480000 + 40000x − 30000x − 2500x²<br>
+        = <b>480000 + 10000x − 2500x²</b>
+      </div>
+      <div style="font-size:.92rem;color:var(--ink-soft);margin-top:12px;text-align:left">
+        兩個括號都是兩項，所以要乘四次：前面的兩項各乘後面的兩項。<br>
+        中間的 +40000x 和 −30000x 可以合併成 +10000x。
+      </div>
+      <div class="fig" style="margin-top:14px"><svg id="ansSvg2" viewBox="0 0 340 250" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div style="font-size:.92rem;color:var(--ink-soft);text-align:left">
+        同樣是開口向下的曲線，最高點在 x = 2（票價 700 元），總收入 490,000 元。
+      </div>
+    </div>
+  </div>
+
+  <table class="tryout">
+    <thead><tr><th>降價次數 x</th><th>票價</th><th>張數</th><th>總收入</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>800</td><td>600</td><td>480,000</td></tr>
+      <tr><td>1</td><td>750</td><td>650</td><td>487,500</td></tr>
+      <tr class="best"><td>2</td><td>700</td><td>700</td><td>490,000</td></tr>
+      <tr><td>3</td><td>650</td><td>750</td><td>487,500</td></tr>
+      <tr><td>4</td><td>600</td><td>800</td><td>480,000</td></tr>
+    </tbody>
+  </table>
+  <div class="plain">收入<b>先增後減</b>，最高在票價 700 元的時候——跟圍地的情境完全不同，數學卻是同一種結構：<b>兩個都含 x 的量相乘</b>，一個增、一個減，中間就會有一個最高點。</div>
+  <div class="ask">這裡是用試的找到最高點。如果數字沒這麼剛好，還能用試的嗎？</div>
+</section>
+</div>
+
+<script>
+/* 兩種設法對照 */
+(function(){
+  const sl=document.getElementById('cmpS'), svg=document.getElementById('cmpSvg');
+  const PL=48,PB=40,PT=20,PR=16,W=340,H=250, PW=W-PL-PR, PH=H-PT-PB;
+  const X=x=>PL+(x/40)*PW, Y=y=>PT+PH-(y/220)*PH;
+  function upd(){
+    const w=+sl.value;
+    document.getElementById('cmpV').textContent=w;
+    let s='';
+    for(let i=0;i<=5;i++){const gy=PT+(i/5)*PH;
+      s+=`<line x1="${PL}" y1="${gy}" x2="${PL+PW}" y2="${gy}" stroke="#F1F5F8" stroke-width="1.2"/>`;}
+    s+=`<line x1="${PL}" y1="${PT+PH}" x2="${PL+PW}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+    s+=`<line x1="${PL}" y1="${PT}" x2="${PL}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+    // 甲：面積 = x(40-2x)，x 為寬
+    let p1='';
+    for(let x=0;x<=20;x+=0.2){p1+=(p1===''?'M':'L')+X(x).toFixed(1)+' '+Y(x*(40-2*x)).toFixed(1)+' ';}
+    s+=`<path d="${p1}" fill="none" stroke="#E8593F" stroke-width="3"/>`;
+    // 乙：面積 = x(40-x)/2，x 為長
+    let p2='';
+    for(let x=0;x<=40;x+=0.4){p2+=(p2===''?'M':'L')+X(x).toFixed(1)+' '+Y(x*(40-x)/2).toFixed(1)+' ';}
+    s+=`<path d="${p2}" fill="none" stroke="#0E9C8B" stroke-width="3"/>`;
+    // 兩個頂點
+    s+=`<circle cx="${X(10)}" cy="${Y(200)}" r="5" fill="#E8593F"/>`;
+    s+=`<circle cx="${X(20)}" cy="${Y(200)}" r="5" fill="#0E9C8B"/>`;
+    s+=`<line x1="${PL}" y1="${Y(200)}" x2="${X(20)}" y2="${Y(200)}" stroke="#7A5CC7" stroke-width="1.4" stroke-dasharray="4 3"/>`;
+    s+=`<text x="${PL-6}" y="${Y(200)+4}" fill="#7A5CC7" font-size="11" font-weight="700" text-anchor="end">200</text>`;
+    // 目前點：甲乙各一個，並拉虛線對應到兩軸
+    const a1=w*(40-2*w), a2=w*(40-w)/2;
+    // 甲
+    if(a1>=0){
+      s+=`<line x1="${X(w)}" y1="${Y(a1)}" x2="${X(w)}" y2="${Y(0)}" stroke="#E8593F" stroke-width="1.4" stroke-dasharray="4 3"/>`;
+      s+=`<line x1="${PL}" y1="${Y(a1)}" x2="${X(w)}" y2="${Y(a1)}" stroke="#E8593F" stroke-width="1.4" stroke-dasharray="4 3"/>`;
+      s+=`<circle cx="${X(w)}" cy="${Y(a1)}" r="6.5" fill="#E8593F"/>`;
+      s+=`<text x="${PL-6}" y="${Y(a1)+4}" fill="#E8593F" font-size="10.5" font-weight="700" text-anchor="end">${a1}</text>`;
+    }
+    // 乙
+    s+=`<line x1="${X(w)}" y1="${Y(a2)}" x2="${X(w)}" y2="${Y(0)}" stroke="#0E9C8B" stroke-width="1.4" stroke-dasharray="4 3"/>`;
+    s+=`<line x1="${PL}" y1="${Y(a2)}" x2="${X(w)}" y2="${Y(a2)}" stroke="#0E9C8B" stroke-width="1.4" stroke-dasharray="4 3"/>`;
+    s+=`<circle cx="${X(w)}" cy="${Y(a2)}" r="6.5" fill="#0E9C8B"/>`;
+    s+=`<text x="${PL-6}" y="${Y(a2)+4}" fill="#0E9C8B" font-size="10.5" font-weight="700" text-anchor="end">${a2}</text>`;
+    // x 軸上標出目前的 x
+    s+=`<text x="${X(w)}" y="${Y(0)+17}" fill="#22303C" font-size="11" font-weight="700" text-anchor="middle">${w}</text>`;
+    s+=`<text x="${X(10)}" y="${Y(200)-10}" fill="#E8593F" font-size="11" font-weight="700" text-anchor="middle">甲</text>`;
+    s+=`<text x="${X(20)}" y="${Y(200)-10}" fill="#0E9C8B" font-size="11" font-weight="700" text-anchor="middle">乙</text>`;
+    for(let t=0;t<=40;t+=10) s+=`<text x="${X(t)}" y="${Y(0)+17}" fill="#5B6B77" font-size="10" text-anchor="middle">${t}</text>`;
+    s+=`<text x="${PL+PW/2}" y="${H-4}" fill="#5B6B77" font-size="12" text-anchor="middle">x →</text>`;
+    s+=`<text x="${PL-6}" y="${PT-4}" fill="#5B6B77" font-size="12" text-anchor="end">面積</text>`;
+    svg.innerHTML=s;
+    document.getElementById('cmpRead').innerHTML=
+      `<span style="color:#E8593F">甲（x 是寬）：寬 ${w}、長 ${40-2*w} → 面積 <b>${a1}</b></span>`+
+      `<span style="color:#0E9C8B">乙（x 是長）：長 ${w}、寬 ${(40-w)/2} → 面積 <b>${a2}</b></span>`;
+  }
+  sl.addEventListener('input',upd); upd();
+})();
+
+/* 答案區的圖 */
+function drawAns(id, f, xmax, ymax, vx, vy, xlab, ylab, color, xstep, fmt){
+  const svg=document.getElementById(id);
+  if(!svg) return;
+  const PL=56,PB=40,PT=20,PR=16,W=340,H=250, PW=W-PL-PR, PH=H-PT-PB;
+  const X=x=>PL+(x/xmax)*PW, Y=y=>PT+PH-(y/ymax)*PH;
+  let s='';
+  for(let i=0;i<=4;i++){const gy=PT+(i/4)*PH;
+    s+=`<line x1="${PL}" y1="${gy}" x2="${PL+PW}" y2="${gy}" stroke="#F1F5F8" stroke-width="1.2"/>`;
+    s+=`<text x="${PL-6}" y="${gy+4}" fill="#5B6B77" font-size="9.5" text-anchor="end">${fmt(ymax*(1-i/4))}</text>`;}
+  s+=`<line x1="${PL}" y1="${PT+PH}" x2="${PL+PW}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+  s+=`<line x1="${PL}" y1="${PT}" x2="${PL}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+  let p='';
+  for(let i=0;i<=300;i++){const x=xmax*i/300, y=f(x);
+    if(y<0||y>ymax) continue;
+    p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(y).toFixed(1)+' ';}
+  s+=`<path d="${p}" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round"/>`;
+  s+=`<line x1="${X(vx)}" y1="${Y(vy)}" x2="${X(vx)}" y2="${Y(0)}" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  s+=`<line x1="${PL}" y1="${Y(vy)}" x2="${X(vx)}" y2="${Y(vy)}" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  s+=`<circle cx="${X(vx)}" cy="${Y(vy)}" r="6.5" fill="#E8593F"/>`;
+  s+=`<text x="${X(vx)}" y="${Y(vy)-11}" fill="#E8593F" font-size="11" font-weight="700" text-anchor="middle">(${vx}, ${fmt(vy)})</text>`;
+  for(let t=0;t<=xmax;t+=xstep) s+=`<text x="${X(t)}" y="${PT+PH+16}" fill="#5B6B77" font-size="10" text-anchor="middle">${t}</text>`;
+  s+=`<text x="${PL+PW/2}" y="${H-4}" fill="#5B6B77" font-size="11" text-anchor="middle">${xlab}</text>`;
+  s+=`<text x="${PL-4}" y="${PT-6}" fill="#5B6B77" font-size="11" text-anchor="end">${ylab}</text>`;
+  svg.innerHTML=s;
+}
+
+/* 對答案（點開時才畫圖） */
+document.querySelectorAll('.reveal').forEach(r=>r.addEventListener('click',()=>{
+  r.classList.toggle('on');
+  if(r.classList.contains('on')){
+    drawAns('ansSvg1', x=>x*(30-x), 30, 240, 15, 225, '一邊的長度 →','面積','#7A5CC7',5, v=>Math.round(v));
+    drawAns('ansSvg2', x=>(800-50*x)*(600+50*x), 8, 520000, 2, 490000, '降價次數 x →','總收入','#0E9C8B',2,
+      v=>Math.round(v/1000)+'k');
+  }
+}));
+
+</script>
+</body>
+</html>

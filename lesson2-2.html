@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>為什麼越長越快</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  .eyebrow{font-size:.8rem;letter-spacing:.24em;color:var(--coral);font-weight:700;margin-bottom:14px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .lede{margin-top:16px;font-size:1.08rem;color:var(--ink-soft);max-width:56ch}
+  .bigidea{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin-top:18px;font-weight:500}
+  .bigidea b{color:var(--violet)}
+  .part{display:flex;align-items:center;gap:14px;margin:44px 2px 12px;color:var(--teal);font-weight:800;font-size:1rem}
+  .part::before,.part::after{content:"";flex:1;height:2px;background:var(--grid-strong);border-radius:2px}
+  .brk{text-align:center;color:var(--ink-soft);font-size:.9rem;margin:34px 0 6px;font-weight:700;
+    background:#F3F6F9;border-radius:20px;padding:8px}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .tagx{display:inline-block;background:var(--teal-tint);color:var(--teal);font-size:.74rem;font-weight:700;padding:2px 9px;border-radius:20px;margin-bottom:10px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .say{background:var(--gold-tint);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .say::before{content:"💬 "}
+  .say b{display:block;margin-top:4px;font-weight:700}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .vocab{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+  .vrow{display:flex;gap:13px;align-items:baseline;background:#F3F6F9;border-radius:10px;padding:11px 14px}
+  .vk{flex:none;min-width:70px;font-weight:800;color:var(--violet);font-size:1rem}
+  .vv{font-size:.95rem;color:var(--ink-soft)}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .press{font-weight:800;font-size:1.02rem;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:11px 24px;cursor:pointer;box-shadow:3px 4px 0 rgba(34,48,60,.2);transition:.1s;font-family:inherit}
+  .press:active{transform:translate(2px,3px);box-shadow:1px 1px 0 rgba(34,48,60,.2)}
+  .drop{font-size:2.4rem;margin:12px 0 4px;min-height:44px}
+  .prnote{font-size:.9rem;color:var(--ink-soft)}
+  .prnote .yes{color:var(--teal);font-weight:700} .prnote .no{color:var(--no);font-weight:700}
+  .testgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:4px}
+  @media(max-width:560px){.testgrid{grid-template-columns:1fr}}
+  .tcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:14px;cursor:pointer;transition:.18s;background:#fff;user-select:none}
+  .tcard:hover{border-color:var(--violet);transform:translateY(-2px)}
+  .tcard .rel{font-weight:700;font-size:.98rem;margin-bottom:3px}
+  .tcard .q{font-size:.8rem;color:var(--ink-soft)}
+  .tcard .verdict{margin-top:9px;font-weight:700;font-size:.9rem;display:none;padding-top:9px;border-top:1.5px dashed var(--grid-strong)}
+  .tcard.revealed .verdict{display:block}
+  .tcard.revealed .tap{display:none}
+  .tap{margin-top:9px;font-size:.78rem;color:var(--violet);font-weight:700}
+  .yes{color:var(--teal)} .no{color:var(--no)}
+  .verdict .why{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem;margin-top:3px}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 4px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.8rem}
+  td.gold{color:#B07E15;font-weight:700} td.teal{color:var(--teal);font-weight:700}
+  td.goldjump{background:var(--gold-tint);color:#B07E15;font-weight:700}
+  td.up{background:var(--coral-tint);color:var(--coral);font-weight:700}
+  td.down{background:var(--teal-tint);color:var(--teal);font-weight:700}
+  td.jump{background:var(--coral-tint);color:var(--coral);font-weight:700}
+  tr.mark td{outline:2px solid var(--coral);outline-offset:-2px}
+  .empty{color:#C3CDD5}
+  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 14px}
+  .ctrl-label{font-size:.9rem;color:var(--ink-soft);font-weight:500}
+  .pick{font-family:"Noto Sans TC";font-weight:700;font-size:.9rem;height:40px;border-radius:11px;
+    border:1.5px solid var(--grid-strong);background:#fff;color:var(--ink);cursor:pointer;transition:.15s;padding:0 14px}
+  .pick.on{background:var(--coral);color:#fff;border-color:var(--coral)}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:62px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:66px;text-align:right;color:var(--coral)}
+  .readout{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:8px}
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+  @media(max-width:560px){.gallery{grid-template-columns:repeat(2,1fr)}}
+  .gcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:12px;cursor:pointer;transition:.18s;background:#fff;user-select:none;text-align:center}
+  .gcard:hover{border-color:var(--teal)}
+  .gcard .nm{font-weight:800;font-size:.95rem;margin-top:6px;display:none}
+  .gcard .eqn{font-family:"JetBrains Mono",monospace;font-size:.9rem;color:var(--violet);display:none}
+  .gcard.on .nm,.gcard.on .eqn{display:block}
+  .gcard .use{display:none;font-size:.78rem;color:var(--ink-soft);margin-top:5px;line-height:1.5}
+  .gcard.on .use{display:block}
+  .gcard .hint{font-size:.76rem;color:var(--teal);font-weight:700;margin-top:6px}
+  .gcard.on .hint{display:none}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 4px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.hl2{background:var(--teal-tint);color:var(--teal);font-weight:700}
+  .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
+  .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+  footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
+  .wall{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:15px 18px;text-align:left}
+  .wall b{color:var(--coral)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>為什麼<span class="hl">越長越快</span>？</h1>
+</header>
+
+<section class="card">
+  <h2>正方形長大一格，多出多少？</h2>
+  <p class="desc">邊長從 n 變成 n+1，紅色是新長出來的部分。</p>
+
+  <div class="slider-row"><span class="slabel">邊長</span>
+    <input type="range" id="lS" min="1" max="7" value="3" step="1">
+    <span class="val" id="lV">3 → 4</span>
+  </div>
+  <div class="controls"><span class="ctrl-label">新長的一圈放在：</span>
+    <button class="pick pos on" data-p="br">右下</button>
+    <button class="pick pos" data-p="tl">左上</button>
+    <button class="pick pos" data-p="tr">右上</button>
+    <button class="pick pos" data-p="bl">左下</button>
+  </div>
+  <div class="fig"><svg id="lSvg" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="readout" id="lRead"></div>
+  <div class="note">不管把新長的一圈放在哪個角落，總格數都一樣。重點不是它長在哪個方向，是它<b>有多大</b>。</div>
+
+  <div class="plain">正方形的面積 = 邊長 × 邊長，寫成式子就是 <b style="color:var(--violet)">y = x²</b>。<br><br>
+  邊長從 n 長到 n+1，多出來的一圈有 <b>2n+1</b> 格：底下一排 n 個、右邊一排 n 個、角落 1 個。n 越大，這一圈就越長。</div>
+
+  <div class="fig" style="margin-top:12px"><svg id="sqCurve" viewBox="0 0 340 250" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="note">y = x² 畫出來，開口是<b>向上</b>的。越往右越陡，因為每一步增加的量越來越大。</div>
+</section>
+
+<section class="card">
+  <h2>周長與面積，長大的方式不同</h2>
+  <p class="desc">同一個正方形，周長和面積都隨邊長改變，但方式不一樣。</p>
+  <table id="cmpTable">
+    <thead><tr><th>邊長</th><th>周長</th><th>周長多多少</th><th>面積</th><th>面積多多少</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <div class="plain">周長每次都固定多 <b style="color:#B07E15">4</b>——每一步增加的量一樣，畫出來是<b>直線</b>，這是<b>一次函數</b>（周長 = 4x）。<br><br>
+  面積多的是 <b style="color:var(--teal)">3、5、7、9、11</b>——<b>一次比一次多</b>，因為正方形越大，新長的那一圈就越長。畫出來是<b>曲線</b>，這是<b>二次函數</b>（面積 = x²）。<br><br>
+  <b>增量固定就是直線，增量會變就是曲線。</b></div>
+  <div class="fig" style="margin-top:14px"><svg id="periSvg" viewBox="0 0 340 250" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="note">金色的周長排成一條直線，綠色的面積越來越陡，在邊長 4 交會後就超過周長。</div>
+</section>
+
+<section class="card">
+  <h2>回到那塊地：每加寬一公尺，面積多多少？</h2>
+  <p class="desc">圍地的面積是 40x − 2x²。看看寬每增加 1 公尺，面積的變化。</p>
+  <table id="incTable">
+    <thead><tr><th>寬</th><th>面積</th><th>比前一格多多少</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <div class="plain">增量是 <b>+34、+30、+26、+22⋯⋯</b>——每次固定<b>少 4</b>。<br><br>
+  面積還是一直在增加，但<b>增加得越來越少</b>。到了某個地方，增量會從正的變成負的——那一刻面積就開始下降了。<br><br>
+  <b style="color:var(--coral)">增量由正轉負的位置，就是最高點。</b>從表上看得出來，它落在寬 10 到 11 之間。</div>
+</section>
+
+<section class="card">
+  <h2>圍地的面積畫出來</h2>
+  <div class="fig"><svg id="curveSvg" viewBox="0 0 340 260" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="plain">紅色的線段是「增加」，綠色的是「減少」。<br><br>
+  左邊爬升得快、越往右爬得越慢，到最高點之後開始往下掉——這就是<b>增量越來越小、最後變成負的</b>在圖上的樣子。<br><br>
+  因為增量一直在變（不像直線那樣固定），所以圖形是<b>彎的</b>。</div>
+</section>
+</div>
+
+<script>
+/* L 形 */
+(function(){
+  const sl=document.getElementById('lS'), svg=document.getElementById('lSvg');
+  let pos='br';
+  const posText={br:'底下 + 右邊',tl:'上面 + 左邊',tr:'上面 + 右邊',bl:'底下 + 左邊'};
+  function isRing(r,c,m){
+    if(pos==='br') return r===m-1||c===m-1;
+    if(pos==='tl') return r===0||c===0;
+    if(pos==='tr') return r===0||c===m-1;
+    return r===m-1||c===0;
+  }
+  function upd(){
+    const n=+sl.value, m=n+1;
+    document.getElementById('lV').textContent=n+' → '+m;
+    const A=250, cell=A/8, side=m*cell, ox=(300-side)/2, oy=(300-side)/2;
+    let s='';
+    for(let r=0;r<m;r++)for(let c=0;c<m;c++){
+      const isL=isRing(r,c,m);
+      s+=`<rect x="${ox+c*cell}" y="${oy+r*cell}" width="${cell-2}" height="${cell-2}" rx="2" fill="${isL?'#FBE4DE':'#DCF1EE'}" stroke="${isL?'#E8593F':'#0E9C8B'}" stroke-width="1.3"/>`;
+    }
+    svg.innerHTML=s;
+    document.getElementById('lRead').innerHTML=
+      `<span>${n}×${n} = ${n*n} → ${m}×${m} = ${m*m}</span><span>多出 <b style="color:var(--coral)">${2*n+1}</b> 格（${posText[pos]} 各 ${n} ＋ 角落 1）</span>`;
+  }
+  document.querySelectorAll('.pos').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.pos').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); pos=b.dataset.p; upd();
+  }));
+  sl.addEventListener('input',upd); upd();
+})();
+
+/* y = x² 的圖 */
+(function(){
+  const svg=document.getElementById('sqCurve');
+  const PL=50,PB=40,PT=20,PR=16,W=340,H=250, PW=W-PL-PR, PH=H-PT-PB;
+  const X=x=>PL+((x+7)/14)*PW, Y=y=>PT+PH-(y/52)*PH;
+  let s='';
+  for(let v=0;v<=50;v+=10){
+    s+=`<line x1="${PL}" y1="${Y(v)}" x2="${PL+PW}" y2="${Y(v)}" stroke="#F1F5F8" stroke-width="1.2"/>`;
+    s+=`<text x="${PL-6}" y="${Y(v)+4}" fill="#5B6B77" font-size="10" text-anchor="end">${v}</text>`;
+  }
+  s+=`<line x1="${PL}" y1="${Y(0)}" x2="${PL+PW}" y2="${Y(0)}" stroke="#22303C" stroke-width="1.8"/>`;
+  s+=`<line x1="${X(0)}" y1="${PT}" x2="${X(0)}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+  let p='';
+  for(let i=0;i<=280;i++){const x=-7+14*i/280, y=x*x;
+    if(y>52) continue;
+    p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(y).toFixed(1)+' ';}
+  s+=`<path d="${p}" fill="none" stroke="#7A5CC7" stroke-width="3"/>`;
+  // 標出每步增量
+  for(let n=1;n<=6;n++){
+    const ya=(n-1)*(n-1), yb=n*n;
+    if(yb>52) break;
+    s+=`<line x1="${X(n)}" y1="${Y(ya)}" x2="${X(n)}" y2="${Y(yb)}" stroke="#E8593F" stroke-width="2.2"/>`;
+    s+=`<circle cx="${X(n)}" cy="${Y(yb)}" r="3.5" fill="#7A5CC7"/>`;
+  }
+  s+=`<circle cx="${X(0)}" cy="${Y(0)}" r="5" fill="#0E9C8B"/>`;
+  s+=`<text x="${X(0)+8}" y="${Y(0)-8}" fill="#0E9C8B" font-size="11" font-weight="700">最低點</text>`;
+  for(let t=-6;t<=6;t+=3) s+=`<text x="${X(t)}" y="${Y(0)+16}" fill="#5B6B77" font-size="10" text-anchor="middle">${t}</text>`;
+  s+=`<text x="${PL+PW-6}" y="${Y(0)-8}" fill="#7A5CC7" font-size="12" font-weight="700" text-anchor="end">y = x²</text>`;
+  s+=`<text x="${PL+PW/2}" y="${H-4}" fill="#5B6B77" font-size="11" text-anchor="middle">邊長 x →</text>`;
+  svg.innerHTML=s;
+})();
+
+/* 周長與面積對照表 */
+(function(){
+  const tb=document.querySelector('#cmpTable tbody');
+  let pp=null,pa=null,h='';
+  for(let n=1;n<=6;n++){
+    const p=4*n,a=n*n;
+    h+=`<tr><td>${n}</td><td class="gold">${p}</td><td class="${pp===null?'empty':'goldjump'}">${pp===null?'—':'+'+(p-pp)}</td>`+
+       `<td class="teal">${a}</td><td class="${pa===null?'empty':'jump'}">${pa===null?'—':'+'+(a-pa)}</td></tr>`;
+    pp=p;pa=a;
+  }
+  tb.innerHTML=h;
+})();
+
+/* 周長 vs 面積 曲線 */
+(function(){
+  const svg=document.getElementById('periSvg');
+  const PL=50,PB=40,PT=20,PR=16,W=340,H=250, PW=W-PL-PR, PH=H-PT-PB;
+  const X=x=>PL+(x/7)*PW, Y=y=>PT+PH-(y/40)*PH;
+  let s='';
+  for(let v=0;v<=40;v+=10){
+    s+=`<line x1="${PL}" y1="${Y(v)}" x2="${PL+PW}" y2="${Y(v)}" stroke="#F1F5F8" stroke-width="1.2"/>`;
+    s+=`<text x="${PL-6}" y="${Y(v)+4}" fill="#5B6B77" font-size="10" text-anchor="end">${v}</text>`;
+  }
+  s+=`<line x1="${PL}" y1="${Y(0)}" x2="${PL+PW}" y2="${Y(0)}" stroke="#22303C" stroke-width="1.8"/>`;
+  s+=`<line x1="${PL}" y1="${PT}" x2="${PL}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+  let pp='',pa='';
+  for(let n=1;n<=6;n++){pp+=(n===1?'M':'L')+X(n)+' '+Y(4*n)+' ';pa+=(n===1?'M':'L')+X(n)+' '+Y(n*n)+' ';}
+  s+=`<path d="${pp}" fill="none" stroke="#E0A32E" stroke-width="3.2" stroke-linecap="round"/>`;
+  s+=`<path d="${pa}" fill="none" stroke="#0E9C8B" stroke-width="3.2" stroke-linecap="round"/>`;
+  for(let n=1;n<=6;n++){
+    s+=`<circle cx="${X(n)}" cy="${Y(4*n)}" r="4" fill="#E0A32E"/>`;
+    s+=`<circle cx="${X(n)}" cy="${Y(n*n)}" r="4" fill="#0E9C8B"/>`;
+  }
+  s+=`<circle cx="${X(4)}" cy="${Y(16)}" r="9" fill="none" stroke="#E8593F" stroke-width="2.5"/>`;
+  s+=`<text x="${X(4)}" y="${Y(16)-14}" fill="#E8593F" font-size="11" font-weight="700" text-anchor="middle">交會</text>`;
+  s+=`<text x="${X(6)+6}" y="${Y(24)+4}" fill="#B07E15" font-size="12" font-weight="700" text-anchor="end">周長</text>`;
+  s+=`<text x="${X(6)}" y="${Y(36)-8}" fill="#0E9C8B" font-size="12" font-weight="700" text-anchor="end">面積</text>`;
+  for(let n=1;n<=6;n++) s+=`<text x="${X(n)}" y="${Y(0)+16}" fill="#5B6B77" font-size="10" text-anchor="middle">${n}</text>`;
+  s+=`<text x="${PL+PW/2}" y="${H-4}" fill="#5B6B77" font-size="11" text-anchor="middle">邊長 →</text>`;
+  svg.innerHTML=s;
+})();
+
+/* 圍地增量表 */
+(function(){
+  const tb=document.querySelector('#incTable tbody');
+  let prev=null,h='';
+  for(let x=1;x<=19;x++){
+    const a=x*(40-2*x);
+    const d = prev===null ? '—' : (a-prev>0?'+':'')+(a-prev);
+    const cls = prev===null ? 'empty' : (a-prev>0?'up':'down');
+    const rowcls = (x===10||x===11) ? 'mark' : '';
+    h+=`<tr class="${rowcls}"><td>${x}</td><td class="teal">${a}</td><td class="${cls}">${d}</td></tr>`;
+    prev=a;
+  }
+  tb.innerHTML=h;
+})();
+
+/* 圍地曲線 */
+(function(){
+  const svg=document.getElementById('curveSvg');
+  const PL=52,PB=42,PT=22,PR=16,W=340,H=260, PW=W-PL-PR, PH=H-PT-PB;
+  const X=x=>PL+(x/20)*PW, Y=y=>PT+PH-(y/220)*PH;
+  let s='';
+  for(let v=0;v<=200;v+=50){
+    s+=`<line x1="${PL}" y1="${Y(v)}" x2="${PL+PW}" y2="${Y(v)}" stroke="#F1F5F8" stroke-width="1.2"/>`;
+    s+=`<text x="${PL-6}" y="${Y(v)+4}" fill="#5B6B77" font-size="10" text-anchor="end">${v}</text>`;
+  }
+  s+=`<line x1="${PL}" y1="${Y(0)}" x2="${PL+PW}" y2="${Y(0)}" stroke="#22303C" stroke-width="1.8"/>`;
+  s+=`<line x1="${PL}" y1="${PT}" x2="${PL}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+  let p='';
+  for(let i=0;i<=200;i++){const x=i/10, a=x*(40-2*x);
+    p+=(i?'L':'M')+X(x).toFixed(1)+' '+Y(a).toFixed(1)+' ';}
+  s+=`<path d="${p}" fill="none" stroke="#7A5CC7" stroke-width="3"/>`;
+  // 標出幾段增量
+  [[2,3],[5,6],[9,10],[12,13],[16,17]].forEach(([a,b])=>{
+    const ya=a*(40-2*a), yb=b*(40-2*b);
+    const col = yb>ya ? '#E8593F' : '#0E9C8B';
+    s+=`<line x1="${X(b)}" y1="${Y(ya)}" x2="${X(b)}" y2="${Y(yb)}" stroke="${col}" stroke-width="2.5"/>`;
+    s+=`<circle cx="${X(a)}" cy="${Y(ya)}" r="3.5" fill="#7A5CC7"/>`;
+  });
+  s+=`<line x1="${X(10)}" y1="${Y(200)}" x2="${X(10)}" y2="${Y(0)}" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  s+=`<circle cx="${X(10)}" cy="${Y(200)}" r="6" fill="#E8593F"/>`;
+  s+=`<text x="${X(10)}" y="${Y(200)-11}" fill="#E8593F" font-size="11" font-weight="700" text-anchor="middle">最高點</text>`;
+  for(let t=0;t<=20;t+=5) s+=`<text x="${X(t)}" y="${Y(0)+16}" fill="#5B6B77" font-size="10" text-anchor="middle">${t}</text>`;
+  s+=`<text x="${PL+PW/2}" y="${H-4}" fill="#5B6B77" font-size="11" text-anchor="middle">寬 →</text>`;
+  s+=`<text x="${PL-4}" y="${PT-6}" fill="#5B6B77" font-size="11" text-anchor="end">面積</text>`;
+  svg.innerHTML=s;
+})();
+</script>
+</body>
+</html>
