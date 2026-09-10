@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="color-scheme" content="light only">
-<title>函數的家族</title>
+<title>哪一種形狀</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -20,117 +20,94 @@
     background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
   .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
   header{padding:50px 0 24px}
-  .eyebrow{font-size:.8rem;letter-spacing:.24em;color:var(--coral);font-weight:700;margin-bottom:14px}
   h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
   h1 .hl{position:relative;white-space:nowrap}
   h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
-  .lede{margin-top:16px;font-size:1.08rem;color:var(--ink-soft);max-width:56ch}
   .bigidea{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin-top:18px;font-weight:500}
   .bigidea b{color:var(--violet)}
-  .part{display:flex;align-items:center;gap:14px;margin:44px 2px 12px;color:var(--teal);font-weight:800;font-size:1rem}
-  .part::before,.part::after{content:"";flex:1;height:2px;background:var(--grid-strong);border-radius:2px}
-  .brk{text-align:center;color:var(--ink-soft);font-size:.9rem;margin:34px 0 6px;font-weight:700;
-    background:#F3F6F9;border-radius:20px;padding:8px}
   .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
   h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
-  .tagx{display:inline-block;background:var(--teal-tint);color:var(--teal);font-size:.74rem;font-weight:700;padding:2px 9px;border-radius:20px;margin-bottom:10px}
   .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
   .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
-  .ask::before{content:"❓ "}
-  .say{background:var(--gold-tint);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
-  .say::before{content:"💬 "}
-  .say b{display:block;margin-top:4px;font-weight:700}
+  .ask::before{content:"\2753 "}
   .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
   .plain b{color:var(--ink)}
-  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
   svg{display:block;width:100%;height:auto}
-  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
-  .vocab{display:flex;flex-direction:column;gap:9px;margin-top:4px}
-  .vrow{display:flex;gap:13px;align-items:baseline;background:#F3F6F9;border-radius:10px;padding:11px 14px}
-  .vk{flex:none;min-width:70px;font-weight:800;color:var(--violet);font-size:1rem}
-  .vv{font-size:.95rem;color:var(--ink-soft)}
-  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
-  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
-  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .press{font-weight:800;font-size:1.02rem;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:11px 24px;cursor:pointer;box-shadow:3px 4px 0 rgba(34,48,60,.2);transition:.1s;font-family:inherit}
-  .press:active{transform:translate(2px,3px);box-shadow:1px 1px 0 rgba(34,48,60,.2)}
-  .drop{font-size:2.4rem;margin:12px 0 4px;min-height:44px}
-  .prnote{font-size:.9rem;color:var(--ink-soft)}
-  .prnote .yes{color:var(--teal);font-weight:700} .prnote .no{color:var(--no);font-weight:700}
-  .testgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:4px}
-  @media(max-width:560px){.testgrid{grid-template-columns:1fr}}
-  .tcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:14px;cursor:pointer;transition:.18s;background:#fff;user-select:none}
-  .tcard:hover{border-color:var(--violet);transform:translateY(-2px)}
-  .tcard .rel{font-weight:700;font-size:.98rem;margin-bottom:3px}
-  .tcard .q{font-size:.8rem;color:var(--ink-soft)}
-  .tcard .verdict{margin-top:9px;font-weight:700;font-size:.9rem;display:none;padding-top:9px;border-top:1.5px dashed var(--grid-strong)}
-  .tcard.revealed .verdict{display:block}
-  .tcard.revealed .tap{display:none}
-  .tap{margin-top:9px;font-size:.78rem;color:var(--violet);font-weight:700}
-  .yes{color:var(--teal)} .no{color:var(--no)}
-  .verdict .why{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem;margin-top:3px}
-  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
-  .slabel{font-size:.9rem;font-weight:700;min-width:62px}
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+  @media(max-width:560px){.gallery{grid-template-columns:repeat(2,1fr)}}
+  .gcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:9px 9px 11px;background:#fff;text-align:center;transition:.2s}
+  .gcard.solved{border-color:var(--teal);background:var(--teal-tint)}
+  .gcard .lt{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1rem;color:var(--violet)}
+  .gcard.solved .lt{color:var(--teal)}
+  .qcard{border:1.5px solid var(--grid-strong);border-radius:14px;padding:15px 16px;background:#fff;margin-top:11px}
+  .qcard .sit{font-weight:700;font-size:1.02rem}
+  .qcard .sub{font-size:.88rem;color:var(--ink-soft);margin-top:2px}
+  .picks{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+  .pk{width:38px;height:38px;border:1.5px solid var(--grid-strong);background:#fff;border-radius:10px;
+    font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.95rem;cursor:pointer;color:var(--ink);transition:.15s}
+  .pk:hover{border-color:var(--violet)}
+  .pk.right{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .pk.wrong{background:var(--coral-tint);color:var(--no);border-color:var(--no)}
+  .panel{margin-top:13px;padding-top:13px;border-top:1.5px dashed var(--grid-strong);display:none}
+  .qcard.done .panel{display:block}
+  .qcard.done .picks{opacity:.5;pointer-events:none}
+  .nm{font-weight:800;font-size:1.12rem}
+  .eqn{font-family:"JetBrains Mono",monospace;font-size:1rem;color:var(--violet);margin-top:1px}
+  .feat{font-size:.98rem;font-weight:700;color:var(--teal);margin-top:9px}
+  .why2{font-size:.92rem;color:var(--ink-soft);margin-top:5px;line-height:1.75}
+  .formula2{font-family:"JetBrains Mono",monospace;font-size:1.02rem;font-weight:700;
+    background:#F3F6F9;border-radius:9px;padding:9px;margin:11px auto 4px;max-width:360px;text-align:center}
+  .sl-row{display:flex;align-items:center;gap:10px;margin:12px auto 6px;max-width:420px}
+  .sl-lab{font-size:.82rem;color:var(--ink-soft);flex:none;min-width:88px;text-align:right}
+  .sl-val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1rem;min-width:48px;text-align:left;color:var(--ink)}
   input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
-  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
-  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:66px;text-align:right;color:var(--coral)}
-  .readout{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:8px}
-  .gallery{display:flex;flex-direction:column;gap:14px;margin-top:6px}
-  
-  .gcard{border:1.5px solid var(--grid-strong);border-radius:14px;padding:18px 16px;background:#fff;text-align:center;cursor:default}
-  .gcard .feat{font-size:1rem;font-weight:700;color:var(--ink);margin-top:10px}
-  .gcard .why{font-size:.9rem;color:var(--ink-soft);margin:6px auto 12px;line-height:1.75;
-    text-align:left;max-width:460px;background:#F3F6F9;border-radius:9px;padding:11px 14px}
-  .gcard .note2{font-size:.86rem;color:var(--ink-soft);margin-top:4px;line-height:1.6}
-  .gcard .formula2{font-family:"JetBrains Mono",monospace;font-size:1.05rem;font-weight:700;
-    background:#F3F6F9;border-radius:9px;padding:9px;margin:10px auto 4px;max-width:340px}
-  .sl-row{display:flex;align-items:center;gap:10px;margin:12px auto 6px;max-width:400px}
-  .sl-lab{font-size:.82rem;color:var(--ink-soft);flex:none;min-width:78px;text-align:right}
-  .sl-val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1rem;min-width:44px;text-align:left;color:var(--ink)}
-  .gcard svg{max-width:440px;margin:0 auto}
-  .say2{font-size:.98rem;margin-top:8px;color:var(--ink)}
-  .lim2{font-size:.84rem;color:var(--ink-soft);margin-top:10px;padding-top:9px;
-    border-top:1.5px dashed var(--grid-strong);line-height:1.6;text-align:left;
-    max-width:440px;margin-left:auto;margin-right:auto}
-  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
-  th,td{border:1.5px solid var(--grid-strong);padding:8px 4px;text-align:center}
-  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
-  td.hl2{background:var(--teal-tint);color:var(--teal);font-weight:700}
-  .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
-  .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .panel svg{max-width:440px;margin:0 auto}
+  .say2{font-size:.98rem;margin-top:8px;text-align:center}
+  .lim2{font-size:.88rem;color:var(--ink-soft);margin-top:10px;padding-left:13px;border-left:3px solid var(--gold);line-height:1.75}
+  .score{font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--coral);margin-top:16px}
   footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
-  .wall{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:15px 18px;text-align:left}
-  .wall b{color:var(--coral)}
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <header>
-  <h1>函數<br><span class="hl">長什麼樣子？</span></h1>
-  
+  <h1>同樣是函數，<br><span class="hl">為什麼形狀差這麼多？</span></h1>
+  <div class="bigidea">要回答的問題：<b>從一段情境的描述，能不能判斷出它畫出來會是什麼形狀？</b></div>
 </header>
 
-
-<!-- B 函數家族 -->
 <section class="card">
-  <h2>函數有好多家族</h2>
-  <p class="desc">函數不只有直線。下面是幾種不同的函數畫出來的樣子。</p>
-  <div class="gallery" id="gallery"></div>
-  <div class="plain">常見的函數家族與它們描述的現象：<b style="color:#0E9C8B">一次函數</b>（直線，變化率固定）、<b style="color:#7A5CC7">二次函數</b>（拋物線，左右對稱）、<b style="color:#E8593F">指數函數</b>（越來越陡，永遠不會低於 0）、<b style="color:#E0A32E">對數函數</b>（越來越平緩，只存在於 x&gt;0）、<b style="color:#2F7FD1">三角函數</b>（上下起伏、不斷重複，其中正切函數會在特定位置斷開）、<b style="color:#B4529E">反比函數</b>（分成兩段，永遠不通過原點）、<b style="color:#C77B2E">絕對值函數</b>（V 字形轉折）。</div>
-  <div class="note">以上皆符合「唯一決定」：一個 x 只對應一個 y，因此都是函數，差別在於圖形的形狀。</div>
-
-  
+  <h2>九張圖</h2>
+  <p class="desc">以下九張圖都是函數：一個 x 只對應一個 y。它們描述的是九件不同的事。</p>
+  <div class="gallery" id="gal"></div>
+  <div class="ask">哪一張一直往上而且越來越陡？哪一張左右對稱？哪些在某個地方斷開，斷開的位置發生了什麼事？有兩張的形狀幾乎一樣，差別在從哪裡開始。</div>
 </section>
 
+<section class="card" style="border-color:var(--violet)">
+  <h2>把情境配到圖上</h2>
+  <p class="desc">每一段情境都對應上面其中一張圖。選出代號，配對成功後會展開這個函數的完整資料與可拖曳的圖。</p>
+  <div id="quiz"></div>
+  <div class="score" id="score">已配對 0 / 9</div>
+</section>
 
+<section class="card">
+  <h2>小結</h2>
+  <div class="plain">
+    常見的函數家族與它們描述的現象：<b>一次函數</b>（直線，變化率固定）、<b>二次函數</b>（拋物線，左右對稱）、<b>指數函數</b>（越來越陡，永遠不會低於 0）、<b>對數函數</b>（越來越平緩，只存在於 x &gt; 0）、<b>三角函數</b>（上下起伏、不斷重複，其中正切函數會在特定位置斷開）、<b>反比函數</b>（分成兩段，永遠不通過原點）、<b>絕對值函數</b>（V 字形轉折）。<br><br>
+    以上皆符合「唯一決定」：一個 x 只對應一個 y，因此都是函數，差別在於圖形的形狀。<br><br>
+    圖上顏色較深的那一段是<b>情境範圍</b>——現實中真正用得到的部分；較淡的延伸是這個函數在數學上完整的樣子。
+  </div>
+  <div class="ask">同一個現象，有沒有可能用不只一種函數描述？描述得準不準，跟選哪一種函數有什麼關係？</div>
+</section>
+
+<footer>函數的家族</footer>
 </div>
 <script>
-/* 函數家族圖庫 */
+
 (function(){
-  // full: 數學上完整的繪圖範圍　real: 情境有意義的範圍（會標亮）
-  const fns=[
+const fns=[
     {id:'taxi',nm:'一次函數',eqn:'y = ax + b',c:'#0E9C8B',use:'計程車車資',
      feat:'圖形是一條直線',
      why:'因為每增加 1 單位，y 就固定增加同一個量（變化率固定），每一步跳的高度都一樣，點就排成直線。變化率越大，直線越陡。',
@@ -221,93 +198,121 @@
      say:t=>`室溫 ${t} 度 → |${t}−25| = <b>${Math.abs(t-25)}</b> 度`,
      lim:'數學上兩側可以無限延伸，但室溫不會出現極端值'}
   ];
+  const BY={}; fns.forEach(o=>BY[o.id]=o);
 
-  const g=document.getElementById('gallery');
+  /* 代號與形狀的對應（刻意打散） */
+  const ORDER=[['A','trip'],['B','ball'],['C','slope'],['D','taxi'],['E','quake'],
+               ['F','ac'],['G','wheel'],['H','cell'],['I','temp']];
+  const LETTERS=ORDER.map(p=>p[0]);
+  const LOF={}; ORDER.forEach(p=>LOF[p[1]]=p[0]);
+
   const W=340,H=250,PL=54,PB=42,PT=18,PR=16;
   const PW=W-PL-PR, PH=H-PT-PB;
 
-  fns.forEach(o=>{
-    const [fx0,fx1]=o.full, [ry0,ry1]=o.yrange;
-    const X=x=>PL+((x-fx0)/(fx1-fx0))*PW;
-    const Y=y=>PT+PH-((y-ry0)/(ry1-ry0))*PH;
-
-    const card=document.createElement('div');
-    card.className='gcard';
-    card.innerHTML=`
-      <div class="nm">${o.nm}</div>
-      <div class="eqn">${o.eqn}</div>
-      <div class="use">${o.use}</div>
-      <div class="feat">${o.feat}</div>
-      <div class="why">${o.why}</div>
-      <div class="note2">${o.note}</div>
-      <div class="formula2">${o.form}</div>
-      <div class="sl-row">
-        <span class="sl-lab">${o.xlab}</span>
-        <input type="range" min="${o.min}" max="${o.max}" step="${o.step}" value="${o.init}">
-        <span class="sl-val">${o.init}</span>
-      </div>
-      <svg viewBox="0 0 ${W} ${H}"></svg>
-      <div class="say2"></div>
-      <div class="lim2">${o.lim}</div>`;
-    g.appendChild(card);
-
-    const svg=card.querySelector('svg'), sl=card.querySelector('input');
-
-    function path(x0,x1){
-      let p='',pen=false;
-      const N=420;
-      for(let i=0;i<=N;i++){
-        const x=x0+(x1-x0)*i/N;
-        const y=o.f(x);
-        if(y===null||!isFinite(y)||y>ry1+ (ry1-ry0)*0.05||y<ry0-(ry1-ry0)*0.05){pen=false;continue;}
-        p+=(pen?'L':'M')+X(x).toFixed(1)+' '+Y(y).toFixed(1)+' ';
-        pen=true;
-      }
-      return p;
+  function makeMap(o){
+    const [fx0,fx1]=o.full,[ry0,ry1]=o.yrange;
+    return {X:x=>PL+((x-fx0)/(fx1-fx0))*PW, Y:y=>PT+PH-((y-ry0)/(ry1-ry0))*PH,
+            fx0:fx0,fx1:fx1,ry0:ry0,ry1:ry1};
+  }
+  function pathOf(o,m,x0,x1){
+    let p='',pen=false;const N=420;
+    for(let i=0;i<=N;i++){
+      const x=x0+(x1-x0)*i/N, y=o.f(x);
+      if(y===null||!isFinite(y)||y>m.ry1+(m.ry1-m.ry0)*0.05||y<m.ry0-(m.ry1-m.ry0)*0.05){pen=false;continue;}
+      p+=(pen?'L':'M')+m.X(x).toFixed(1)+' '+m.Y(y).toFixed(1)+' ';pen=true;
     }
+    return p;
+  }
+  /* 縮圖：只有曲線，沒有名稱、沒有標亮、沒有軸標 */
+  function thumb(o){
+    const m=makeMap(o);
+    const axY=(m.ry0<=0&&m.ry1>=0)?m.Y(0):PT+PH;
+    const axX=(m.fx0<=0&&m.fx1>=0)?m.X(0):PL;
+    let s='<svg viewBox="0 0 '+W+' '+H+'">';
+    s+='<line x1="'+PL+'" y1="'+axY+'" x2="'+(PL+PW)+'" y2="'+axY+'" stroke="#C3D3E0" stroke-width="1.8"/>';
+    s+='<line x1="'+axX+'" y1="'+PT+'" x2="'+axX+'" y2="'+(PT+PH)+'" stroke="#C3D3E0" stroke-width="1.8"/>';
+    s+='<path d="'+pathOf(o,m,m.fx0,m.fx1)+'" fill="none" stroke="#7A5CC7" stroke-width="3.4" stroke-linecap="round"/>';
+    return s+'</svg>';
+  }
 
-    function draw(){
-      const cur=+sl.value;
-      let s='';
-      // 格線
-      for(let i=0;i<=5;i++){
-        const gy=PT+(i/5)*PH;
-        s+=`<line x1="${PL}" y1="${gy}" x2="${PL+PW}" y2="${gy}" stroke="#F1F5F8" stroke-width="1.2"/>`;
+  const gal=document.getElementById('gal');
+  ORDER.forEach(p=>{
+    const o=BY[p[1]];
+    const d=document.createElement('div');
+    d.className='gcard'; d.id='g'+p[0];
+    d.innerHTML='<div class="lt">'+p[0]+'</div>'+thumb(o);
+    gal.appendChild(d);
+  });
+
+  /* 題目順序與代號刻意錯開 */
+  const QORDER=['taxi','cell','ball','trip','wheel','quake','slope','ac','temp'];
+  const box=document.getElementById('quiz');
+  let done=0;
+
+  QORDER.forEach(id=>{
+    const o=BY[id], ans=LOF[id];
+    const d=document.createElement('div');
+    d.className='qcard';
+    let picks='';
+    LETTERS.forEach(L=>{picks+='<button class="pk" data-l="'+L+'">'+L+'</button>';});
+    d.innerHTML='<div class="sit">'+o.use+'</div><div class="sub">'+o.note+'</div>'+
+      '<div class="picks">'+picks+'</div><div class="panel"></div>';
+    box.appendChild(d);
+
+    d.querySelectorAll('.pk').forEach(b=>b.addEventListener('click',()=>{
+      if(b.dataset.l!==ans){ b.classList.add('wrong'); return; }
+      b.classList.add('right'); d.classList.add('done');
+      done++; document.getElementById('score').textContent='已配對 '+done+' / 9';
+      const gc=document.getElementById('g'+ans); if(gc) gc.classList.add('solved');
+
+      const panel=d.querySelector('.panel');
+      panel.innerHTML=
+        '<div class="nm">'+o.nm+'</div><div class="eqn">'+o.eqn+'</div>'+
+        '<div class="feat">'+o.feat+'</div><div class="why2">'+o.why+'</div>'+
+        '<div class="formula2">'+o.form+'</div>'+
+        '<div class="sl-row"><span class="sl-lab">'+o.xlab+'</span>'+
+        '<input type="range" min="'+o.min+'" max="'+o.max+'" step="'+o.step+'" value="'+o.init+'">'+
+        '<span class="sl-val">'+o.init+'</span></div>'+
+        '<svg viewBox="0 0 '+W+' '+H+'"></svg><div class="say2"></div>'+
+        '<div class="lim2">'+o.lim+'</div>';
+
+      const svg=panel.querySelector('svg'), sl=panel.querySelector('input'), m=makeMap(o);
+      function draw(){
+        const cur=+sl.value;
+        let s='';
+        for(let i=0;i<=5;i++){
+          const gy=PT+(i/5)*PH;
+          s+='<line x1="'+PL+'" y1="'+gy+'" x2="'+(PL+PW)+'" y2="'+gy+'" stroke="#F1F5F8" stroke-width="1.2"/>';
+        }
+        const rx0=Math.max(m.X(o.real[0]),PL), rx1=Math.min(m.X(o.real[1]),PL+PW);
+        s+='<rect x="'+rx0+'" y="'+PT+'" width="'+(rx1-rx0)+'" height="'+PH+'" fill="'+o.c+'" opacity="0.06"/>';
+        const axY=(m.ry0<=0&&m.ry1>=0)?m.Y(0):PT+PH;
+        const axX=(m.fx0<=0&&m.fx1>=0)?m.X(0):PL;
+        s+='<line x1="'+PL+'" y1="'+axY+'" x2="'+(PL+PW)+'" y2="'+axY+'" stroke="#22303C" stroke-width="1.8"/>';
+        s+='<line x1="'+axX+'" y1="'+PT+'" x2="'+axX+'" y2="'+(PT+PH)+'" stroke="#22303C" stroke-width="1.8"/>';
+        s+='<path d="'+pathOf(o,m,m.fx0,m.fx1)+'" fill="none" stroke="'+o.c+'" stroke-width="2.4" opacity="0.28" stroke-linecap="round"/>';
+        s+='<path d="'+pathOf(o,m,o.real[0],o.real[1])+'" fill="none" stroke="'+o.c+'" stroke-width="3.6" stroke-linecap="round"/>';
+        const cy=o.f(cur);
+        if(isFinite(cy)){
+          s+='<line x1="'+m.X(cur)+'" y1="'+m.Y(cy)+'" x2="'+m.X(cur)+'" y2="'+axY+'" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>';
+          s+='<line x1="'+axX+'" y1="'+m.Y(cy)+'" x2="'+m.X(cur)+'" y2="'+m.Y(cy)+'" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>';
+          s+='<circle cx="'+m.X(cur)+'" cy="'+m.Y(cy)+'" r="7" fill="#E8593F"/>';
+          s+='<text x="'+(PL-6)+'" y="'+(m.Y(cy)+4)+'" fill="#E8593F" font-size="12" font-weight="700" text-anchor="end">'+(Math.abs(cy)>=100?Math.round(cy):cy.toFixed(1))+'</text>';
+        }
+        s+='<text x="'+(PL+PW/2)+'" y="'+(H-8)+'" fill="#5B6B77" font-size="12" text-anchor="middle">'+o.xlab+' \u2192</text>';
+        s+='<text x="'+(PL-6)+'" y="'+(PT-4)+'" fill="#5B6B77" font-size="11.5" text-anchor="end">'+o.ylab+'</text>';
+        s+='<text x="'+((rx0+rx1)/2)+'" y="'+(PT+PH+16)+'" fill="'+o.c+'" font-size="10.5" font-weight="700" text-anchor="middle">情境範圍</text>';
+        svg.innerHTML=s;
+        panel.querySelector('.sl-val').textContent=cur;
+        panel.querySelector('.say2').innerHTML=o.say(cur);
+        const pct=(cur-o.min)/(o.max-o.min)*100;
+        sl.style.background='linear-gradient(90deg,'+o.c+' '+pct+'%,var(--grid-strong) '+pct+'%)';
       }
-      // 情境區間底色
-      const rx0=Math.max(X(o.real[0]),PL), rx1=Math.min(X(o.real[1]),PL+PW);
-      s+=`<rect x="${rx0}" y="${PT}" width="${rx1-rx0}" height="${PH}" fill="${o.c}" opacity="0.06"/>`;
-      // 座標軸（若 0 在範圍內就畫在 0，否則畫在邊緣）
-      const axY = (ry0<=0&&ry1>=0)?Y(0):PT+PH;
-      const axX = (fx0<=0&&fx1>=0)?X(0):PL;
-      s+=`<line x1="${PL}" y1="${axY}" x2="${PL+PW}" y2="${axY}" stroke="#22303C" stroke-width="1.8"/>`;
-      s+=`<line x1="${axX}" y1="${PT}" x2="${axX}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
-      // 完整曲線（淡）
-      s+=`<path d="${path(fx0,fx1)}" fill="none" stroke="${o.c}" stroke-width="2.4" opacity="0.28" stroke-linecap="round"/>`;
-      // 情境區間（實）
-      s+=`<path d="${path(o.real[0],o.real[1])}" fill="none" stroke="${o.c}" stroke-width="3.6" stroke-linecap="round"/>`;
-      // 目前點
-      const cy=o.f(cur);
-      if(isFinite(cy)){
-        s+=`<line x1="${X(cur)}" y1="${Y(cy)}" x2="${X(cur)}" y2="${axY}" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>`;
-        s+=`<line x1="${axX}" y1="${Y(cy)}" x2="${X(cur)}" y2="${Y(cy)}" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>`;
-        s+=`<circle cx="${X(cur)}" cy="${Y(cy)}" r="7" fill="#E8593F"/>`;
-        s+=`<text x="${PL-6}" y="${Y(cy)+4}" fill="#E8593F" font-size="12" font-weight="700" text-anchor="end">${Math.abs(cy)>=100?Math.round(cy):cy.toFixed(1)}</text>`;
-      }
-      // 軸標
-      s+=`<text x="${PL+PW/2}" y="${H-8}" fill="#5B6B77" font-size="12" text-anchor="middle">${o.xlab} →</text>`;
-      s+=`<text x="${PL-6}" y="${PT-4}" fill="#5B6B77" font-size="11.5" text-anchor="end">${o.ylab}</text>`;
-      s+=`<text x="${(rx0+rx1)/2}" y="${PT+PH+16}" fill="${o.c}" font-size="10.5" font-weight="700" text-anchor="middle">情境範圍</text>`;
-      svg.innerHTML=s;
-      card.querySelector('.sl-val').textContent=cur;
-      card.querySelector('.say2').innerHTML=o.say(cur);
-      const pct=(cur-o.min)/(o.max-o.min)*100;
-      sl.style.background=`linear-gradient(90deg,${o.c} ${pct}%,var(--grid-strong) ${pct}%)`;
-    }
-    sl.addEventListener('input',draw);
-    draw();
+      sl.addEventListener('input',draw); draw();
+    }));
   });
 })();
+
 </script>
 </body>
 </html>

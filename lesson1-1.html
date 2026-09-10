@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="color-scheme" content="light only">
-<title>認識函數</title>
+<title>併起來的桌子</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -20,26 +20,16 @@
     background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
   .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
   header{padding:50px 0 24px}
-  .eyebrow{font-size:.8rem;letter-spacing:.24em;color:var(--coral);font-weight:700;margin-bottom:14px}
   h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
   h1 .hl{position:relative;white-space:nowrap}
   h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
-  .lede{margin-top:16px;font-size:1.08rem;color:var(--ink-soft);max-width:56ch}
   .bigidea{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin-top:18px;font-weight:500}
   .bigidea b{color:var(--violet)}
-  .part{display:flex;align-items:center;gap:14px;margin:44px 2px 12px;color:var(--teal);font-weight:800;font-size:1rem}
-  .part::before,.part::after{content:"";flex:1;height:2px;background:var(--grid-strong);border-radius:2px}
-  .brk{text-align:center;color:var(--ink-soft);font-size:.9rem;margin:34px 0 6px;font-weight:700;
-    background:#F3F6F9;border-radius:20px;padding:8px}
   .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
   h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
-  .tagx{display:inline-block;background:var(--teal-tint);color:var(--teal);font-size:.74rem;font-weight:700;padding:2px 9px;border-radius:20px;margin-bottom:10px}
   .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
   .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
   .ask::before{content:"❓ "}
-  .say{background:var(--gold-tint);border-left:4px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
-  .say::before{content:"💬 "}
-  .say b{display:block;margin-top:4px;font-weight:700}
   .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
   .plain b{color:var(--ink)}
   .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
@@ -52,11 +42,23 @@
   .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
   .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
   .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .press{font-weight:800;font-size:1.02rem;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:11px 24px;cursor:pointer;box-shadow:3px 4px 0 rgba(34,48,60,.2);transition:.1s;font-family:inherit}
-  .press:active{transform:translate(2px,3px);box-shadow:1px 1px 0 rgba(34,48,60,.2)}
-  .drop{font-size:2.4rem;margin:12px 0 4px;min-height:44px}
-  .prnote{font-size:.9rem;color:var(--ink-soft)}
-  .prnote .yes{color:var(--teal);font-weight:700} .prnote .no{color:var(--no);font-weight:700}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:62px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:66px;text-align:right;color:var(--coral)}
+  .readout{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:8px}
+  .views{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:6px}
+  @media(max-width:560px){.views{grid-template-columns:1fr}}
+  .vcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:13px 14px;cursor:pointer;transition:.18s;background:#fff;user-select:none}
+  .vcard:hover{border-color:var(--violet);transform:translateY(-2px)}
+  .vcard.on{border-color:var(--violet);background:var(--violet-tint)}
+  .vcard .see{font-size:.94rem;font-weight:500;line-height:1.6}
+  .vcard .eq{font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--violet);font-size:1.05rem;margin-top:9px;display:none}
+  .vcard.on .eq{display:block}
+  .vcard .tap{margin-top:8px;font-size:.78rem;color:var(--violet);font-weight:700}
+  .vcard.on .tap{display:none}
   .testgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:4px}
   @media(max-width:560px){.testgrid{grid-template-columns:1fr}}
   .tcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:14px;cursor:pointer;transition:.18s;background:#fff;user-select:none}
@@ -69,207 +71,346 @@
   .tap{margin-top:9px;font-size:.78rem;color:var(--violet);font-weight:700}
   .yes{color:var(--teal)} .no{color:var(--no)}
   .verdict .why{display:block;font-weight:400;color:var(--ink-soft);font-size:.84rem;margin-top:3px}
-  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
-  .slabel{font-size:.9rem;font-weight:700;min-width:62px}
-  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
-  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
-  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:66px;text-align:right;color:var(--coral)}
-  .readout{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:8px}
-  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
-  @media(max-width:560px){.gallery{grid-template-columns:repeat(2,1fr)}}
-  .gcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:12px;cursor:pointer;transition:.18s;background:#fff;user-select:none;text-align:center}
-  .gcard:hover{border-color:var(--teal)}
-  .gcard .nm{font-weight:800;font-size:.95rem;margin-top:6px;display:none}
-  .gcard .eqn{font-family:"JetBrains Mono",monospace;font-size:.9rem;color:var(--violet);display:none}
-  .gcard.on .nm,.gcard.on .eqn{display:block}
-  .gcard .use{display:none;font-size:.78rem;color:var(--ink-soft);margin-top:5px;line-height:1.5}
-  .gcard.on .use{display:block}
-  .gcard .hint{font-size:.76rem;color:var(--teal);font-weight:700;margin-top:6px}
-  .gcard.on .hint{display:none}
   table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
   th,td{border:1.5px solid var(--grid-strong);padding:8px 4px;text-align:center}
   th{background:#F3F6F9;font-weight:700;font-size:.82rem}
-  td.hl2{background:var(--teal-tint);color:var(--teal);font-weight:700}
+  tr.cur td{background:var(--coral-tint);color:var(--coral);font-weight:700}
   .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
   .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+  .expand{font-family:"JetBrains Mono",monospace;font-size:.95rem;background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;line-height:2}
   footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
-  .wall{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:15px 18px;text-align:left}
-  .wall b{color:var(--coral)}
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <header>
-  <h1>什麼樣的關係，<br><span class="hl">能夠預測？</span></h1>
-  <div class="bigidea">今天要回答的問題：<b>什麼樣的關係，能讓我們算出還沒發生的事？</b></div>
+  <h1>一直併下去，<br><span class="hl">要準備幾張椅子？</span></h1>
+  <div class="bigidea">要回答的問題：<b>一個看得見的規律，怎麼變成一條算得出來的式子？</b></div>
 </header>
-<!-- A1 -->
+
+<!-- 1 視覺樣式 -->
 <section class="card">
-  <h2>先認識四個字</h2>
+  <h2>併桌</h2>
+  <p class="desc">一張長桌坐 6 人：長的兩邊各坐 2 人，短的兩端各坐 1 人。併成一長排時，接起來的那兩邊就坐不了人。</p>
+  <div class="slider-row"><span class="slabel">桌數</span>
+    <input type="range" id="nS" min="1" max="8" value="3" step="1">
+    <span class="val" id="nV">3 張</span>
+  </div>
+  <div class="toggle">
+    <button class="tbtn on" data-c="none">只看圖形</button>
+    <button class="tbtn" data-c="new">標出新增的座位</button>
+    <button class="tbtn" data-c="count">顯示座位數</button>
+  </div>
+  <div class="fig"><svg id="tblSvg" viewBox="0 0 360 130" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="readout" id="tblRead"></div>
+  <div class="ask">桌子每多一張，新增的座位出現在哪裡？消失的座位又在哪裡？併 10 張的時候，這一排長什麼樣子？併 100 張呢？</div>
+  <div class="note">在紙上畫出併桌的樣子，並用一種顏色圈出「每多一張桌子時，新增的那幾個座位」。畫完之後，用一句話寫下這一排座位是怎麼長大的。</div>
+</section>
+
+<!-- 2 四種看法 -->
+<section class="card" style="border-color:var(--violet)">
+  <h2>同一張圖，不同的看法</h2>
+  <p class="desc">n 代表桌子的張數。點開一種看法，圖上會標出這種看法怎麼分組。</p>
+  <div class="fig"><svg id="viewSvg" viewBox="0 0 360 130" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="views" id="viewGrid"></div>
+  <div class="ask">這四條式子長得不一樣，算出來的答案會不會一樣？</div>
+  <div class="expand">
+    4n + 2<br>
+    6 + 4(n − 1) &nbsp;=&nbsp; 6 + 4n − 4 &nbsp;=&nbsp; 4n + 2<br>
+    2n + 2n + 2 &nbsp;=&nbsp; 4n + 2<br>
+    6n − 2(n − 1) &nbsp;=&nbsp; 6n − 2n + 2 &nbsp;=&nbsp; 4n + 2
+  </div>
+  <div class="plain">四條式子展開後是同一條。看法不同不代表有人算錯——它們描述的是同一件事的不同角度。</div>
+</section>
+
+<!-- 3 表與圖 -->
+<section class="card">
+  <h2>桌數與座位</h2>
+  <p class="desc">把每一組（桌數, 座位）畫成座標圖上的點。拖曳滑桿，表格與圖上的點會同步標出。</p>
+  <div class="slider-row"><span class="slabel">桌數</span>
+    <input type="range" id="nS2" min="1" max="8" value="3" step="1">
+    <span class="val" id="nV2">3 張</span>
+  </div>
+  <div style="display:grid;grid-template-columns:0.8fr 1.2fr;gap:14px" id="tgWrap">
+    <div><table><thead><tr><th>桌數</th><th>座位</th></tr></thead><tbody id="tb2"></tbody></table></div>
+    <div class="fig" style="margin:0"><svg id="ptSvg" viewBox="0 0 320 250" preserveAspectRatio="xMidYMid meet"></svg></div>
+  </div>
+  <div class="plain">
+    <b>變化率</b>：桌數每增加 1，座位增加的量。此處每增加一張桌子，座位固定增加 4，因此變化率是 4。<br><br>
+    變化率固定，代表每一步增加的量都相同，各點才會連成一條<b>直線</b>；變化率越大，直線越<b>陡</b>。<br><br>
+    圖上的 2，是桌數為 0 時的起點——在併桌圖上就是整排兩端的那兩個座位，不隨桌數改變。<br><br>
+    這類變化率固定的關係，寫成 <b>y = ax + b</b>，其中 a 是變化率，b 是起點。此處是 <b>y = 4x + 2</b>。
+  </div>
+</section>
+
+<!-- 4 適用範圍 -->
+<section class="card">
+  <h2>一個要想清楚的地方</h2>
+  <p class="desc">桌數為 0 時，式子算出來是 <b style="font-family:'JetBrains Mono',monospace">4 × 0 + 2 = 2</b>。</p>
+  <div class="ask">沒有桌子，卻有兩個座位？</div>
+  <div class="plain">一個式子能算出答案，跟這個答案在現實中有沒有意義，是兩件事。式子在現實中說得通的那個範圍，稱為<b>適用範圍</b>。此處的適用範圍是 1 張桌以上的整數，桌數也不會出現 2.5 張。</div>
+</section>
+
+<!-- 5 詞彙與定義 -->
+<section class="card">
+  <h2>為什麼這樣就能預測</h2>
+  <p class="desc">只要知道桌數，座位數就跟著確定，而且只有一個答案。這是能夠預測的前提。</p>
   <div class="vocab">
-    <div class="vrow"><span class="vk">量</span><span class="vv">可以測量或計數的事物，能比較大小、也能進行運算。長度、時間、溫度、價錢、人數都是量。<br>座號、電話號碼、色碼雖然是數字，但只是<b>編號</b>——兩個座號相加沒有意義，因此不是量。</span></div>
-    <div class="vrow"><span class="vk">變數</span><span class="vv">數值會改變的量。在某個時刻有一個確定的值，但在不同時刻可能不同，例如氣溫、遊戲分數。（數值固定不變的稱為常數，例如一週 7 天。）</span></div>
-    <div class="vrow"><span class="vk">對應</span><span class="vv">一個事物配到另一個事物。販賣機按 A3 掉出可樂，A3 即對應到可樂。</span></div>
+    <div class="vrow"><span class="vk">量</span><span class="vv">可以測量或計數的事物，能比較大小、也能進行運算。桌數、座位數、長度、時間、價錢都是量。座號、電話號碼雖然是數字，但只是<b>編號</b>——兩個座號相加沒有意義，因此不是量。</span></div>
+    <div class="vrow"><span class="vk">變數</span><span class="vv">數值會改變的量。併桌時桌數會變、座位數也會變，兩者都是變數。（數值固定不變的稱為常數，例如一週 7 天。）</span></div>
+    <div class="vrow"><span class="vk">對應</span><span class="vv">一個事物配到另一個事物。3 張桌配到 14 個座位，3 即對應到 14。</span></div>
     <div class="vrow"><span class="vk">唯一決定</span><span class="vv">同一個輸入，永遠得到同一個輸出，不會出現第二種結果。</span></div>
   </div>
-
-  <p class="desc" style="margin-top:18px">「唯一決定」可對照<b>販賣機是否正常運作</b>。</p>
-  <div class="toggle">
-    <button class="tbtn on" data-m="good">好的販賣機</button>
-    <button class="tbtn" data-m="broken">壞掉的販賣機</button>
-  </div>
-  <div class="fig" style="text-align:center">
-    <button id="pressBtn" class="press">按 A3</button>
-    <div id="drop" class="drop">?</div>
-    <div id="pressNote" class="prnote">按幾次都掉一樣的 → <span class="yes">唯一決定</span></div>
-  </div>
-  <div class="plain">正常的販賣機：按 A3 永遠掉可樂，結果可<b>預測</b>。故障的販賣機：同一個按鍵可能掉出不同東西，結果無法預測。</div>
-  <div class="plain" style="border-left:4px solid var(--violet);border-radius:0 10px 10px 0;margin-top:14px">
+  <div class="plain" style="border-left:4px solid var(--violet);border-radius:0 10px 10px 0;margin-top:16px">
     <b>把四個詞組合起來，就是函數的定義：</b><br><br>
     兩個<b>變數</b>（會變的<b>量</b>）之間有一種<b>對應</b>關係，<br>
     若其中一個的值確定後，另一個就被<b>唯一決定</b>，<br>
     這樣的對應關係就稱為 <b style="color:var(--violet)">函數</b>。
   </div>
-
   <div class="vocab" style="margin-top:14px">
-    <div class="vrow"><span class="vk">自變數</span><span class="vv">可以自由決定的那個變數。買飲料時「買幾杯」由自己決定，杯數就是自變數。它是先給定的值，也稱為<b>輸入</b>，習慣寫成 x。</span></div>
-    <div class="vrow"><span class="vk">應變數</span><span class="vv">隨著自變數而被決定的那個變數。杯數決定後「要付多少錢」就跟著確定，價錢就是應變數。它是算出來的結果，也稱為<b>輸出</b>，習慣寫成 y。</span></div>
+    <div class="vrow"><span class="vk">自變數</span><span class="vv">可以自由決定的那個變數。併桌時「併幾張」可以自由決定，桌數就是自變數。它是先給定的值，也稱為<b>輸入</b>，習慣寫成 x。</span></div>
+    <div class="vrow"><span class="vk">應變數</span><span class="vv">隨著自變數而被決定的那個變數。桌數決定後座位數就跟著確定，座位數就是應變數。它是算出來的結果，也稱為<b>輸出</b>，習慣寫成 y。</span></div>
   </div>
   <div class="plain" style="margin-top:12px">「自變」是自己會變、可以自由選；「應變」是<b>回應</b>前者而變，自己作不了主。</div>
 </section>
 
-<!-- A2 核心探究 -->
-<section class="card" style="border-color:var(--violet)">
-  <h2>能不能「一定算出」？</h2>
+<!-- 6 關係卡 -->
+<section class="card">
+  <h2>哪些關係做不到</h2>
   <p class="desc">判斷的規則只有一句：<b>知道左邊的值，能不能確定唯一的右邊。</b></p>
   <div class="testgrid" id="testGrid"></div>
-  <div class="plain">x 的值確定後，y 就被唯一決定的對應關係，稱為 <b style="color:var(--violet)">函數</b>。<br><br>同一個 x 可能對應到多個 y 的（如身高與體重、一個人與他的好朋友），仍然是一種<b>對應關係</b>，只是<b>不是函數</b>——函數是對應關係中「唯一決定」的那一類。不是函數的關係無法用來做確定的預測。</div>
+  <div class="plain">同一個 x 可能對應到多個 y 的（如身高與體重、一個人與他的好朋友），仍然是一種<b>對應關係</b>，只是<b>不是函數</b>——函數是對應關係中「唯一決定」的那一類。不是函數的關係無法用來做確定的預測。</div>
 </section>
 
-<!-- A3 一次函數 -->
+<!-- 7 -->
 <section class="card">
-  <h2>最單純的一種：每次固定多同一個數</h2>
-  <p class="desc">一杯飲料 50 元。</p>
-  <div class="slider-row"><span class="slabel">杯數</span>
-    <input type="range" id="cup" min="0" max="8" value="3" step="1">
-    <span class="val" id="cupV">3 杯</span>
+  <h2>換一種併法</h2>
+  <p class="desc">桌子不一定併成一長排。4 張可以排成 2 排 × 2 張，8 張可以排成 2 排 × 4 張。</p>
+  <div class="slider-row"><span class="slabel">排數</span>
+    <input type="range" id="rS" min="1" max="2" value="2" step="1">
+    <span class="val" id="rV">2 排</span>
   </div>
-  <div class="toggle">
-    <button class="tbtn on" data-f="a">只買飲料</button>
-    <button class="tbtn" data-f="b">另加 30 元外送費</button>
-    <button class="tbtn" data-f="both">兩條一起看</button>
+  <div class="slider-row"><span class="slabel">每排</span>
+    <input type="range" id="cS" min="1" max="4" value="2" step="1">
+    <span class="val" id="cV">2 張</span>
   </div>
-  <div class="fig"><svg id="lineSvg" viewBox="0 0 340 240" preserveAspectRatio="xMidYMid meet"></svg></div>
-  <div class="readout" id="lineRead"><span>價錢 = <b id="cost" style="color:var(--teal)">150</b> 元</span></div>
-  <div class="ask">一杯 50 元，另加 30 元外送費（不論買幾杯都要付一次）。<br>請列出「價錢」與「杯數」的關係式，並比較兩條線的差異。</div>
-  <div class="plain"><b>變化率</b>：x 每增加 1，y 增加的量。<br>
-  此例中杯數每增加 1，價錢固定增加 50，因此變化率為 50。<br><br>
-  變化率固定，代表每一步增加的量都相同，各點才會連成一條<b>直線</b>；變化率越大，直線越<b>陡</b>。<br>
-  這類「變化率固定」的函數，稱為<b>一次函數</b>，一般寫成 <b>y = ax + b</b>，其中 a 是變化率，b 是 x 為 0 時的起點。</div>
+  <div class="fig"><svg id="blkSvg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="readout" id="blkRead"></div>
+  <div class="ask">同樣是 4 張桌子，排成一長排和排成 2 排 × 2 張，哪一種坐得下比較多人？8 張的時候呢？</div>
+  <div class="note">4 張桌子分開擺是 24 個座位，併起來以後座位變少了。少掉的位子原本在哪裡？</div>
 </section>
 
-
+<footer>認識函數</footer>
 </div>
+
 <script>
-/* 販賣機 */
+/* ── 併桌圖形 ── */
+const TW=34,TH=26,Y0=48;
+function tableGeom(n){
+  const x0=(360-n*TW)/2;
+  const seats=[];
+  for(let i=0;i<n;i++){
+    seats.push({x:x0+i*TW+TW*0.3,y:Y0-11,t:'top',i:i});
+    seats.push({x:x0+i*TW+TW*0.7,y:Y0-11,t:'top',i:i});
+    seats.push({x:x0+i*TW+TW*0.3,y:Y0+TH+11,t:'bot',i:i});
+    seats.push({x:x0+i*TW+TW*0.7,y:Y0+TH+11,t:'bot',i:i});
+  }
+  seats.push({x:x0-11,y:Y0+TH/2,t:'end',i:-1});
+  seats.push({x:x0+n*TW+11,y:Y0+TH/2,t:'end',i:-1});
+  return {x0:x0,seats:seats};
+}
+function tableBase(n,g){
+  let s='<rect x="'+g.x0+'" y="'+Y0+'" width="'+(n*TW)+'" height="'+TH+'" rx="3" fill="#F3F6F9" stroke="#22303C" stroke-width="2"/>';
+  for(let i=1;i<n;i++){
+    s+='<line x1="'+(g.x0+i*TW)+'" y1="'+Y0+'" x2="'+(g.x0+i*TW)+'" y2="'+(Y0+TH)+'" stroke="#C3D3E0" stroke-width="1.5" stroke-dasharray="3 3"/>';
+  }
+  return s;
+}
+function dot(p,fill,r){ return '<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="'+(r||6)+'" fill="'+fill+'"/>'; }
+
+/* ── 區塊 1 ── */
 (function(){
-  let mode='good';
-  const drop=document.getElementById('drop'), note=document.getElementById('pressNote');
-  const broken=['🥤','💧','🥫','🚫','🧃'];
-  document.querySelectorAll('[data-m]').forEach(b=>b.addEventListener('click',()=>{
-    document.querySelectorAll('[data-m]').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on'); mode=b.dataset.m; drop.textContent='?';
-    note.innerHTML = mode==='good'
-      ? '按幾次都掉一樣的 → <span class="yes">唯一決定</span>'
-      : '每次掉的都不一定 → <span class="no">猜不準，機器壞了</span>';
+  const sl=document.getElementById('nS'), svg=document.getElementById('tblSvg');
+  let colour='none';
+  document.querySelectorAll('[data-c]').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('[data-c]').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); colour=b.dataset.c; draw();
   }));
-  document.getElementById('pressBtn').addEventListener('click',()=>{
-    drop.textContent = mode==='good' ? '🥤' : broken[Math.floor(Math.random()*broken.length)];
-  });
+  function draw(){
+    const n=+sl.value, g=tableGeom(n);
+    document.getElementById('nV').textContent=n+' 張';
+    sl.style.background='linear-gradient(90deg,var(--coral) '+((n-1)/7*100)+'%,var(--grid-strong) '+((n-1)/7*100)+'%)';
+    let s=tableBase(n,g);
+    g.seats.forEach(p=>{
+      let c='#22303C';
+      if(colour==='new' && p.i===n-1) c='#E8593F';
+      s+=dot(p,c);
+    });
+    if(colour==='new'&&n>1){
+      s+='<text x="180" y="122" fill="#E8593F" font-size="12" font-weight="700" text-anchor="middle">紅色為最後一張桌子帶來的座位</text>';
+    }
+    svg.innerHTML=s;
+    document.getElementById('tblRead').innerHTML = colour==='count'
+      ? '<span>桌數 = <b style="color:var(--ink)">'+n+'</b></span><span>座位 = <b style="color:var(--coral)">'+(4*n+2)+'</b></span>'
+      : '';
+  }
+  sl.addEventListener('input',draw); draw();
 })();
 
+/* ── 區塊 2：四種看法 ── */
+(function(){
+  const N=4;
+  const g=tableGeom(N);
+  const svg=document.getElementById('viewSvg');
+  const views=[
+    {see:'每一張桌子的長邊都坐 4 人，整排的兩端再各坐 1 人。',eq:'4n + 2',
+     colour:function(p){ return p.t==='end' ? '#E0A32E' : (p.i%2===0?'#7A5CC7':'#0E9C8B'); }, seam:false},
+    {see:'第一張桌坐 6 人，之後每多一張桌子就多 4 人。',eq:'6 + 4(n − 1)',
+     colour:function(p){ return (p.i===0||p.t==='end') ? '#E0A32E' : '#7A5CC7'; }, seam:false},
+    {see:'上排 2n 人、下排 2n 人，左右兩端各 1 人。',eq:'2n + 2n + 2',
+     colour:function(p){ return p.t==='top' ? '#7A5CC7' : (p.t==='bot' ? '#0E9C8B' : '#E0A32E'); }, seam:false},
+    {see:'每張桌都坐 6 人，但每個接縫處會少掉 2 人，接縫有 n − 1 個。',eq:'6n − 2(n − 1)',
+     colour:function(p){ return p.t==='end' ? '#E0A32E' : '#7A5CC7'; }, seam:true}
+  ];
+  let cur=-1;
+  function draw(){
+    let s=tableBase(N,g);
+    if(cur<0){ g.seats.forEach(p=>{ s+=dot(p,'#22303C'); }); }
+    else{
+      const v=views[cur];
+      g.seats.forEach(p=>{ s+=dot(p,v.colour(p)); });
+      if(v.seam){
+        for(let i=1;i<N;i++){
+          const x=g.x0+i*TW;
+          [Y0-11,Y0+TH+11].forEach(y=>{
+            s+='<line x1="'+(x-5)+'" y1="'+(y-5)+'" x2="'+(x+5)+'" y2="'+(y+5)+'" stroke="#0E9C8B" stroke-width="2.4"/>';
+            s+='<line x1="'+(x+5)+'" y1="'+(y-5)+'" x2="'+(x-5)+'" y2="'+(y+5)+'" stroke="#0E9C8B" stroke-width="2.4"/>';
+          });
+        }
+        s+='<text x="180" y="122" fill="#0E9C8B" font-size="12" font-weight="700" text-anchor="middle">綠色叉號是接縫處坐不到的位子</text>';
+      }
+    }
+    svg.innerHTML=s;
+  }
+  const grid=document.getElementById('viewGrid');
+  views.forEach((v,idx)=>{
+    const d=document.createElement('div');
+    d.className='vcard';
+    d.innerHTML='<div class="see">'+v.see+'</div><div class="tap">點開，看這種看法寫出的式子</div><div class="eq">'+v.eq+'</div>';
+    d.addEventListener('click',()=>{
+      document.querySelectorAll('.vcard').forEach(x=>x.classList.remove('on'));
+      d.classList.add('on'); cur=idx; draw();
+    });
+    grid.appendChild(d);
+  });
+  draw();
+})();
 
-/* 核心探究卡 */
+/* ── 區塊 3：表與座標圖 ── */
+(function(){
+  const sl=document.getElementById('nS2'), svg=document.getElementById('ptSvg');
+  const PL=44,PB=40,PT=20,PR=16,W=320,H=250;
+  const PW=W-PL-PR,PH=H-PT-PB,XMAX=9,YMAX=40;
+  const X=x=>PL+(x/XMAX)*PW, Y=y=>PT+PH-(y/YMAX)*PH;
+  function draw(){
+    const n=+sl.value;
+    document.getElementById('nV2').textContent=n+' 張';
+    sl.style.background='linear-gradient(90deg,var(--coral) '+((n-1)/7*100)+'%,var(--grid-strong) '+((n-1)/7*100)+'%)';
+    let t='';
+    for(let i=1;i<=8;i++){ t+='<tr class="'+(i===n?'cur':'')+'"><td>'+i+'</td><td>'+(4*i+2)+'</td></tr>'; }
+    document.getElementById('tb2').innerHTML=t;
+    let s='';
+    for(let v=0;v<=40;v+=10){
+      s+='<line x1="'+PL+'" y1="'+Y(v)+'" x2="'+(PL+PW)+'" y2="'+Y(v)+'" stroke="#F1F5F8" stroke-width="1.2"/>';
+      s+='<text x="'+(PL-7)+'" y="'+(Y(v)+4)+'" fill="#5B6B77" font-size="10.5" text-anchor="end">'+v+'</text>';
+    }
+    for(let x=0;x<=8;x+=2){
+      s+='<line x1="'+X(x)+'" y1="'+PT+'" x2="'+X(x)+'" y2="'+(PT+PH)+'" stroke="#F1F5F8" stroke-width="1.2"/>';
+      s+='<text x="'+X(x)+'" y="'+(PT+PH+16)+'" fill="#5B6B77" font-size="10.5" text-anchor="middle">'+x+'</text>';
+    }
+    s+='<line x1="'+PL+'" y1="'+(PT+PH)+'" x2="'+(PL+PW)+'" y2="'+(PT+PH)+'" stroke="#22303C" stroke-width="1.8"/>';
+    s+='<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+(PT+PH)+'" stroke="#22303C" stroke-width="1.8"/>';
+    s+='<path d="M'+X(0)+' '+Y(2)+' L'+X(8)+' '+Y(34)+'" fill="none" stroke="#C3D3E0" stroke-width="2" stroke-dasharray="5 4"/>';
+    for(let i=1;i<=8;i++){
+      const inc = i<=n && i>1;
+      if(inc){
+        s+='<line x1="'+X(i)+'" y1="'+Y(4*(i-1)+2)+'" x2="'+X(i)+'" y2="'+Y(4*i+2)+'" stroke="#E8593F" stroke-width="2" stroke-dasharray="3 2"/>';
+      }
+      s+='<circle cx="'+X(i)+'" cy="'+Y(4*i+2)+'" r="4" fill="#7A5CC7"/>';
+    }
+    if(n>1){
+      s+='<text x="'+(X(n)+6)+'" y="'+((Y(4*n+2)+Y(4*n-2))/2)+'" fill="#E8593F" font-size="11" font-weight="700">+4</text>';
+    }
+    s+='<circle cx="'+X(0)+'" cy="'+Y(2)+'" r="5" fill="#E0A32E"/>';
+    s+='<text x="'+(X(0)+8)+'" y="'+(Y(2)-8)+'" fill="#E0A32E" font-size="11" font-weight="700">起點 2</text>';
+    s+='<circle cx="'+X(n)+'" cy="'+Y(4*n+2)+'" r="7" fill="#E8593F"/>';
+    s+='<text x="'+(n>6?X(n)-9:X(n)+10)+'" y="'+(Y(4*n+2)-10)+'" fill="#E8593F" font-size="11.5" font-weight="700" text-anchor="'+(n>6?'end':'start')+'">('+n+', '+(4*n+2)+')</text>';
+    s+='<text x="'+(PL+PW/2)+'" y="'+(PT+PH+34)+'" fill="#5B6B77" font-size="11.5" text-anchor="middle">桌數 →</text>';
+    s+='<text x="'+(PL-4)+'" y="'+(PT-6)+'" fill="#5B6B77" font-size="11.5" text-anchor="end">座位</text>';
+    svg.innerHTML=s;
+  }
+  sl.addEventListener('input',draw); draw();
+})();
+
+/* ── 區塊 6：關係卡 ── */
 (function(){
   const cards=[
-    {rel:'杯數 → 要付的錢',q:'知道杯數，能算出唯一的金額嗎？',yes:true,why:'一杯 50，幾杯就唯一決定。'},
+    {rel:'桌數 → 座位數',q:'知道併幾張，能算出唯一的座位數嗎？',yes:true,why:'每張桌固定多 4 個位子，唯一決定。'},
+    {rel:'身高 → 體重',q:'知道身高，能確定唯一的體重嗎？',yes:false,why:'同樣身高有很多種體重，猜不準。'},
     {rel:'正方形邊長 → 面積',q:'知道邊長，能算出唯一的面積嗎？',yes:true,why:'邊長定了，面積只有一個。'},
-    {rel:'出生年 → 今年幾歲',q:'知道出生年，能算出唯一的年齡嗎？',yes:true,why:'算得出來，只有一個答案。'},
-    {rel:'身高 → 體重',q:'知道身高，能確定唯一的體重嗎？',yes:false,why:'同樣身高有一堆種體重，猜不準。'},
     {rel:'一個人 → 他的好朋友',q:'知道是誰，能確定唯一的好朋友嗎？',yes:false,why:'一個人有好多朋友，不只一個答案。'},
-    {rel:'今天日期 → 星期幾',q:'知道日期，能確定唯一的星期幾嗎？',yes:true,why:'每個日期只對一個星期幾。'}
+    {rel:'今天日期 → 星期幾',q:'知道日期，能確定唯一的星期幾嗎？',yes:true,why:'每個日期只對一個星期幾。'},
+    {rel:'出生年 → 今年幾歲',q:'知道出生年，能算出唯一的年齡嗎？',yes:true,why:'算得出來，只有一個答案。'}
   ];
   const g=document.getElementById('testGrid');
   cards.forEach(c=>{
     const d=document.createElement('div');
     d.className='tcard';
-    d.innerHTML=`<div class="rel">${c.rel}</div><div class="q">${c.q}</div>`+
-      `<div class="tap">點開</div>`+
-      `<div class="verdict ${c.yes?'yes':'no'}">${c.yes?'✓ 是函數（能預測）':'✗ 不是函數（猜不準）'}<span class="why">${c.why}</span></div>`;
+    d.innerHTML='<div class="rel">'+c.rel+'</div><div class="q">'+c.q+'</div>'+
+      '<div class="tap">點開</div>'+
+      '<div class="verdict '+(c.yes?'yes':'no')+'">'+(c.yes?'✓ 是函數（能預測）':'✗ 不是函數（猜不準）')+
+      '<span class="why">'+c.why+'</span></div>';
     d.addEventListener('click',()=>d.classList.toggle('revealed'));
     g.appendChild(d);
   });
 })();
 
-
-/* 一次函數 */
+/* ── 區塊 7：併成一塊 ── */
 (function(){
-  const sl=document.getElementById('cup'), svg=document.getElementById('lineSvg');
-  let mode='a';
-  const x0=46,y0=196,w=266,h=160,N=8,ymax=460;
-  const X=i=>x0+(i/N)*w, Y=v=>y0-(v/ymax)*h;
-  function series(col,fee,dash){
-    let p='';
-    for(let i=0;i<=N;i++)p+=(i?'L':'M')+X(i)+' '+Y(50*i+fee)+' ';
-    let s=`<path d="${p}" fill="none" stroke="${col}" stroke-width="3.5" stroke-linecap="round"${dash?' stroke-dasharray="6 4"':''}/>`;
-    for(let i=0;i<=N;i++)s+=`<circle cx="${X(i)}" cy="${Y(50*i+fee)}" r="3.6" fill="${col}"/>`;
-    return s;
-  }
+  const rS=document.getElementById('rS'), cS=document.getElementById('cS'), svg=document.getElementById('blkSvg');
   function draw(){
-    const n=+sl.value;
-    document.getElementById('cupV').textContent=n+' 杯';
+    const r=+rS.value, c=+cS.value;
+    document.getElementById('rV').textContent=r+' 排';
+    document.getElementById('cV').textContent=c+' 張';
+    rS.style.background='linear-gradient(90deg,var(--coral) '+((r-1)/1*100)+'%,var(--grid-strong) '+((r-1)/1*100)+'%)';
+    cS.style.background='linear-gradient(90deg,var(--coral) '+((c-1)/3*100)+'%,var(--grid-strong) '+((c-1)/3*100)+'%)';
+    const tw=44, th=32;
+    const totW=c*tw, totH=r*th;
+    const x0=(320-totW)/2, y0=(200-totH)/2;
     let s='';
-    for(let i=0;i<=N;i++)s+=`<line x1="${X(i)}" y1="${y0}" x2="${X(i)}" y2="${y0-h}" stroke="#EEF3F7"/>`;
-    s+=`<line x1="${x0}" y1="${y0}" x2="${x0+w}" y2="${y0}" stroke="#22303C" stroke-width="2"/>`;
-    s+=`<line x1="${x0}" y1="${y0}" x2="${x0}" y2="${y0-h}" stroke="#22303C" stroke-width="2"/>`;
-    if(mode==='a'||mode==='both') s+=series('#0E9C8B',0,false);
-    if(mode==='b'||mode==='both') s+=series('#7A5CC7',30,mode==='both');
-    // 變化率標記（只在單條時顯示）
-    if(mode!=='both'){
-      const fee = mode==='b'?30:0;
-      for(let i=0;i<3;i++){
-        s+=`<line x1="${X(i+1)}" y1="${Y(50*i+fee)}" x2="${X(i+1)}" y2="${Y(50*(i+1)+fee)}" stroke="#E8593F" stroke-width="2" stroke-dasharray="3 2"/>`;
-        s+=`<text x="${X(i+1)+4}" y="${(Y(50*i+fee)+Y(50*(i+1)+fee))/2}" fill="#E8593F" font-size="10" font-weight="700">+50</text>`;
-      }
-      s+=`<circle cx="${X(n)}" cy="${Y(50*n+fee)}" r="7" fill="#E8593F"/>`;
+    s+='<rect x="'+x0+'" y="'+y0+'" width="'+totW+'" height="'+totH+'" rx="3" fill="#F3F6F9" stroke="#22303C" stroke-width="2"/>';
+    for(let i=1;i<c;i++)
+      s+='<line x1="'+(x0+i*tw)+'" y1="'+y0+'" x2="'+(x0+i*tw)+'" y2="'+(y0+totH)+'" stroke="#C3D3E0" stroke-width="1.5" stroke-dasharray="3 3"/>';
+    for(let j=1;j<r;j++)
+      s+='<line x1="'+x0+'" y1="'+(y0+j*th)+'" x2="'+(x0+totW)+'" y2="'+(y0+j*th)+'" stroke="#C3D3E0" stroke-width="1.5" stroke-dasharray="3 3"/>';
+    for(let i=0;i<c;i++){
+      [tw*0.3,tw*0.7].forEach(dx=>{
+        s+='<circle cx="'+(x0+i*tw+dx)+'" cy="'+(y0-12)+'" r="6.5" fill="#22303C"/>';
+        s+='<circle cx="'+(x0+i*tw+dx)+'" cy="'+(y0+totH+12)+'" r="6.5" fill="#22303C"/>';
+      });
     }
-    // 起點標記
-    if(mode==='b'||mode==='both'){
-      s+=`<circle cx="${X(0)}" cy="${Y(30)}" r="5" fill="#7A5CC7"/>`;
-      s+=`<text x="${X(0)+9}" y="${Y(30)-7}" fill="#7A5CC7" font-size="11" font-weight="700">起點 30</text>`;
+    for(let j=0;j<r;j++){
+      s+='<circle cx="'+(x0-12)+'" cy="'+(y0+j*th+th/2)+'" r="6.5" fill="#22303C"/>';
+      s+='<circle cx="'+(x0+totW+12)+'" cy="'+(y0+j*th+th/2)+'" r="6.5" fill="#22303C"/>';
     }
-    if(mode==='both'){
-      s+=`<text x="${X(8)}" y="${Y(400)-6}" fill="#7A5CC7" font-size="11" font-weight="700" text-anchor="end">+30 外送費</text>`;
-      s+=`<text x="${X(8)}" y="${Y(400)+22}" fill="#0E9C8B" font-size="11" font-weight="700" text-anchor="end">只買飲料</text>`;
-    }
-    s+=`<text x="${x0+w/2}" y="${y0+22}" fill="#5B6B77" font-size="12" text-anchor="middle">杯數 →</text>`;
-    s+=`<text x="${x0-6}" y="${y0-h+2}" fill="#5B6B77" font-size="12" text-anchor="end">價錢</text>`;
     svg.innerHTML=s;
-    const rd=document.getElementById('lineRead');
-    if(mode==='a') rd.innerHTML=`<span>價錢 = 50 × ${n} = <b style="color:#0E9C8B">${50*n}</b> 元</span>`;
-    else if(mode==='b') rd.innerHTML=`<span>價錢 = 50 × ${n} + 30 = <b style="color:#7A5CC7">${50*n+30}</b> 元</span>`;
-    else rd.innerHTML=`<span style="color:#0E9C8B">50×${n} = ${50*n}</span><span style="color:#7A5CC7">50×${n}+30 = ${50*n+30}</span><span>兩條線的陡度相同，整條往上平移 30</span>`;
+    document.getElementById('blkRead').innerHTML=
+      '<span>桌子 = <b style="color:var(--ink)">'+(r*c)+'</b> 張</span>'+
+      '<span>座位 = <b style="color:var(--coral)">'+(4*c+2*r)+'</b> 個</span>';
   }
-  document.querySelectorAll('[data-f]').forEach(b=>b.addEventListener('click',()=>{
-    document.querySelectorAll('[data-f]').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on'); mode=b.dataset.f; draw();
-  }));
-  sl.addEventListener('input',draw); draw();
+  rS.addEventListener('input',draw); cS.addEventListener('input',draw); draw();
 })();
-
-
 </script>
 </body>
 </html>
