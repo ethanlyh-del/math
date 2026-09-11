@@ -43,8 +43,13 @@
   .qcard .sit{font-weight:700;font-size:1.02rem}
   .qcard .sub{font-size:.88rem;color:var(--ink-soft);margin-top:2px}
   .picks{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
-  .pk{width:38px;height:38px;border:1.5px solid var(--grid-strong);background:#fff;border-radius:10px;
-    font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.95rem;cursor:pointer;color:var(--ink);transition:.15s}
+  .pk{width:56px;border:1.5px solid var(--grid-strong);background:#fff;border-radius:10px;
+    padding:3px 2px 1px;cursor:pointer;color:var(--ink);transition:.15s;overflow:hidden}
+  .pk .pl{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.7rem;color:var(--violet);line-height:1.1}
+  .pk svg{height:32px;width:100%;display:block}
+  .pk.right .pl{color:#fff}
+  .pk.wrong .pl{color:var(--no)}
+  @media(max-width:560px){.pk{width:calc(20% - 6px)}.pk svg{height:26px}}
   .pk:hover{border-color:var(--violet)}
   .pk.right{background:var(--teal);color:#fff;border-color:var(--teal)}
   .pk.wrong{background:var(--coral-tint);color:var(--no);border-color:var(--no)}
@@ -130,7 +135,7 @@ const fns=[
 
     {id:'cell',nm:'指數函數',eqn:'y = aˣ',c:'#E8593F',use:'細胞分裂',
      feat:'越來越陡，而且永遠不會低於 0',
-     why:'越來越陡，是因為每一步都「乘」固定倍數，數字越大、增加的量也越大。永遠不會到 0，是因為正數不管自乘幾次都還是正數；指數為負時變成分數（2⁻³ = 1/8），會越來越小但碰不到 0。圖形無限接近 x 軸的這條線，稱為漸近線。',
+     why:'越來越陡，是因為每一步都「乘」固定倍數，數字越大、增加的量也越大。永遠不會到 0，是因為正數不管自乘幾次都還是正數；指數為負時變成分數（2⁻³ = 1/8），會越來越小但碰不到 0。',
      note:'一個細胞每次分裂成兩個',form:'y = 2ˣ',
      xlab:'分裂次數',ylab:'細胞數',
      full:[-4,10], real:[0,10], yrange:[0,1100],
@@ -146,34 +151,34 @@ const fns=[
      full:[0.5,1024], real:[1,1024], yrange:[-1,10.5],
      min:2,max:1024,step:1,init:512, f:x=>Math.log2(x),
      say:x=>`要有 ${x} 個細胞 → log₂${x} = <b>${Math.log2(x).toFixed(2)}</b> 次分裂`,
-     lim:'同樣的對數尺度也用在地震規模、聲音分貝、pH 值——差一級就是十倍，用它才能把巨大的範圍壓成看得懂的數字'},
+     lim:'細胞數不會是 0 或負數，所以只存在於 x > 0。地震規模、聲音分貝、pH 值用的也是這種尺度：差一級就是十倍，用它才能把巨大的範圍壓成看得懂的數字'},
 
-    {id:'wheel',nm:'正弦函數',eqn:'y = a sin(bx)',c:'#2F7FD1',use:'摩天輪的高度',
-     feat:'上下起伏、不斷重複',
-     why:'因為它描述的是旋轉。摩天輪轉一圈回到原位，高度也回到原本的值，所以圖形每隔一個週期就重複一次。高度被限制在最高與最低之間，因為半徑是固定的。',
-     note:'半徑 25 公尺、中心離地 30 公尺、轉一圈 20 分鐘',form:'y = 25 sin(360° × x ÷ 20) + 30',
+    {id:'wheel',nm:'餘弦函數',eqn:'y = a cos(bx)',c:'#1F9CB0',use:'摩天輪的高度',
+     feat:'上下起伏、不斷重複，從最低點開始',
+     why:'轉一圈回到原位，高度也回到原本的值，所以每隔一個週期就重複一次。高度被限制在最高與最低之間，因為半徑是固定的。',
+     note:'半徑 25 公尺、中心離地 30 公尺、轉一圈 20 分鐘，從最低點上車',form:'y = −25 cos(360° × x ÷ 20) + 30',
      xlab:'時間（分鐘）',ylab:'離地高度（公尺）',
      full:[-20,40], real:[0,20], yrange:[0,60],
-     min:0,max:20,step:1,init:5, f:t=>25*Math.sin(2*Math.PI*t/20)+30,
-     say:t=>{const v=25*Math.sin(2*Math.PI*t/20)+30; return `第 ${t} 分鐘 → 離地 <b>${v.toFixed(1)}</b> 公尺`},
-     lim:'x 是時間，但 sin 括號裡放的是「轉過的角度」。轉一圈 360 度要 20 分鐘，所以角度 = 360° × 時間 ÷ 20。第 5 分鐘轉了 90 度（最高點）、第 15 分鐘轉了 270 度（最低點）。摩天輪會一直轉下去，圖形也會一直重複，標亮的是其中一圈'},
+     min:0,max:20,step:1,init:5, f:t=>-25*Math.cos(2*Math.PI*t/20)+30,
+     say:t=>{const v=-25*Math.cos(2*Math.PI*t/20)+30; return `第 ${t} 分鐘 → 離地 <b>${v.toFixed(1)}</b> 公尺`},
+     lim:'x 是時間，但括號裡放的是轉過的角度：轉一圈 360 度要 20 分鐘，所以角度 = 360° × 時間 ÷ 20。上車時離地 5 公尺（中心 30 減半徑 25），第 10 分鐘轉到最高的 55 公尺，第 20 分鐘回到最低。摩天輪會一直轉下去，圖形也會一直重複，標亮的是其中一圈'},
 
-    {id:'temp',nm:'餘弦函數',eqn:'y = a cos(bx)',c:'#1F9CB0',use:'一天的氣溫',
-     feat:'和正弦一樣起伏，只是從不同的位置開始',
-     why:'cos 和 sin 的形狀完全相同，差別只在起點：sin 從中間開始上升，cos 從最大值開始下降。實際用哪一個，看那個現象從什麼狀態開始。',
-     note:'午後最高、清晨最低，一天一個週期（示意值，實際依季節與地區而異）',form:'y = −5 cos(360° × (x−2) ÷ 24) + 25',
-     xlab:'時刻',ylab:'氣溫（度）',
-     full:[-24,48], real:[0,24], yrange:[15,32],
-     min:0,max:24,step:1,init:14, f:h=>-5*Math.cos(2*Math.PI*(h-2)/24)+25,
-     say:h=>{const v=-5*Math.cos(2*Math.PI*(h-2)/24)+25; return `${h} 點 → 約 <b>${v.toFixed(1)}</b> 度`},
-     lim:'氣溫並沒有東西在旋轉，這裡是「借用」cos 的波形來描述一天重複一次的變化：把一天 24 小時對應成一圈 360 度。只要現象會週期性重複，就可以用三角函數描述，不必真的有旋轉。每天都會重複同樣的起伏，標亮的是其中一天'},
+    {id:'day',nm:'正弦函數',eqn:'y = a sin(bx)',c:'#2F7FD1',use:'白晝長度',
+     feat:'和餘弦一樣起伏，只是從中間值開始上升',
+     why:'和摩天輪那張形狀完全相同，差別只在起點：摩天輪從最低點開始，白晝長度從中間值開始上升。春分那天日夜等長，正好是中間值。',
+     note:'以春分為第 0 天，那天日夜等長，之後一天比一天長，夏至最長（台北的示意值，緯度不同幅度也不同）',form:'y = 12 + 1.5 sin(360° × x ÷ 365)',
+     xlab:'距春分的天數',ylab:'白晝長度（小時）',
+     full:[-180,550], real:[0,365], yrange:[9.5,14.5],
+     min:0,max:365,step:5,init:90, f:d=>12+1.5*Math.sin(2*Math.PI*d/365),
+     say:d=>{const v=12+1.5*Math.sin(2*Math.PI*d/365); return `春分後第 ${d} 天 → 白晝約 <b>${v.toFixed(1)}</b> 小時`},
+     lim:'x 是天數，但括號裡放的是角度：一年 365 天對應一圈 360 度。春分後第 91 天（夏至前後）白晝最長，第 274 天前後最短。每年重複同樣的起伏，標亮的是其中一年。緯度越高，起伏的幅度越大'},
 
     {id:'slope',nm:'正切函數',eqn:'y = tan x',c:'#5B7FD4',use:'坡度',
      feat:'在特定位置斷開，分成一段一段',
      why:'因為 tan x = sin x ÷ cos x，當 cos x = 0 時分母為零，那裡沒有定義，所以圖形斷開。角度接近 90 度就是這種情況——那代表垂直的牆，上升高度變成無限大。',
      note:'路標上的坡度百分比，就是「前進 100 公尺會上升幾公尺」',form:'y = 100 × tan(x°)',
      xlab:'傾斜角度',ylab:'每 100 公尺上升（公尺）',
-     full:[-89,89], real:[1,30], yrange:[-120,120],
+     full:[-200,200], real:[1,30], yrange:[-120,120],
      min:1,max:30,step:1,init:6, f:d=>100*Math.tan(d*Math.PI/180),
      say:d=>{const v=100*Math.tan(d*Math.PI/180); return `傾斜 ${d} 度 → 100 × tan(${d}°) = <b>${v.toFixed(1)}</b><br>前進 100 公尺會上升 ${v.toFixed(1)} 公尺，路標寫「坡度 ${v.toFixed(0)}%」`},
      lim:'tan(角度) 算出來的是「上升高度 ÷ 水平距離」這個比值，乘以 100 就變成前進 100 公尺的上升量。這裡的 x 是真正量得到的傾斜角度。角度接近 90 度時會衝向無限大（等於垂直的牆），真實道路很少超過 30 度。<br><br>同樣的關係也可以反過來用：若已知一棟建築物的高度，量出抬頭看它頂端的角度，就能算出自己離它有多遠——測量、導航、天文觀測都用這個方法'},
@@ -202,7 +207,7 @@ const fns=[
 
   /* 代號與形狀的對應（刻意打散） */
   const ORDER=[['A','trip'],['B','ball'],['C','slope'],['D','taxi'],['E','quake'],
-               ['F','ac'],['G','wheel'],['H','cell'],['I','temp']];
+               ['F','ac'],['G','wheel'],['H','cell'],['I','day']];
   const LETTERS=ORDER.map(p=>p[0]);
   const LOF={}; ORDER.forEach(p=>LOF[p[1]]=p[0]);
 
@@ -235,6 +240,15 @@ const fns=[
     return s+'</svg>';
   }
 
+  /* 小圖只定義一次，按鈕以 use 引用 */
+  const defs=document.createElement('div');
+  defs.style.cssText='height:0;overflow:hidden';
+  defs.innerHTML='<svg xmlns="http://www.w3.org/2000/svg">'+
+    ORDER.map(p=>'<symbol id="sym'+p[0]+'" viewBox="0 0 '+W+' '+H+'">'+
+      thumb(BY[p[1]]).replace('<svg viewBox="0 0 '+W+' '+H+'">','').replace('</svg>','')+
+      '</symbol>').join('')+'</svg>';
+  document.body.appendChild(defs);
+
   const gal=document.getElementById('gal');
   ORDER.forEach(p=>{
     const o=BY[p[1]];
@@ -245,7 +259,7 @@ const fns=[
   });
 
   /* 題目順序與代號刻意錯開 */
-  const QORDER=['taxi','cell','ball','trip','wheel','quake','slope','ac','temp'];
+  const QORDER=['taxi','cell','ball','trip','wheel','quake','slope','ac','day'];
   const box=document.getElementById('quiz');
   let done=0;
 
@@ -254,7 +268,8 @@ const fns=[
     const d=document.createElement('div');
     d.className='qcard';
     let picks='';
-    LETTERS.forEach(L=>{picks+='<button class="pk" data-l="'+L+'">'+L+'</button>';});
+    LETTERS.forEach(L=>{picks+='<button class="pk" data-l="'+L+'"><div class="pl">'+L+
+      '</div><svg viewBox="0 0 '+W+' '+H+'"><use href="#sym'+L+'"/></svg></button>';});
     d.innerHTML='<div class="sit">'+o.use+'</div><div class="sub">'+o.note+'</div>'+
       '<div class="picks">'+picks+'</div><div class="panel"></div>';
     box.appendChild(d);
@@ -270,7 +285,7 @@ const fns=[
         '<div class="nm">'+o.nm+'</div><div class="eqn">'+o.eqn+'</div>'+
         '<div class="feat">'+o.feat+'</div><div class="why2">'+o.why+'</div>'+
         '<div class="formula2">'+o.form+'</div>'+
-        '<div class="sl-row"><span class="sl-lab">'+o.xlab+'</span>'+
+        '<div class="sl-row"><span class="sl-lab" style="color:#1D4E89;font-weight:700">'+o.xlab+'　x</span>'+
         '<input type="range" min="'+o.min+'" max="'+o.max+'" step="'+o.step+'" value="'+o.init+'">'+
         '<span class="sl-val">'+o.init+'</span></div>'+
         '<svg viewBox="0 0 '+W+' '+H+'"></svg><div class="say2"></div>'+
@@ -288,19 +303,24 @@ const fns=[
         s+='<rect x="'+rx0+'" y="'+PT+'" width="'+(rx1-rx0)+'" height="'+PH+'" fill="'+o.c+'" opacity="0.06"/>';
         const axY=(m.ry0<=0&&m.ry1>=0)?m.Y(0):PT+PH;
         const axX=(m.fx0<=0&&m.fx1>=0)?m.X(0):PL;
-        s+='<line x1="'+PL+'" y1="'+axY+'" x2="'+(PL+PW)+'" y2="'+axY+'" stroke="#22303C" stroke-width="1.8"/>';
-        s+='<line x1="'+axX+'" y1="'+PT+'" x2="'+axX+'" y2="'+(PT+PH)+'" stroke="#22303C" stroke-width="1.8"/>';
+        s+='<line x1="'+PL+'" y1="'+axY+'" x2="'+(PL+PW)+'" y2="'+axY+'" stroke="#1D4E89" stroke-width="2.2"/>';
+        s+='<line x1="'+axX+'" y1="'+PT+'" x2="'+axX+'" y2="'+(PT+PH)+'" stroke="#B3541E" stroke-width="2.2"/>';
         s+='<path d="'+pathOf(o,m,m.fx0,m.fx1)+'" fill="none" stroke="'+o.c+'" stroke-width="2.4" opacity="0.28" stroke-linecap="round"/>';
         s+='<path d="'+pathOf(o,m,o.real[0],o.real[1])+'" fill="none" stroke="'+o.c+'" stroke-width="3.6" stroke-linecap="round"/>';
         const cy=o.f(cur);
         if(isFinite(cy)){
-          s+='<line x1="'+m.X(cur)+'" y1="'+m.Y(cy)+'" x2="'+m.X(cur)+'" y2="'+axY+'" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>';
-          s+='<line x1="'+axX+'" y1="'+m.Y(cy)+'" x2="'+m.X(cur)+'" y2="'+m.Y(cy)+'" stroke="#E8593F" stroke-width="1.5" stroke-dasharray="4 3"/>';
+          s+='<line x1="'+m.X(cur)+'" y1="'+m.Y(cy)+'" x2="'+m.X(cur)+'" y2="'+axY+'" stroke="#1D4E89" stroke-width="2" stroke-dasharray="4 3"/>';
+          s+='<line x1="'+axX+'" y1="'+m.Y(cy)+'" x2="'+m.X(cur)+'" y2="'+m.Y(cy)+'" stroke="#B3541E" stroke-width="2" stroke-dasharray="4 3"/>';
           s+='<circle cx="'+m.X(cur)+'" cy="'+m.Y(cy)+'" r="7" fill="#E8593F"/>';
-          s+='<text x="'+(PL-6)+'" y="'+(m.Y(cy)+4)+'" fill="#E8593F" font-size="12" font-weight="700" text-anchor="end">'+(Math.abs(cy)>=100?Math.round(cy):cy.toFixed(1))+'</text>';
+          s+='<text x="'+(PL-6)+'" y="'+(m.Y(cy)+4)+'" fill="#B3541E" font-size="12" font-weight="700" text-anchor="end">'+(Math.abs(cy)>=100?Math.round(cy):cy.toFixed(1))+'</text>';
+          if(o.id==='taxi'){
+            s+='<text x="'+m.X(cur)+'" y="'+(axY+16)+'" fill="#1D4E89" font-size="10.5" font-weight="700" text-anchor="middle">先給定</text>';
+            s+='<text x="'+(m.X(cur)+9)+'" y="'+(m.Y(cy)-9)+'" fill="#E8593F" font-size="10.5" font-weight="700">只碰到一次</text>';
+            s+='<text x="'+(PL-6)+'" y="'+(m.Y(cy)+17)+'" fill="#B3541E" font-size="10.5" font-weight="700" text-anchor="end">被決定</text>';
+          }
         }
-        s+='<text x="'+(PL+PW/2)+'" y="'+(H-8)+'" fill="#5B6B77" font-size="12" text-anchor="middle">'+o.xlab+' \u2192</text>';
-        s+='<text x="'+(PL-6)+'" y="'+(PT-4)+'" fill="#5B6B77" font-size="11.5" text-anchor="end">'+o.ylab+'</text>';
+        s+='<text x="'+(PL+PW/2)+'" y="'+(H-8)+'" fill="#1D4E89" font-size="12" font-weight="700" text-anchor="middle">'+o.xlab+'　x \u2192</text>';
+        s+='<text x="'+(PL-6)+'" y="'+(PT-4)+'" fill="#B3541E" font-size="11.5" font-weight="700" text-anchor="end">'+o.ylab+'　y</text>';
         s+='<text x="'+((rx0+rx1)/2)+'" y="'+(PT+PH+16)+'" fill="'+o.c+'" font-size="10.5" font-weight="700" text-anchor="middle">情境範圍</text>';
         svg.innerHTML=s;
         panel.querySelector('.sl-val').textContent=cur;
