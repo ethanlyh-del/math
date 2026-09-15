@@ -78,6 +78,25 @@
   td.down{background:var(--teal-tint);color:var(--teal);font-weight:700}
   td.jump{background:var(--coral-tint);color:var(--coral);font-weight:700}
   tr.mark td{outline:2px solid var(--coral);outline-offset:-2px}
+  .views{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:6px}
+  @media(max-width:560px){.views{grid-template-columns:1fr}}
+  .vcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:13px 14px;cursor:pointer;
+    transition:.18s;background:#fff;user-select:none}
+  .vcard:hover{border-color:var(--violet);transform:translateY(-2px)}
+  .vcard.on{border-color:var(--violet);background:var(--violet-tint)}
+  .vcard .see{font-size:.92rem;font-weight:500;line-height:1.6}
+  .vcard .eq{font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--violet);
+    font-size:1.02rem;margin-top:9px;display:none}
+  .vcard.on .eq{display:block}
+  .vcard .tap{margin-top:8px;font-size:.76rem;color:var(--violet);font-weight:700}
+  .vcard.on .tap{display:none}
+  .expand{font-family:"JetBrains Mono",monospace;font-size:.95rem;background:#F3F6F9;
+    border-radius:10px;padding:12px 16px;margin-top:12px;line-height:2;display:none}
+  .expand.show{display:block}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;
+    border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"\2753 "}
+  tr.pair td{outline:1.6px dashed var(--gold);outline-offset:-2px}
   .empty{color:#C3CDD5}
   .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 14px}
   .ctrl-label{font-size:.9rem;color:var(--ink-soft);font-weight:500}
@@ -137,9 +156,27 @@
   <div class="fig"><svg id="lSvg" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="readout" id="lRead"></div>
   <div class="note">不管把新長的一圈放在哪個角落，總格數都一樣。重點不是它長在哪個方向，是它<b>有多大</b>。</div>
+</section>
 
-  <div class="plain">正方形的面積 = 邊長 × 邊長，寫成式子就是 <b style="color:var(--violet)">y = x²</b>。<br><br>
-  邊長從 n 長到 n+1，多出來的一圈有 <b>2n+1</b> 格：底下一排 n 個、右邊一排 n 個、角落 1 個。n 越大，這一圈就越長。</div>
+<section class="card" style="border-color:var(--violet)">
+  <h2>多出來幾格？</h2>
+  <p class="desc">邊長從 n 長到 n+1，新長出來的那一圈有幾格？先不要一格一格數。</p>
+  <div class="fig"><svg id="cntSvg" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="ask">這一圈有幾格？是怎麼數出來的？</div>
+
+  <div class="views" id="cntViews"></div>
+
+  <div class="expand" id="cntExpand">
+    n + n + 1 　=　 2n + 1<br>
+    (n + 1)² − n² 　=　 n² + 2n + 1 − n² 　=　 2n + 1<br>
+    (n + 1) + n 　=　 2n + 1
+  </div>
+  <div class="plain">三種數法寫出來的式子不一樣，展開後是同一條：<b style="color:var(--coral)">2n + 1</b>。n 越大，這一圈就越長。</div>
+</section>
+
+<section class="card">
+  <h2>寫成式子</h2>
+  <div class="plain">正方形的面積 = 邊長 × 邊長，寫成式子就是 <b style="color:var(--violet)">y = x²</b>。</div>
 
   <div class="fig" style="margin-top:12px"><svg id="sqCurve" viewBox="0 0 340 250" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="note">y = x² 畫出來，開口是<b>向上</b>的。越往右越陡，因為每一步增加的量越來越大。</div>
@@ -154,7 +191,7 @@
   </table>
   <div class="plain">周長每次都固定多 <b style="color:#B07E15">4</b>——每一步增加的量一樣，畫出來是<b>直線</b>，這是<b>一次函數</b>（周長 = 4x）。<br><br>
   面積多的是 <b style="color:var(--teal)">3、5、7、9、11</b>——<b>一次比一次多</b>，因為正方形越大，新長的那一圈就越長。畫出來是<b>曲線</b>，這是<b>二次函數</b>（面積 = x²）。<br><br>
-  <b>增量固定就是直線，增量會變就是曲線。</b></div>
+  <b>變化量固定就是直線，變化量會變就是曲線。</b></div>
   <div class="fig" style="margin-top:14px"><svg id="periSvg" viewBox="0 0 340 250" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="note">金色的周長排成一條直線，綠色的面積越來越陡，在邊長 4 交會後就超過周長。</div>
 </section>
@@ -166,17 +203,18 @@
     <thead><tr><th>寬</th><th>面積</th><th>比前一格多多少</th></tr></thead>
     <tbody></tbody>
   </table>
-  <div class="plain">增量是 <b>+34、+30、+26、+22⋯⋯</b>——每次固定<b>少 4</b>。<br><br>
-  面積還是一直在增加，但<b>增加得越來越少</b>。到了某個地方，增量會從正的變成負的——那一刻面積就開始下降了。<br><br>
-  <b style="color:var(--coral)">增量由正轉負的位置，就是最高點。</b>從表上看得出來，它落在寬 10 到 11 之間。</div>
+  <div class="plain">變化量是 <b>+34、+30、+26、+22⋯⋯</b>——<b>一次比一次小</b>，到某個地方就變成負的。<br><br>
+  面積還是一直在增加，但<b>增加得越來越少</b>。到了某個地方，變化量會從正的變成負的——那一刻面積就開始下降了。<br><br>
+  最後一次增加是「走到寬 10」的 +2，第一次減少是「離開寬 10」的 −2。兩邊一夾，<b style="color:var(--coral)">最高點就是寬 10，面積 200</b>。<br><br>
+  另一個看法更快：寬 9 和寬 11 的面積都是 198，一樣高（表上以虛線框標出）。既然兩邊對稱，正中間的寬 10 就是最高的地方。</div>
 </section>
 
 <section class="card">
   <h2>圍地的面積畫出來</h2>
   <div class="fig"><svg id="curveSvg" viewBox="0 0 340 260" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="plain">紅色的線段是「增加」，綠色的是「減少」。<br><br>
-  左邊爬升得快、越往右爬得越慢，到最高點之後開始往下掉——這就是<b>增量越來越小、最後變成負的</b>在圖上的樣子。<br><br>
-  因為增量一直在變（不像直線那樣固定），所以圖形是<b>彎的</b>。</div>
+  左邊爬升得快、越往右爬得越慢，到最高點之後開始往下掉——這就是<b>變化量越來越小、最後變成負的</b>在圖上的樣子。<br><br>
+  因為變化量一直在變（不像直線那樣固定），所以圖形是<b>彎的</b>。</div>
 </section>
 </div>
 
@@ -203,13 +241,65 @@
     }
     svg.innerHTML=s;
     document.getElementById('lRead').innerHTML=
-      `<span>${n}×${n} = ${n*n} → ${m}×${m} = ${m*m}</span><span>多出 <b style="color:var(--coral)">${2*n+1}</b> 格（${posText[pos]} 各 ${n} ＋ 角落 1）</span>`;
+      `<span>${n}×${n} = ${n*n} → ${m}×${m} = ${m*m}</span>`;
   }
   document.querySelectorAll('.pos').forEach(b=>b.addEventListener('click',()=>{
     document.querySelectorAll('.pos').forEach(x=>x.classList.remove('on'));
     b.classList.add('on'); pos=b.dataset.p; upd();
   }));
   sl.addEventListener('input',upd); upd();
+})();
+
+
+/* 多出來幾格：三種數法 */
+(function(){
+  const svg=document.getElementById('cntSvg'), grid=document.getElementById('cntViews');
+  const N=4, M=N+1;
+  const views=[
+    {see:'底下一排 n 個、右邊一排 n 個，角落再 1 個。',eq:'n + n + 1',
+     colour:(r,c)=>{ if(r===M-1&&c===M-1) return '#E0A32E';
+                     if(r===M-1) return '#7A5CC7';
+                     if(c===M-1) return '#0E9C8B'; return null; }},
+    {see:'大正方形的總格數，減掉原本小正方形的格數。',eq:'(n + 1)² − n²',
+     colour:(r,c)=>(r===M-1||c===M-1)?'#E8593F':null, sub:true},
+    {see:'底下一整排是 n+1 個，右邊剩下的是 n 個。',eq:'(n + 1) + n',
+     colour:(r,c)=>{ if(r===M-1) return '#7A5CC7';
+                     if(c===M-1) return '#0E9C8B'; return null; }}
+  ];
+  let cur=-1;
+  function draw(){
+    const A=250, cell=A/8, side=M*cell, ox=(300-side)/2, oy=(300-side)/2;
+    let s='';
+    for(let r=0;r<M;r++)for(let c=0;c<M;c++){
+      const ring=(r===M-1||c===M-1);
+      let fill='#DCF1EE', stroke='#0E9C8B';
+      if(cur<0){ if(ring){fill='#FBE4DE';stroke='#E8593F';} }
+      else{
+        const col=views[cur].colour(r,c);
+        if(col){ fill=col+'2E'; stroke=col; }
+        else if(views[cur].sub){ fill='#EDF2F7'; stroke='#C3D3E0'; }
+      }
+      s+=`<rect x="${ox+c*cell}" y="${oy+r*cell}" width="${cell-2}" height="${cell-2}" rx="2" fill="${fill}" stroke="${stroke}" stroke-width="1.4"/>`;
+    }
+    if(cur===1){
+      s+=`<rect x="${ox-3}" y="${oy-3}" width="${side}" height="${side}" rx="3" fill="none" stroke="#E8593F" stroke-width="2.4"/>`;
+      s+=`<rect x="${ox-3}" y="${oy-3}" width="${N*cell}" height="${N*cell}" rx="3" fill="none" stroke="#0E9C8B" stroke-width="2.4" stroke-dasharray="5 4"/>`;
+    }
+    svg.innerHTML=s;
+  }
+  views.forEach((v,i)=>{
+    const d=document.createElement('div');
+    d.className='vcard';
+    d.innerHTML=`<div class="see">${v.see}</div><div class="tap">點開，看這種數法寫出的式子</div><div class="eq">${v.eq}</div>`;
+    d.addEventListener('click',()=>{
+      document.querySelectorAll('#cntViews .vcard').forEach(x=>x.classList.remove('on'));
+      d.classList.add('on'); cur=i; draw();
+      if(document.querySelectorAll('#cntViews .vcard.on').length>0)
+        document.getElementById('cntExpand').classList.add('show');
+    });
+    grid.appendChild(d);
+  });
+  draw();
 })();
 
 /* y = x² 的圖 */
@@ -229,7 +319,7 @@
     if(y>52) continue;
     p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(y).toFixed(1)+' ';}
   s+=`<path d="${p}" fill="none" stroke="#7A5CC7" stroke-width="3"/>`;
-  // 標出每步增量
+  // 標出每步變化量
   for(let n=1;n<=6;n++){
     const ya=(n-1)*(n-1), yb=n*n;
     if(yb>52) break;
@@ -286,7 +376,7 @@
   svg.innerHTML=s;
 })();
 
-/* 圍地增量表 */
+/* 圍地變化量表 */
 (function(){
   const tb=document.querySelector('#incTable tbody');
   let prev=null,h='';
@@ -294,7 +384,7 @@
     const a=x*(40-2*x);
     const d = prev===null ? '—' : (a-prev>0?'+':'')+(a-prev);
     const cls = prev===null ? 'empty' : (a-prev>0?'up':'down');
-    const rowcls = (x===10||x===11) ? 'mark' : '';
+    const rowcls = (x===10) ? 'mark' : ((x===9||x===11) ? 'pair' : '');
     h+=`<tr class="${rowcls}"><td>${x}</td><td class="teal">${a}</td><td class="${cls}">${d}</td></tr>`;
     prev=a;
   }
@@ -317,7 +407,7 @@
   for(let i=0;i<=200;i++){const x=i/10, a=x*(40-2*x);
     p+=(i?'L':'M')+X(x).toFixed(1)+' '+Y(a).toFixed(1)+' ';}
   s+=`<path d="${p}" fill="none" stroke="#7A5CC7" stroke-width="3"/>`;
-  // 標出幾段增量
+  // 標出幾段變化量
   [[2,3],[5,6],[9,10],[12,13],[16,17]].forEach(([a,b])=>{
     const ya=a*(40-2*a), yb=b*(40-2*b);
     const col = yb>ya ? '#E8593F' : '#0E9C8B';
