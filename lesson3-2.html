@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>把係數挪開</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 6px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  .eqline{font-family:"JetBrains Mono",monospace;font-size:1.05rem;line-height:2.1;background:#F3F6F9;border-radius:10px;padding:14px 16px;margin-top:12px;overflow-x:auto}
+  .eqline .cmt{color:var(--ink-soft);font-size:.85rem;font-family:"Noto Sans TC",sans-serif}
+  .eqline b{color:var(--violet)}
+  .plus{color:var(--coral);font-weight:700}
+  .minus{color:var(--teal);font-weight:700}
+  .steps{border:2px solid var(--violet);border-radius:14px;padding:18px 20px;margin-top:12px;background:#fff}
+  .srow{display:none;font-family:"JetBrains Mono",monospace;font-size:1.06rem;line-height:2;margin:6px 0}
+  .srow.show{display:block;animation:fade .2s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1}}
+  .srow .why{display:block;font-family:"Noto Sans TC",sans-serif;font-size:.9rem;color:var(--ink-soft);line-height:1.7;margin:2px 0 12px;padding-left:12px;border-left:3px solid var(--grid-strong)}
+  .srow b{color:var(--violet)}
+  .sbar{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+  .press{font-weight:800;font-size:1rem;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:10px 22px;cursor:pointer;box-shadow:3px 4px 0 rgba(34,48,60,.2);font-family:inherit}
+  .press:active{transform:translate(2px,3px);box-shadow:1px 1px 0 rgba(34,48,60,.2)}
+  .press.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--grid-strong);box-shadow:none}
+  .prog{font-size:.88rem;color:var(--ink-soft);font-weight:700}
+  .signgame{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+  @media(max-width:560px){.signgame{grid-template-columns:1fr}}
+  .sg{border:1.5px solid var(--grid-strong);border-radius:12px;padding:12px;text-align:center;cursor:pointer;background:#fff;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1rem;transition:.15s;user-select:none}
+  .sg:hover{border-color:var(--violet)}
+  .sg.right{background:var(--teal-tint);border-color:var(--teal);color:var(--teal)}
+  .sg.wrong{background:#FBE4DE;border-color:var(--no);color:var(--no)}
+  .sgmsg{margin-top:10px;font-size:.92rem;color:var(--ink-soft);min-height:24px}
+  .drill{display:grid;grid-template-columns:1fr;gap:10px;margin-top:6px}
+  .dcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:14px 16px;background:#fff;cursor:pointer;user-select:none;transition:.15s}
+  .dcard:hover{border-color:var(--violet)}
+  .dq{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem}
+  .dhint{font-size:.78rem;color:var(--violet);font-weight:700;margin-top:6px}
+  .da{display:none;margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--grid-strong);font-size:.92rem;color:var(--ink-soft);text-align:left}
+  .da .r{font-family:"JetBrains Mono",monospace;color:var(--ink);font-size:1.02rem;font-weight:700;display:block;margin-bottom:5px}
+  .dcard.on .da{display:block}
+  .dcard.on .dhint{display:none}
+  .hw{border:2px solid var(--coral);border-radius:14px;padding:18px 20px;background:#fff;margin-top:14px}
+  .hw h3{color:var(--coral);font-weight:800;font-size:1.06rem;margin-bottom:8px}
+  .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
+  .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>係數<span class="hl">不是 1 的時候</span></h1>
+</header>
+
+<section class="card">
+  <h2>係數的處理方式</h2>
+  <p class="desc">任何寫成 (x + p)² 的式子，展開後 x² 的係數必定是 1。因此只要 x² 前方的係數不是 1，就無法直接改寫成一個平方。作法是先把係數提到括號外，使括號內回到 x² 係數為 1 的形式，配方完成後再把係數乘回去。</p>
+  <div class="eqline">
+    −2x² + 40x　=　−2( <span class="minus">?</span> )
+  </div>
+  <p class="desc" style="margin-top:14px">把 −2 提出來之後，括號內的式子乘上 −2 必須等於原式。因此括號內的每一項，都是原式的對應項除以 −2。40x 除以 −2 時，正負號會改變。括號內應為下列何者？</p>
+  <div class="signgame">
+    <div class="sg" data-ok="0">x² + 20x</div>
+    <div class="sg" data-ok="1">x² − 20x</div>
+    <div class="sg" data-ok="0">x² − 40x</div>
+  </div>
+  <div class="sgmsg" id="sgm"></div>
+  <div class="note">檢查方式為乘回原式：−2 × x² 得 −2x²，−2 × (−20x) 得 +40x，與原式相同。提出負號後乘回原式檢查一次，可避免最常見的符號錯誤。</div>
+</section>
+
+<section class="card">
+  <h2>籬笆 40 公尺</h2>
+  <p class="desc">籬笆 40 公尺，面積 y = 40x − 2x²，最大面積為 200 平方公尺。以下以配方法求出此結果。</p>
+  <div class="steps">
+    <div class="srow show">y = −2x² + 40x</div>
+    <div class="srow">　= −2(x² <span class="minus">− 20x</span>)<span class="why">把 −2 提到括號外。括號內的每一項都是原式的對應項除以 −2：−2x² 除以 −2 得 x²，40x 除以 −2 得 −20x。</span></div>
+    <div class="srow">　= −2[ (x − 10)² <span class="minus">− 100</span> ]<span class="why">括號內改寫：−20 的一半是 −10，故括號內為 x − 10。(x − 10)² 展開後比 x² − 20x 多了 100，所以要減掉 100。這一整組都還在中括號裡面。</span></div>
+    <div class="srow">　= −2(x − 10)² <span class="plus">+ 200</span><span class="why">把 −2 乘進中括號內的兩項：−2 乘 (x − 10)² 得 −2(x − 10)²；−2 乘 −100 得 +200。</span></div>
+    <div class="srow"><b>　y = −2(x − 10)² + 200</b><span class="why">含有 x 的部分只剩一個平方。(x − 10)² 的最小值為 0，發生於 x = 10，此時 y = 200。</span></div>
+    <div class="sbar">
+      <button class="press" id="nx">下一步</button>
+      <button class="press ghost" id="rs">重來</button>
+      <span class="prog" id="pg">1 / 5</span>
+    </div>
+  </div>
+  <div class="plain">最大面積發生在 x = 10，也就是寬 10 公尺的時候，此時長 = 40 − 2 × 10 = 20 公尺，面積 200 平方公尺。此結果由式子直接得出，<b>不需逐一代入數值嘗試</b>。</div>
+  <div class="fig" style="margin-top:14px"><svg id="ovSvg" viewBox="0 0 340 250" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="toggle">
+    <button class="tbtn ov on" data-v="both">兩式對照</button>
+    <button class="tbtn ov" data-v="orig">只看 −2x² + 40x</button>
+    <button class="tbtn ov" data-v="vert">只看 −2(x−10)² + 200</button>
+  </div>
+  <div class="note">兩條曲線完全重疊，因為它們是同一個函數。兩端的淡色部分為式子可計算、但情境中不存在的範圍：寬不可能為負，也不可能超過 20。</div>
+</section>
+
+<section class="card">
+  <h2>係數是正的，做法一樣</h2>
+  <p class="desc">前面的例子係數是負的。這一題的係數是正的 2，步驟完全相同。括號內是 x² + 6x，與前述題目一樣，需要新做的只有首尾兩步：把 2 提出來、最後再把 2 乘回去。</p>
+  <div class="eqline">
+    y = 2x² + 12x + 5<br>
+    　= 2(x² + 6x) + 5　<span class="cmt">把 2 提出來。常數項 5 不含 x，不參與配方，留在括號外</span><br>
+    　= 2[ (x + 3)² − 9 ] + 5　<span class="cmt">6 的一半是 3，故括號內為 x + 3；(x + 3)² 比 x² + 6x 多 9，需減 9</span><br>
+    　= 2(x + 3)² − 18 + 5　<span class="cmt">把 2 乘進中括號：2 乘 (x + 3)² 得 2(x + 3)²，2 乘 −9 得 −18</span><br>
+    　= <b>2(x + 3)² − 13</b>
+  </div>
+  <div class="fig" style="margin-top:14px"><svg id="upSvg" viewBox="0 0 340 250" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="plain">2(x + 3)² 的部分最小為 0，發生於 x = −3，此時 y = −13，這是最低點。<br><br>提出來的係數是正的 2，圖形開口向上，所以這一點是整條曲線最低的位置；前面 40 公尺那題提出的是 −2，開口向下，那一點是最高的位置。<b>配方的步驟兩者完全相同</b>，不同的只有提出的係數是正是負。</div>
+  <table>
+    <thead><tr><th>式子</th><th>提出的係數</th><th>配方結果</th><th>開口</th></tr></thead>
+    <tbody>
+      <tr><td>x² + 6x + 5</td><td>1（不必提）</td><td>(x + 3)² − 4</td><td>向上</td></tr>
+      <tr><td>−2x² + 40x</td><td>−2</td><td>−2(x − 10)² + 200</td><td>向下</td></tr>
+      <tr><td>2x² + 12x + 5</td><td>2</td><td>2(x + 3)² − 13</td><td>向上</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="card">
+  <h2>練習</h2>
+  <p class="desc">每一題都是先找出完整的正方形，再減去多出來的部分，最後合併常數項。</p>
+  <div class="drill">
+    <div class="dcard"><div class="dq">y = −x² + 4x − 1</div><div class="dhint">解答</div>
+      <div class="da"><span class="r">= −(x − 2)² + 3</span>
+        提出 −1：−(x² − 4x) − 1。−4 的一半是 −2，−2 的平方是 4，(x − 2)² 比 x² − 4x 多 4，需減 4，得 −[(x − 2)² − 4] − 1。把 −1 乘進中括號：−1 乘 −4 得 +4，所以是 −(x − 2)² + 4 − 1 = −(x − 2)² + 3。</div></div>
+    <div class="dcard"><div class="dq">y = 3x² − 12x + 7</div><div class="dhint">解答</div>
+      <div class="da"><span class="r">= 3(x − 2)² − 5</span>
+        提出 3：3(x² − 4x) + 7。−4 的一半是 −2，−2 的平方是 4，(x − 2)² 比 x² − 4x 多 4，需減 4，得 3[(x − 2)² − 4] + 7。把 3 乘進中括號：3 乘 −4 得 −12，所以是 3(x − 2)² − 12 + 7 = 3(x − 2)² − 5。</div></div>
+    <div class="dcard"><div class="dq">y = 2x² + 6x + 1</div><div class="dhint">解答</div>
+      <div class="da"><span class="r">= 2(x + 3/2)² − 7/2</span>
+        提出 2：2(x² + 3x) + 1。3 的一半是 3/2，3/2 的平方是 9/4，(x + 3/2)² 比 x² + 3x 多 9/4，需減 9/4，得 2[(x + 3/2)² − 9/4] + 1。把 2 乘進中括號：2 乘 −9/4 得 −9/2，所以是 2(x + 3/2)² − 9/2 + 1 = 2(x + 3/2)² − 7/2。
+        <br><br>括號內的中間項為奇數時，取一半會得到分數。這裡是 3 的一半 3/2，3/2 的平方是 9/4。做法與整數時完全相同。</div></div>
+  </div>
+</section>
+
+<div class="cliff">
+  <h4>延伸</h4>
+  配方完成後的式子都是同一種形式：一個係數乘上一個平方，再加一個常數。既然形式固定，把數字改為字母後依相同步驟推導一次，得到的結果就對任何二次函數都成立。
+</div>
+
+</div>
+
+<script>
+function mkAxes(W,H,PL,PB,PT,PR,xmin,xmax,ymin,ymax,xlab,ylab){
+  const PW=W-PL-PR, PH=H-PT-PB;
+  const X=x=>PL+((x-xmin)/(xmax-xmin))*PW, Y=y=>PT+PH-((y-ymin)/(ymax-ymin))*PH;
+  let s='';
+  for(let i=0;i<=5;i++){const gy=PT+(i/5)*PH;
+    s+=`<line x1="${PL}" y1="${gy}" x2="${PL+PW}" y2="${gy}" stroke="#F1F5F8" stroke-width="1.2"/>`;}
+  const y0=Math.max(PT,Math.min(PT+PH,Y(0))), x0=Math.max(PL,Math.min(PL+PW,X(0)));
+  s+=`<line x1="${PL}" y1="${y0}" x2="${PL+PW}" y2="${y0}" stroke="#22303C" stroke-width="1.8"/>`;
+  s+=`<line x1="${x0}" y1="${PT}" x2="${x0}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+  s+=`<text x="${PL+PW/2}" y="${H-6}" fill="#5B6B77" font-size="12" text-anchor="middle">${xlab}</text>`;
+  s+=`<text x="${x0-6}" y="${PT+10}" fill="#5B6B77" font-size="12" text-anchor="end">${ylab}</text>`;
+  return {s:s,X:X,Y:Y,y0:y0};
+}
+function pathOf(f,x0,x1,X,Y,step){
+  let p='';
+  for(let x=x0;x<=x1+1e-9;x+=step){p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(f(x)).toFixed(1)+' ';}
+  return p;
+}
+
+(function(){
+  const msg=document.getElementById('sgm');
+  document.querySelectorAll('.sg').forEach(b=>b.addEventListener('click',()=>{
+    if(b.dataset.ok==='1'){
+      b.classList.add('right');
+      msg.innerHTML='<span style="color:#0E9C8B;font-weight:700">對。</span> 40x 除以 −2 得到 −20x，符號翻過來了。';
+    }else{
+      b.classList.add('wrong');
+      msg.innerHTML='<span style="color:#C4574E;font-weight:700">請乘回原式檢查。</span> −2 乘上這個括號，得到的中間項和原式的 +40x 對不上。';
+    }
+  }));
+})();
+
+(function(){
+  const rows=document.querySelectorAll('.steps .srow');
+  let i=1;
+  const pg=document.getElementById('pg');
+  function upd(){
+    rows.forEach((r,k)=>r.classList.toggle('show',k<i));
+    pg.textContent=i+' / '+rows.length;
+    document.getElementById('nx').style.opacity = i>=rows.length ? .4 : 1;
+  }
+  document.getElementById('nx').addEventListener('click',()=>{ if(i<rows.length){i++; upd();} });
+  document.getElementById('rs').addEventListener('click',()=>{ i=1; upd(); });
+  upd();
+})();
+
+(function(){
+  const svg=document.getElementById('ovSvg');
+  let v='both';
+  const f1=x=>40*x-2*x*x;
+  const f2=x=>-2*Math.pow(x-10,2)+200;
+  function upd(){
+    const A=mkAxes(340,250,50,40,20,16,-4,24,-90,240,'寬 →','面積');
+    let s=A.s;
+    if(v==='both'||v==='orig'){
+      s+=`<path d="${pathOf(f1,-4,24,A.X,A.Y,0.25)}" fill="none" stroke="#F4CFC6" stroke-width="2.4"/>`;
+      s+=`<path d="${pathOf(f1,0,20,A.X,A.Y,0.25)}" fill="none" stroke="#E8593F" stroke-width="4"/>`;
+    }
+    if(v==='both'||v==='vert'){
+      s+=`<path d="${pathOf(f2,-4,24,A.X,A.Y,0.25)}" fill="none" stroke="#D8C9F0" stroke-width="2.4" stroke-dasharray="6 4"/>`;
+      s+=`<path d="${pathOf(f2,0,20,A.X,A.Y,0.25)}" fill="none" stroke="#7A5CC7" stroke-width="2.6" stroke-dasharray="6 4"/>`;
+    }
+    s+=`<circle cx="${A.X(10)}" cy="${A.Y(200)}" r="6" fill="#E8593F"/>`;
+    for(const t of [0,5,10,15,20]) s+=`<text x="${A.X(t)}" y="${A.y0+15}" fill="#5B6B77" font-size="10" text-anchor="middle">${t}</text>`;
+    svg.innerHTML=s;
+  }
+  document.querySelectorAll('.ov').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.ov').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); v=b.dataset.v; upd();
+  }));
+  upd();
+})();
+
+(function(){
+  const svg=document.getElementById('upSvg');
+  const f=x=>2*x*x+12*x+5;
+  const A=mkAxes(340,250,50,40,20,16,-8,2,-20,30,'x →','y');
+  let s=A.s;
+  s+=`<path d="${pathOf(f,-8,2,A.X,A.Y,0.1)}" fill="none" stroke="#0E9C8B" stroke-width="3.4"/>`;
+  s+=`<circle cx="${A.X(-3)}" cy="${A.Y(-13)}" r="6" fill="#0E9C8B"/>`;
+  s+=`<text x="${A.X(-3)+10}" y="${A.Y(-13)+16}" fill="#0E9C8B" font-size="12" font-weight="700">(−3, −13)</text>`;
+  s+=`<line x1="${A.X(-3)}" y1="${A.Y(-20)}" x2="${A.X(-3)}" y2="${A.Y(30)}" stroke="#0E9C8B" stroke-width="1.2" stroke-dasharray="4 4"/>`;
+  for(const t of [-7,-5,-3,-1,1]) s+=`<text x="${A.X(t)}" y="${A.y0+15}" fill="#5B6B77" font-size="10" text-anchor="middle">${t}</text>`;
+  svg.innerHTML=s;
+})();
+
+document.querySelectorAll('.dcard').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('on')));
+</script>
+</body>
+</html>

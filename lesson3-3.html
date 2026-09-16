@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>頂點就寫在式子上</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .vocab{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+  .vrow{display:flex;gap:13px;align-items:baseline;background:#F3F6F9;border-radius:10px;padding:11px 14px}
+  .vk{flex:none;min-width:64px;font-weight:800;color:var(--violet);font-size:1rem}
+  .vv{font-size:.95rem;color:var(--ink-soft)}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:52px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:60px;text-align:right;color:var(--coral)}
+  .readout{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:8px}
+  .eqbig{font-family:"JetBrains Mono",monospace;font-size:1.16rem;font-weight:700;text-align:center;background:var(--violet-tint);border-radius:12px;padding:16px;margin-top:12px;color:var(--violet)}
+  .eqline{font-family:"JetBrains Mono",monospace;font-size:1.05rem;line-height:2.1;background:#F3F6F9;border-radius:10px;padding:14px 16px;margin-top:12px;overflow-x:auto}
+  .eqline .cmt{color:var(--ink-soft);font-size:.85rem;font-family:"Noto Sans TC",sans-serif}
+  .eqline b{color:var(--violet)}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 6px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.hl2{background:var(--teal-tint);color:var(--teal);font-weight:700}
+  .derive{border:2px solid var(--violet);border-radius:14px;background:#fff;padding:0;margin-top:12px;overflow:hidden}
+  .drow{display:grid;grid-template-columns:1fr 1fr;border-bottom:1.5px solid var(--grid)}
+  .drow:last-child{border-bottom:none}
+  .drow.head{background:#F3F6F9;font-weight:800;font-size:.9rem}
+  .dcell{padding:11px 13px;font-family:"JetBrains Mono",monospace;font-size:.97rem;line-height:1.6}
+  .dcell:first-child{border-right:1.5px solid var(--grid);color:var(--ink-soft)}
+  .drow.head .dcell{font-family:"Noto Sans TC",sans-serif;color:var(--ink)}
+  .drow.head .dcell:first-child{color:var(--teal)}
+  .drow.head .dcell:last-child{color:var(--violet)}
+  .dcell b{color:var(--violet)}
+  .reveal{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;cursor:pointer;background:#fff;text-align:center;transition:.15s}
+  .reveal:hover{border-color:var(--violet)}
+  .rq{font-weight:700;color:var(--violet);font-size:.96rem}
+  .ra{display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed var(--grid-strong)}
+  .reveal.on .ra{display:block}
+  .reveal.on .rq{color:var(--ink-soft)}
+  .expand{font-family:"JetBrains Mono",monospace;font-size:1.02rem;line-height:2;text-align:left}
+  .expand b{color:var(--violet)}
+  .q{margin-top:18px}
+  .qt{font-weight:700;font-size:1rem;margin-bottom:9px}
+  .opt{border:1.5px solid var(--grid-strong);border-radius:11px;padding:11px 14px;margin:7px 0;cursor:pointer;background:#fff;font-size:.96rem;transition:.15s;user-select:none}
+  .opt:hover{border-color:var(--violet)}
+  .opt.right{background:var(--teal-tint);border-color:var(--teal);color:var(--teal);font-weight:700}
+  .opt.wrong{background:#FBE4DE;border-color:var(--no);color:var(--no)}
+  .qexp{display:none;font-size:.9rem;color:var(--ink-soft);margin-top:8px;padding-left:12px;border-left:3px solid var(--teal)}
+  .q.done .qexp{display:block}
+  .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
+  .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>頂點就<span class="hl">寫在式子上</span></h1>
+</header>
+
+<section class="card">
+  <h2>括號外的常數就是極值</h2>
+  <p class="desc">配方完成的式子，形式都是「係數 × 平方 ＋ 常數」。<b>括號外的那個常數，就是這個函數的最大值或最小值</b>——係數為負時是最大值，係數為正時是最小值。</p>
+  <div class="eqbig">y = −2(x − 10)² + 200　→　最大值 200</div>
+  <p class="desc" style="margin-top:16px">理由分成三步：</p>
+  <table>
+    <thead><tr><th>步驟</th><th>結果</th></tr></thead>
+    <tbody>
+      <tr><td>(x − 10)²</td><td>任何實數的平方都大於或等於 0，所以只能是 0 或正數</td></tr>
+      <tr><td>× (−2)</td><td>0 或正數乘上負數，只能是 0 或負數</td></tr>
+      <tr><td>+ 200</td><td>200 加上一個不會是正數的東西，結果只會等於 200 或比 200 小</td></tr>
+    </tbody>
+  </table>
+  <div class="plain">所以 y <b>最大就是 200</b>，而且只發生在括號等於 0 的時候，也就是 x = 10。拉動下面的滑桿可以逐一確認。</div>
+  <div class="slider-row"><span class="slabel">x</span>
+    <input type="range" id="pS" min="4" max="16" value="7" step="0.5">
+    <span class="val" id="pV">7</span>
+  </div>
+  <table>
+    <thead><tr><th>(x − 10)²</th><th>× (−2)</th><th>+ 200</th></tr></thead>
+    <tbody><tr id="prow"><td></td><td></td><td></td></tr></tbody>
+  </table>
+  <div class="readout" id="pRead"></div>
+  <div class="note">係數為正時方向相反：平方乘上正數之後只會是 0 或正數，用常數加上它，結果只會等於該常數或比它大，所以那個常數是最小值。例如 x² + 6x + 5 配成 (x + 3)² − 4，(x + 3)² 最小為 0，因此最小值是 −4，發生於 x = −3。</div>
+</section>
+
+<section class="card">
+  <h2>三個名詞</h2>
+  <p class="desc">拋物線上有三個位置需要固定的稱呼。</p>
+  <div class="fig"><svg id="vocabSvg" viewBox="0 0 340 210" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="vocab">
+    <div class="vrow"><span class="vk">頂點</span><span class="vv">拋物線轉彎的那一點。開口向下時是最高的位置，開口向上時是最低的位置。</span></div>
+    <div class="vrow"><span class="vk">對稱軸</span><span class="vv">通過頂點的那條垂直線。曲線以它為界左右對稱，離它一樣遠的兩個位置，高度相同。</span></div>
+    <div class="vrow"><span class="vk">極值</span><span class="vv">最大值與最小值合起來的稱呼，也就是頂點的 y 座標。開口向下的函數有最大值，開口向上的有最小值。</span></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>從式子直接讀出頂點</h2>
+  <p class="desc">配方完成的式子，不必畫圖也不必代入數字，就能看出頂點在哪裡。把前面配過的三題排在一起，規律會自己浮出來。</p>
+  <table>
+    <thead><tr><th>配方結果</th><th>a</th><th>h</th><th>k</th><th>頂點</th></tr></thead>
+    <tbody>
+      <tr><td>(x + 3)² − 4</td><td>1</td><td>−3</td><td>−4</td><td>(−3, −4)</td></tr>
+      <tr><td>−2(x − 10)² + 200</td><td>−2</td><td>10</td><td>200</td><td>(10, 200)</td></tr>
+      <tr><td>2(x + 3)² − 13</td><td>2</td><td>−3</td><td>−13</td><td>(−3, −13)</td></tr>
+    </tbody>
+  </table>
+  <div class="plain">兩個規律：<br>
+  ・頂點的 <b>x 座標，是使括號等於 0 的那個數</b>。(x + 3)² 要 x = −3 才等於 0，(x − 10)² 要 x = 10 才等於 0。<br>
+  ・頂點的 <b>y 座標，就是括號外的常數</b>。<br><br>
+  把這兩件事寫成通式：</div>
+  <div class="eqbig">y = a(x − h)² + k　→　頂點 (h, k)</div>
+  <div class="plain">括號內寫成 x − h，所以 x = h 時括號為 0，此時 y = k，頂點就是 (h, k)。<br><br>
+  要注意括號是<b>減號</b>。式子寫成 (x + 3)² 時，要看成 (x − (−3))²，對照之下 h = −3，頂點的 x 座標是 −3，不是 3。</div>
+</section>
+
+<section class="card">
+  <h2>a、h、k 各自管什麼</h2>
+  <p class="desc">頂點式 y = a(x − h)² + k 裡有三個字母。h 與 k 已經知道是頂點的座標，a 則是提出來的那個係數。這三個字母各自控制圖形上的一件事，拉動滑桿就看得出來。</p>
+  <div class="slider-row"><span class="slabel">a</span><input type="range" id="aS" min="-3" max="3" value="-2" step="0.5"><span class="val" id="aV">−2</span></div>
+  <div class="slider-row"><span class="slabel">h</span><input type="range" id="hS" min="-6" max="6" value="2" step="1"><span class="val" id="hV">2</span></div>
+  <div class="slider-row"><span class="slabel">k</span><input type="range" id="kS" min="-8" max="8" value="3" step="1"><span class="val" id="kV">3</span></div>
+  <div class="eqbig" id="eqShow"></div>
+  <div class="fig"><svg id="ahkSvg" viewBox="0 0 340 260" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="readout" id="ahkRead"></div>
+  <div class="plain">h 控制圖形的左右位置，k 控制上下位置，a 決定開口的方向與寬窄。<b>不論 a 為何，頂點都固定在 (h, k)</b>。<br><br>a 等於 0 時，a(x − h)² 這一項整個變成 0，式子只剩常數 k，圖形是一條水平線，不再是二次函數。</div>
+</section>
+
+<section class="card">
+  <h2>概念題</h2>
+  <p class="desc">三題都在問這個方法本身，而不是問計算的結果。</p>
+
+  <div class="q" data-ans="B">
+    <div class="qt">1. 配方法的目的是什麼？</div>
+    <div class="opt" data-k="A">(A) 把二次函數變成一次函數，計算比較簡單。</div>
+    <div class="opt" data-k="B">(B) 把式子改寫成「一個平方加一個常數」，讓含有 x 的部分集中在同一處。</div>
+    <div class="opt" data-k="C">(C) 把式子裡所有的係數都變成 1。</div>
+    <div class="opt" data-k="D">(D) 求出圖形與 x 軸相交的位置。</div>
+    <div class="qexp">含有 x 的部分分散在兩處時，看不出最大或最小值在哪裡。集中成一個平方之後，因為平方的最小值是 0 這件事是已知的，頂點與極值就能直接讀出來。</div>
+  </div>
+
+  <div class="q" data-ans="C">
+    <div class="qt">2. 同一條二次函數，配方前的式子與配方後的式子是什麼關係？</div>
+    <div class="opt" data-k="A">(A) 配方後的式子是原式的近似值，會有一點誤差。</div>
+    <div class="opt" data-k="B">(B) 兩者是不同的函數，畫出來的圖形也不同。</div>
+    <div class="opt" data-k="C">(C) 兩者是同一個函數，只是寫法不同，圖形完全重疊。</div>
+    <div class="opt" data-k="D">(D) 配方後的式子只在頂點附近才成立。</div>
+    <div class="qexp">配方的每一步都保持等號成立：多出來多少就減掉多少，提出去的係數最後又乘回來。代任何一個 x 進去，兩條式子算出來的 y 都相同。</div>
+  </div>
+
+  <div class="q" data-ans="D">
+    <div class="qt">3. 已經學過因式分解，為什麼還需要配方法？</div>
+    <div class="opt" data-k="A">(A) 因為因式分解算起來比較慢。</div>
+    <div class="opt" data-k="B">(B) 因為因式分解只能用在開口向上的函數。</div>
+    <div class="opt" data-k="C">(C) 因為因式分解無法得到圖形與 x 軸相交的位置。</div>
+    <div class="opt" data-k="D">(D) 因為能夠拆成整數括號的式子很少，配方法則對任何二次式都可以進行。</div>
+    <div class="qexp">兩者回答的問題也不同：因式分解方便看出 y = 0 的解，配方法方便看出頂點與極值。x² + 6x + 3 就是拆不開但配得動的例子。</div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>回家作業</h2>
+  <p class="desc">一塊靠牆的長方形空地，只有三邊需要圍籬笆（靠牆的那一邊不用圍），籬笆總長 37 公尺。</p>
+  <div class="ask">要圍出最大的面積，寬與長各是多少？最大面積是多少平方公尺？</div>
+</section>
+
+<div class="cliff">
+  <h4>延伸</h4>
+  一元二次方程式有一條求解的公式：x = ( −b ± √(b² − 4ac) ) ÷ 2a。這條公式很難背，也看不出從哪裡來。<br><br>
+  但它並不是另外一套方法。把 ax² + bx + c 用今天的步驟配方一次，再令 y = 0 繼續解下去，出現的就是這條公式——會配方法的人，不需要背它。
+</div>
+
+</div>
+
+<script>
+function mkAxes(W,H,PL,PB,PT,PR,xmin,xmax,ymin,ymax,xlab,ylab){
+  const PW=W-PL-PR, PH=H-PT-PB;
+  const X=x=>PL+((x-xmin)/(xmax-xmin))*PW, Y=y=>PT+PH-((y-ymin)/(ymax-ymin))*PH;
+  let s='';
+  for(let i=0;i<=5;i++){const gy=PT+(i/5)*PH;
+    s+=`<line x1="${PL}" y1="${gy}" x2="${PL+PW}" y2="${gy}" stroke="#F1F5F8" stroke-width="1.2"/>`;}
+  const y0=Math.max(PT,Math.min(PT+PH,Y(0))), x0=Math.max(PL,Math.min(PL+PW,X(0)));
+  s+=`<line x1="${PL}" y1="${y0}" x2="${PL+PW}" y2="${y0}" stroke="#22303C" stroke-width="1.8"/>`;
+  s+=`<line x1="${x0}" y1="${PT}" x2="${x0}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+  s+=`<text x="${PL+PW/2}" y="${H-6}" fill="#5B6B77" font-size="12" text-anchor="middle">${xlab}</text>`;
+  s+=`<text x="${x0-6}" y="${PT+10}" fill="#5B6B77" font-size="12" text-anchor="end">${ylab}</text>`;
+  return {s:s,X:X,Y:Y,y0:y0};
+}
+function pathOf(f,x0,x1,X,Y,step){
+  let p='';
+  for(let x=x0;x<=x1+1e-9;x+=step){p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(f(x)).toFixed(1)+' ';}
+  return p;
+}
+function fmt(n){return (n<0?'−':'')+Math.abs(n);}
+
+(function(){
+  const sl=document.getElementById('pS');
+  function upd(){
+    const x=+sl.value, sq=Math.pow(x-10,2), m=-2*sq, y=m+200;
+    document.getElementById('pV').textContent=x;
+    document.getElementById('prow').innerHTML=
+      `<td>${sq.toFixed(2)}</td><td style="color:#0E9C8B">${m===0?'0':'−'+Math.abs(m).toFixed(2)}</td><td style="color:#E8593F;font-weight:700">${y.toFixed(2)}</td>`;
+    document.getElementById('pRead').innerHTML= sq===0
+      ? '<span style="color:#E8593F">括號剛好是 0，y 達到 200</span>'
+      : '<span>括號不是 0，y 比 200 小</span>';
+  }
+  sl.addEventListener('input',upd); upd();
+})();
+
+(function(){
+  const aS=document.getElementById('aS'),hS=document.getElementById('hS'),kS=document.getElementById('kS');
+  const svg=document.getElementById('ahkSvg');
+  function upd(){
+    const a=+aS.value,h=+hS.value,k=+kS.value;
+    document.getElementById('aV').textContent=fmt(a);
+    document.getElementById('hV').textContent=fmt(h);
+    document.getElementById('kV').textContent=fmt(k);
+    const hs = h<0 ? 'x + '+Math.abs(h) : 'x − '+h;
+    const ks = k<0 ? ' − '+Math.abs(k) : ' + '+k;
+    document.getElementById('eqShow').textContent = `y = ${fmt(a)}(${hs})²${ks}`;
+    const f=x=>a*Math.pow(x-h,2)+k;
+    const A=mkAxes(340,260,50,40,20,16,-10,10,-14,14,'x →','y');
+    let s=A.s;
+    s+=`<path d="${pathOf(f,-10,10,A.X,A.Y,0.15)}" fill="none" stroke="${a<0?'#E8593F':'#0E9C8B'}" stroke-width="3.4"/>`;
+    s+=`<line x1="${A.X(h)}" y1="${A.Y(-14)}" x2="${A.X(h)}" y2="${A.Y(14)}" stroke="#7A5CC7" stroke-width="1.3" stroke-dasharray="4 4"/>`;
+    s+=`<circle cx="${A.X(h)}" cy="${A.Y(k)}" r="6.5" fill="#7A5CC7"/>`;
+    s+=`<text x="${A.X(h)+10}" y="${A.Y(k)-9}" fill="#7A5CC7" font-size="12" font-weight="700">(${fmt(h)}, ${fmt(k)})</text>`;
+    for(const t of [-8,-4,4,8]) s+=`<text x="${A.X(t)}" y="${A.y0+14}" fill="#5B6B77" font-size="10" text-anchor="middle">${t}</text>`;
+    svg.innerHTML=s;
+    document.getElementById('ahkRead').innerHTML = a===0
+      ? '<span style="color:#C4574E">a = 0：x² 消失了，剩下一條水平線，不是二次函數</span>'
+      : `<span>頂點 (${fmt(h)}, ${fmt(k)})</span><span>對稱軸 x = ${fmt(h)}</span><span style="color:${a<0?'#E8593F':'#0E9C8B'}">${a<0?'開口向下，最大值 '+fmt(k):'開口向上，最小值 '+fmt(k)}</span>`;
+  }
+  [aS,hS,kS].forEach(s=>s.addEventListener('input',upd)); upd();
+})();
+
+/* 三個名詞的圖解 */
+(function(){
+  const svg=document.getElementById('vocabSvg'); if(!svg) return;
+  function panel(ox,down){
+    const X=x=>ox+60+x*20, Y=y=>110-y*13;
+    const f=x=> down ? -(x*x)+4 : (x*x)-4;
+    let p='';
+    for(let x=-3.4;x<=3.4;x+=0.1) p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(f(x)).toFixed(1)+' ';
+    const col = down ? '#E8593F' : '#0E9C8B';
+    let s='';
+    s+=`<path d="${p}" fill="none" stroke="${col}" stroke-width="3"/>`;
+    s+=`<line x1="${X(0)}" y1="18" x2="${X(0)}" y2="185" stroke="#7A5CC7" stroke-width="1.4" stroke-dasharray="5 4"/>`;
+    s+=`<text x="${X(0)}" y="200" fill="#7A5CC7" font-size="10.5" font-weight="700" text-anchor="middle">對稱軸</text>`;
+    s+=`<line x1="${ox+14}" y1="${Y(f(0))}" x2="${X(0)}" y2="${Y(f(0))}" stroke="#E0A32E" stroke-width="1.4" stroke-dasharray="5 4"/>`;
+    s+=`<text x="${ox+12}" y="${Y(f(0))+(down?-6:14)}" fill="#E0A32E" font-size="10.5" font-weight="700">${down?'最大值':'最小值'}</text>`;
+    s+=`<circle cx="${X(0)}" cy="${Y(f(0))}" r="6" fill="#7A5CC7"/>`;
+    s+=`<text x="${X(0)+11}" y="${Y(f(0))+(down?-8:16)}" fill="#7A5CC7" font-size="10.5" font-weight="700">頂點</text>`;
+    s+=`<text x="${X(0)}" y="14" fill="#22303C" font-size="11" font-weight="700" text-anchor="middle">${down?'開口向下':'開口向上'}</text>`;
+    return s;
+  }
+  svg.innerHTML = panel(0,true) + panel(170,false);
+})();
+
+document.querySelectorAll('.reveal').forEach(r=>r.addEventListener('click',()=>r.classList.toggle('on')));
+document.querySelectorAll('.q').forEach(q=>{
+  q.querySelectorAll('.opt').forEach(o=>o.addEventListener('click',()=>{
+    if(q.classList.contains('done')) return;
+    if(o.dataset.k===q.dataset.ans){ o.classList.add('right'); q.classList.add('done'); }
+    else{ o.classList.add('wrong'); }
+  }));
+});
+</script>
+</body>
+</html>

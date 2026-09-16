@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>配方法</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  .route{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin:16px 0;font-weight:500}
+  .route b{color:var(--violet)}
+  .route .tag{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin-bottom:6px}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:62px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:72px;text-align:right;color:var(--coral)}
+  .readout{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:8px}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 6px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  .reveal{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;cursor:pointer;background:#fff;text-align:center;transition:.15s}
+  .reveal:hover{border-color:var(--violet)}
+  .rq{font-weight:700;color:var(--violet);font-size:.96rem}
+  .ra{display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed var(--grid-strong)}
+  .reveal.on .ra{display:block}
+  .reveal.on .rq{color:var(--ink-soft)}
+  .expand{font-family:"JetBrains Mono",monospace;font-size:1.02rem;line-height:2;text-align:left}
+  .expand b{color:var(--violet)}
+  .eqline{font-family:"JetBrains Mono",monospace;font-size:1.05rem;line-height:2.1;background:#F3F6F9;border-radius:10px;padding:14px 16px;margin-top:12px;overflow-x:auto}
+  .eqline .cmt{color:var(--ink-soft);font-size:.85rem;font-family:"Noto Sans TC",sans-serif}
+  .eqline b{color:var(--violet)}
+  .plus{color:var(--coral);font-weight:700}
+  .minus{color:var(--teal);font-weight:700}
+  .eqbig{font-family:"JetBrains Mono",monospace;font-size:1.14rem;font-weight:700;text-align:center;background:var(--violet-tint);border-radius:12px;padding:16px;margin-top:12px;color:var(--violet)}
+  .drill{display:grid;grid-template-columns:1fr;gap:10px;margin-top:6px}
+  .dcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:14px 16px;background:#fff;cursor:pointer;user-select:none;transition:.15s}
+  .dcard:hover{border-color:var(--violet)}
+  .dq{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem}
+  .dhint{font-size:.78rem;color:var(--violet);font-weight:700;margin-top:6px}
+  .da{display:none;margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--grid-strong);font-size:.92rem;color:var(--ink-soft);text-align:left}
+  .da .r{font-family:"JetBrains Mono",monospace;color:var(--ink);font-size:1.02rem;font-weight:700;display:block;margin-bottom:5px}
+  .dcard.on .da{display:block}
+  .dcard.on .dhint{display:none}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  @media(max-width:600px){.two{grid-template-columns:1fr}}
+  .col{border:1.5px solid var(--grid-strong);border-radius:13px;padding:15px 16px;background:#fff}
+  .col.a{border-color:var(--teal)}
+  .col.b{border-color:var(--violet)}
+  .colh{font-weight:800;font-size:.98rem;margin-bottom:8px}
+  .col.a .colh{color:var(--teal)} .col.b .colh{color:var(--violet)}
+  .colf{font-family:"JetBrains Mono",monospace;font-size:1.06rem;font-weight:700;margin-bottom:8px}
+  .colt{font-size:.9rem;color:var(--ink-soft);line-height:1.65}
+  .work{border:2px dashed var(--grid-strong);border-radius:12px;background:#fff;margin-top:12px;
+    background-image:repeating-linear-gradient(transparent,transparent 33px,#EEF3F7 33px,#EEF3F7 34px);}
+  .work.h180{height:180px} .work.h220{height:220px}
+  .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
+  .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1><span class="hl">配方法</span></h1>
+</header>
+
+<section class="card">
+  <h2>同一塊地，籬笆換成 37 公尺</h2>
+  <p class="desc">籬笆 40 公尺、靠牆圍成長方形，最大面積為 200 平方公尺，此時寬 10 公尺、長 20 公尺。</p>
+  <div class="eqline">
+    籬笆 40：y = 40x − 2x²　→　最大面積 <b>200</b><br>
+    籬笆 37：y = 37x − 2x²　→　最大面積 <span class="plus">？</span>
+  </div>
+  <div class="ask">相同的圍法，籬笆改為 37 公尺，最大面積為多少？</div>
+</section>
+
+<section class="card">
+  <h2>一條係數為 1 的二次函數</h2>
+  <p class="desc">以下為一條不對應任何情境的二次函數。</p>
+  <div class="eqbig">y = x² + 6x + 5</div>
+  <div class="ask">此函數的最小值為何？發生於 x 等於多少？</div>
+</section>
+
+<section class="card">
+  <h2>改寫的目標</h2>
+  <p class="desc">y = x² + 6x + 5 的最小值無法直接讀出，因為含有 x 的項分成 x² 與 6x 兩處。若能把這兩項合併成一個平方，情況就不同。</p>
+  <div class="eqline">
+    □ × □ = 4　→　□ = <b>2</b> 或 <b>−2</b><br>
+    □ × □ = 3　→　□ = <b>√3</b> 或 <b>−√3</b>
+  </div>
+  <div class="plain">只要式子寫成 <b>□²</b>，□ 就能直接開根號求出來。</div>
+  <div class="plain">x² + 6x + 5 不是這種形式，x 分散在 x² 與 6x 兩處。</div>
+  <div class="route">
+    <span class="tag">目標</span>
+    把含有 x 的部分改寫成 <b>□²</b> 的形式。
+  </div>
+  <div class="plain">此方法稱為<b>配方法</b>。「方」指正方形，「配」為湊合。做法是先找出一個<b>完整的正方形</b>，由於它會比原式多出一塊，再把多出的部分減掉。改寫後的式子因此是「一個完整的正方形，減去多出的部分」。</div>
+</section>
+
+<section class="card">
+  <h2>x² 與 6x 的圖形</h2>
+  <p class="desc">要湊出 □² 的形式，用面積來看最清楚。<b>x² 為一個邊長 x 的正方形；6x 為一條寬 6、長 x 的長條。</b>把這兩塊拼成一個正方形，邊長就是要找的 □。常數項 5 暫不納入，於後段處理。</p>
+
+  <div class="toggle">
+    <button class="tbtn mode on" data-m="one" id="btnOne">整條放右邊</button>
+    <button class="tbtn mode" data-m="split" id="btnSplit">對半切開</button>
+  </div>
+  <div class="slider-row"><span class="slabel">中間項</span>
+    <input type="range" id="bS" min="2" max="12" value="6" step="2">
+    <span class="val" id="bV">6x</span>
+  </div>
+  <div class="fig"><svg id="sq" viewBox="0 0 340 290" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="readout" id="sqr"></div>
+
+  <div class="plain" id="sqTxt"></div>
+  <div class="note">二次的項與一次的項，可以拼出一個缺了一角的正方形。</div>
+</section>
+
+<section class="card">
+  <h2>驗算：把 (x + 3)² 乘開</h2>
+  <p class="desc">圖上得到的邊長是 x + 3。</p>
+  <div class="work h220"></div>
+  <div class="reveal" id="rvExp"><div class="rq">乘開的結果</div>
+    <div class="ra">
+      <div class="expand">
+        (x + 3)(x + 3)<br>
+        = x·x + x·3 + 3·x + 3·3<br>
+        = x² + <b>3x + 3x</b> + 9<br>
+        = x² + 6x + 9
+      </div>
+      <div style="font-size:.92rem;color:var(--ink-soft);margin-top:12px;text-align:left">
+        乘開後確實出現了 x² 與 6x，另外多了一個 9。<br><br>
+        值得注意的是 3x 出現了<b>兩次</b>，合併才成為 6x。括號內放的那個數，乘開後會成為兩倍；反過來說，括號內要放的就是中間項係數的<b>一半</b>。而 9 為 3 × 3，正是圖上右下角那一塊。
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>為什麼要減掉 9</h2>
+  <p class="desc">湊出來的完整正方形比原式大，大出來的部分要扣掉，兩邊才會相等。</p>
+  <div class="eqline">
+    (x + 3)² = x² + 6x <span class="plus">+ 9</span>　<span class="cmt">完整正方形的面積</span><br>
+    x² + 6x = <b>(x + 3)² <span class="minus">− 9</span></b>　<span class="cmt">缺了右下角那一塊</span>
+  </div>
+  <div class="plain">(x + 3)² 是<b>完整的正方形</b>，面積為 x² + 6x + 9。x² + 6x 是這個正方形<b>少了右下角 3 × 3 = 9 的那一塊</b>。兩者相差 9，所以要把 9 減掉。</div>
+
+  <div class="reveal" id="rvChk"><div class="rq">代入數值檢查</div>
+    <div class="ra">
+      <div class="expand">
+        取 x = 4：<br>
+        x² + 6x = 16 + 24 = 40<br>
+        (x + 3)² − 9 = (4 + 3)² − 9 = 49 − 9 = <b>40</b>
+      </div>
+    </div>
+  </div>
+
+  <table>
+    <thead><tr><th>原式</th><th>完整的正方形</th><th>多出來的</th></tr></thead>
+    <tbody>
+      <tr><td>x² + 6x</td><td>(x + 3)²</td><td>9</td></tr>
+      <tr><td>x² + 4x</td><td>(x + 2)²</td><td>4</td></tr>
+      <tr><td>x² − 8x</td><td>(x − 4)²</td><td>16</td></tr>
+      <tr><td>x² − 10x</td><td>(x − 5)²</td><td>25</td></tr>
+    </tbody>
+  </table>
+  <div class="plain">每一列多出來的數，都是<b>中間項係數的一半再平方</b>。6 的一半是 3，3 的平方是 9；−8 的一半是 −4，−4 的平方是 16。</div>
+  <div class="note">中間項為負時，取一半得到的也是負數。例如 −8 的一半是 −4，括號內因此寫成 x − 4；而 −4 的平方是 16，仍是正數。</div>
+</section>
+
+<section class="card">
+  <h2>常數項 5 的處理</h2>
+  <p class="desc">配方只處理 x² 與 6x 這兩項，常數項最後再合併。</p>
+  <div class="eqline">
+    y = x² + 6x + 5<br>
+    = [ (x + 3)² <span class="minus">− 9</span> ] + 5　<span class="cmt">前兩項改寫成 (x + 3)² − 9</span><br>
+    = (x + 3)² <span class="minus">− 4</span>　<span class="cmt">−9 + 5 = −4</span>
+  </div>
+  <div class="plain">含有 x 的部分只剩 (x + 3)² 這一個平方，其餘都是固定的數。(x + 3)² 的最小值為 0，發生於 <b>x = −3</b>，此時 y = <b>−4</b>。</div>
+  <div class="fig"><svg id="gA" viewBox="0 0 340 250" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="note">紫色的點是圖形的最低點 (−3, −4)。綠色的兩點是圖形與 x 軸相交的位置，x 分別為 −1 與 −5。橫向的黑線是 x 軸，縱向的黑線是 y 軸。</div>
+</section>
+
+<section class="card">
+  <h2>練習</h2>
+  <p class="desc">每一題都是先找出完整的正方形，再減去多出來的部分，最後合併常數項。</p>
+  <div class="drill">
+    <div class="dcard"><div class="dq">y = x² + 4x + 7</div><div class="dhint">解答</div>
+      <div class="da"><span class="r">= (x + 2)² + 3</span>(x + 2)² 比 x² + 4x 多 4，需減 4；再加原本的 7：−4 + 7 = +3。</div></div>
+    <div class="dcard"><div class="dq">y = x² − 8x + 10</div><div class="dhint">解答</div>
+      <div class="da"><span class="r">= (x − 4)² − 6</span>(x − 4)² 比 x² − 8x 多 16，需減 16；再加原本的 10：−16 + 10 = −6。</div></div>
+    <div class="dcard"><div class="dq">y = x² + 6x − 2</div><div class="dhint">解答</div>
+      <div class="da"><span class="r">= (x + 3)² − 11</span>(x + 3)² 比 x² + 6x 多 9，需減 9；再加原本的 −2：−9 − 2 = −11。</div></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>兩種改寫方式</h2>
+  <p class="desc">同一條 y = x² + 6x + 5，有兩種改寫方式，各自方便回答不同的問題。</p>
+  <div class="two">
+    <div class="col a">
+      <div class="colh">因式分解</div>
+      <div class="colf">(x + 1)(x + 5)</div>
+      <div class="colt">兩個括號相乘等於 0，表示其中一個括號為 0。<br>由此可知 y = 0 時 x = −1 或 −5，也就是<b>圖形與 x 軸相交的兩個位置</b>。</div>
+    </div>
+    <div class="col b">
+      <div class="colh">配方法</div>
+      <div class="colf">(x + 3)² − 4</div>
+      <div class="colt">平方的最小值為 0，發生於 x = −3。<br>由此可知<b>圖形最低的位置在 (−3, −4)</b>。</div>
+    </div>
+  </div>
+  <div class="plain">兩者為同一條曲線、同一個函數，只是寫法不同。</div>
+
+  <p class="desc" style="margin-top:18px">以配方的結果 (x + 3)² − 4 求 y = 0 的解。</p>
+  <div class="work h180"></div>
+  <div class="reveal" id="rvSolve"><div class="rq">解答</div>
+    <div class="ra">
+      <div class="expand">
+        (x + 3)² − 4 = 0<br>
+        (x + 3)² = 4<br>
+        x + 3 = <b>±2</b>　　<span style="color:var(--ink-soft);font-size:.85rem">平方等於 4 的數有兩個：2 與 −2</span><br>
+        x = −1 或 −5
+      </div>
+      <div style="font-size:.92rem;color:var(--ink-soft);margin-top:12px;text-align:left">
+        與因式分解得到的答案相同。配方的結果同樣能求出圖形與 x 軸的交點。<br><br>
+        最低點所在的 x = −3，正好位於 −1 與 −5 的正中間。離這個位置左右等距的兩點，高度相同，這裡的高度都是 0。
+      </div>
+    </div>
+  </div>
+
+  <div class="plain">兩者的差別在適用範圍。實際情境中列出的二次式，能夠<b>剛好因式分解的情況非常少見</b>。能夠因式分解時，求 x 的解確實比較快；<b>配方法則適用於任何二次式</b>。<br><br>例如 x² + 6x + 3 無法拆成兩個整數的括號相乘，但配方仍可進行，得到 (x + 3)² − 6。</div>
+</section>
+
+<section class="card">
+  <h2>籬笆 37 公尺的式子</h2>
+  <p class="desc">方法已經完整，但開頭那條式子還有一個地方和前面的例子不同。</p>
+  <div class="eqline">
+    y = 37x <span class="minus">− 2x²</span>
+  </div>
+  <p class="desc">前面所有的例子，x² 的係數都是 1。這一條是 −2。</p>
+  <div class="eqline">
+    (x + p)² = x² + 2px + p²　<span class="cmt">x² 的係數永遠是 1</span>
+  </div>
+  <div class="plain">任何寫成 <b>(x + p)² ＋ 固定的數</b>的式子，展開後 x² 的係數<b>必定是 1</b>。而 37x − 2x² 的 x² 係數是 −2，因此不可能直接等於這種形式。</div>
+  <div class="fig"><svg id="blk" viewBox="0 0 340 150" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="plain">圖形上也看得出來：x² 是一個正方形，−2x² 是兩個正方形，而且方向相反。兩個反向的正方形無法拼成單一的正方形，切一半、補角落的做法便無從進行。</div>
+</section>
+
+<div class="cliff">
+  <h4>延伸</h4>
+  必須先把 −2 從 x² 前方移走，讓式子回到 x² 係數為 1 的形式。移走之後仍須放回，否則式子將不等於原式。
+</div>
+
+</div>
+
+<script>
+function mkAxes(W,H,PL,PB,PT,PR,xmin,xmax,ymin,ymax,xlab,ylab){
+  const PW=W-PL-PR, PH=H-PT-PB;
+  const X=x=>PL+((x-xmin)/(xmax-xmin))*PW, Y=y=>PT+PH-((y-ymin)/(ymax-ymin))*PH;
+  let s='';
+  for(let i=0;i<=5;i++){const gy=PT+(i/5)*PH;
+    s+=`<line x1="${PL}" y1="${gy}" x2="${PL+PW}" y2="${gy}" stroke="#F1F5F8" stroke-width="1.2"/>`;}
+  const y0=Math.max(PT,Math.min(PT+PH,Y(0))), x0=Math.max(PL,Math.min(PL+PW,X(0)));
+  s+=`<line x1="${PL}" y1="${y0}" x2="${PL+PW}" y2="${y0}" stroke="#22303C" stroke-width="1.8"/>`;
+  s+=`<line x1="${x0}" y1="${PT}" x2="${x0}" y2="${PT+PH}" stroke="#22303C" stroke-width="1.8"/>`;
+  s+=`<text x="${PL+PW/2}" y="${H-6}" fill="#5B6B77" font-size="12" text-anchor="middle">${xlab}</text>`;
+  s+=`<text x="${x0-6}" y="${PT+10}" fill="#5B6B77" font-size="12" text-anchor="end">${ylab}</text>`;
+  return {s:s,X:X,Y:Y,y0:y0};
+}
+function pathOf(f,x0,x1,X,Y,step){
+  let p='';
+  for(let x=x0;x<=x1+1e-9;x+=step){p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(f(x)).toFixed(1)+' ';}
+  return p;
+}
+
+/* 正方形拼圖 */
+(function(){
+  const sl=document.getElementById('bS'), svg=document.getElementById('sq');
+  let mode='one';
+  const S=112, OX=76, OY=54, U=8;
+  function upd(){
+    const b=+sl.value, h=b/2, wOne=b*U, wHalf=h*U;
+    document.getElementById('bV').textContent=b+'x';
+    document.getElementById('btnOne').textContent=b+'x 整條放右邊';
+    document.getElementById('btnSplit').textContent=b+'x 對半切開';
+    let s='';
+    s+=`<rect x="${OX}" y="${OY}" width="${S}" height="${S}" fill="#EAE3F7" stroke="#7A5CC7" stroke-width="2"/>`;
+    s+=`<text x="${OX+S/2}" y="${OY+S/2+7}" fill="#7A5CC7" font-size="19" font-weight="700" text-anchor="middle">x²</text>`;
+    s+=`<text x="${OX+S/2}" y="${OY-9}" fill="#5B6B77" font-size="12" text-anchor="middle">x</text>`;
+    s+=`<text x="${OX-9}" y="${OY+S/2+4}" fill="#5B6B77" font-size="12" text-anchor="end">x</text>`;
+    if(mode==='one'){
+      s+=`<rect x="${OX+S}" y="${OY}" width="${wOne}" height="${S}" fill="#FBE4DE" stroke="#E8593F" stroke-width="2"/>`;
+      s+=`<text x="${OX+S+wOne/2}" y="${OY+S/2+6}" fill="#E8593F" font-size="15" font-weight="700" text-anchor="middle">${b}x</text>`;
+      s+=`<text x="${OX+S+wOne/2}" y="${OY-9}" fill="#5B6B77" font-size="11" text-anchor="middle">${b}</text>`;
+      s+=`<text x="${OX+(S+wOne)/2}" y="${OY+S+26}" fill="#22303C" font-size="12" text-anchor="middle" font-weight="700">長方形，不是正方形</text>`;
+      document.getElementById('sqr').innerHTML=`<span>寬 x ＋ ${b}　高 x　→　x² + ${b}x</span>`;
+      document.getElementById('sqTxt').innerHTML=
+        `${b}x 整條放在 x² 右邊，得到的是<b>長 x + ${b}、寬 x 的長方形</b>，兩邊不一樣長，不是正方形。`;
+    }else{
+      s+=`<rect x="${OX+S}" y="${OY}" width="${wHalf}" height="${S}" fill="#FBE4DE" stroke="#E8593F" stroke-width="2"/>`;
+      s+=`<rect x="${OX}" y="${OY+S}" width="${S}" height="${wHalf}" fill="#FBE4DE" stroke="#E8593F" stroke-width="2"/>`;
+      s+=`<rect x="${OX+S}" y="${OY+S}" width="${wHalf}" height="${wHalf}" fill="#F8ECCF" stroke="#E0A32E" stroke-width="2" stroke-dasharray="5 3"/>`;
+      s+=`<text x="${OX+S+wHalf/2}" y="${OY+S/2+5}" fill="#E8593F" font-size="12" font-weight="700" text-anchor="middle" transform="rotate(-90 ${OX+S+wHalf/2} ${OY+S/2+5})">${h}x</text>`;
+      s+=`<text x="${OX+S/2}" y="${OY+S+wHalf/2+5}" fill="#E8593F" font-size="12" font-weight="700" text-anchor="middle">${h}x</text>`;
+      s+=`<text x="${OX+S+wHalf+8}" y="${OY+S+wHalf/2+4}" fill="#E0A32E" font-size="12" font-weight="700">這一角 ${h}×${h} = ${h*h}</text>`;
+      // 上緣的分段與總長
+      s+=`<text x="${OX+S+wHalf/2}" y="${OY-9}" fill="#5B6B77" font-size="11" text-anchor="middle">${h}</text>`;
+      s+=`<line x1="${OX}" y1="${OY-26}" x2="${OX+S+wHalf}" y2="${OY-26}" stroke="#0E9C8B" stroke-width="1.2"/>`;
+      s+=`<line x1="${OX}" y1="${OY-30}" x2="${OX}" y2="${OY-22}" stroke="#0E9C8B" stroke-width="1.2"/>`;
+      s+=`<line x1="${OX+S+wHalf}" y1="${OY-30}" x2="${OX+S+wHalf}" y2="${OY-22}" stroke="#0E9C8B" stroke-width="1.2"/>`;
+      s+=`<rect x="${OX+(S+wHalf)/2-24}" y="${OY-36}" width="48" height="15" fill="#fff"/>`;
+      s+=`<text x="${OX+(S+wHalf)/2}" y="${OY-24}" fill="#0E9C8B" font-size="12" font-weight="700" text-anchor="middle">x + ${h}</text>`;
+      // 左緣的分段與總長
+      s+=`<text x="${OX-9}" y="${OY+S+wHalf/2+4}" fill="#5B6B77" font-size="11" text-anchor="end">${h}</text>`;
+      s+=`<line x1="${OX-30}" y1="${OY}" x2="${OX-30}" y2="${OY+S+wHalf}" stroke="#0E9C8B" stroke-width="1.2"/>`;
+      s+=`<line x1="${OX-34}" y1="${OY}" x2="${OX-26}" y2="${OY}" stroke="#0E9C8B" stroke-width="1.2"/>`;
+      s+=`<line x1="${OX-34}" y1="${OY+S+wHalf}" x2="${OX-26}" y2="${OY+S+wHalf}" stroke="#0E9C8B" stroke-width="1.2"/>`;
+      s+=`<text x="${OX-34}" y="${OY+(S+wHalf)/2+4}" fill="#0E9C8B" font-size="12" font-weight="700" text-anchor="middle" transform="rotate(-90 ${OX-34} ${OY+(S+wHalf)/2+4})">x + ${h}</text>`;
+      s+=`<rect x="${OX}" y="${OY}" width="${S+wHalf}" height="${S+wHalf}" fill="none" stroke="#0E9C8B" stroke-width="2.4" stroke-dasharray="7 4"/>`;
+      s+=`<text x="${OX+(S+wHalf)/2}" y="${OY+S+wHalf+24}" fill="#0E9C8B" font-size="11.5" font-weight="700" text-anchor="middle">完整正方形的邊長為 x + ${h}，多出右下角這一塊</text>`;
+      document.getElementById('sqr').innerHTML=`<span>x² + ${b}x = (x + ${h})² − ${h*h}</span>`;
+      document.getElementById('sqTxt').innerHTML=
+        `把 ${b}x 對半切成兩條 ${h}x，一條留在右邊，一條移到 x² 下方。此時圖形的<b>兩邊都是 x + ${h}</b>，只缺右下角 ${h} × ${h} 的一小塊。`;
+    }
+    svg.innerHTML=s;
+  }
+  document.querySelectorAll('.mode').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.mode').forEach(x=>x.classList.remove('on'));
+    btn.classList.add('on'); mode=btn.dataset.m; upd();
+  }));
+  sl.addEventListener('input',upd); upd();
+})();
+
+/* x²+6x+5 的圖 */
+(function(){
+  const svg=document.getElementById('gA');
+  const f=x=>x*x+6*x+5;
+  const A=mkAxes(340,250,50,40,20,16,-8,3,-6,14,'x →','y');
+  let s=A.s;
+  s+=`<path d="${pathOf(f,-8,3,A.X,A.Y,0.1)}" fill="none" stroke="#7A5CC7" stroke-width="3.4"/>`;
+  s+=`<circle cx="${A.X(-3)}" cy="${A.Y(-4)}" r="6.5" fill="#7A5CC7"/>`;
+  s+=`<text x="${A.X(-3)+10}" y="${A.Y(-4)+15}" fill="#7A5CC7" font-size="12" font-weight="700">(−3, −4)</text>`;
+  s+=`<circle cx="${A.X(-1)}" cy="${A.y0}" r="5" fill="#0E9C8B"/>`;
+  s+=`<circle cx="${A.X(-5)}" cy="${A.y0}" r="5" fill="#0E9C8B"/>`;
+  s+=`<text x="${A.X(-1)+7}" y="${A.y0-8}" fill="#0E9C8B" font-size="11" font-weight="700">−1</text>`;
+  s+=`<text x="${A.X(-5)-7}" y="${A.y0-8}" fill="#0E9C8B" font-size="11" font-weight="700" text-anchor="end">−5</text>`;
+  for(const t of [-7,-5,-3,-1,1]) s+=`<text x="${A.X(t)}" y="${A.y0+15}" fill="#5B6B77" font-size="10" text-anchor="middle">${t}</text>`;
+  svg.innerHTML=s;
+})();
+
+/* −2x² 不是正方形 */
+(function(){
+  const svg=document.getElementById('blk');
+  let s='';
+  s+=`<rect x="34" y="40" width="66" height="66" fill="#EAE3F7" stroke="#7A5CC7" stroke-width="2"/>`;
+  s+=`<text x="67" y="80" fill="#7A5CC7" font-size="16" font-weight="700" text-anchor="middle">x²</text>`;
+  s+=`<text x="67" y="128" fill="#22303C" font-size="12" font-weight="700" text-anchor="middle">一個正方形</text>`;
+  s+=`<text x="140" y="80" fill="#5B6B77" font-size="19" text-anchor="middle">→</text>`;
+  s+=`<rect x="176" y="40" width="66" height="66" fill="#FBE4DE" stroke="#E8593F" stroke-width="2" stroke-dasharray="5 3"/>`;
+  s+=`<rect x="186" y="50" width="66" height="66" fill="#FBE4DE" stroke="#E8593F" stroke-width="2" stroke-dasharray="5 3"/>`;
+  s+=`<text x="219" y="88" fill="#E8593F" font-size="16" font-weight="700" text-anchor="middle">−2x²</text>`;
+  s+=`<text x="238" y="138" fill="#22303C" font-size="12" font-weight="700" text-anchor="middle">兩個，而且是負的</text>`;
+  svg.innerHTML=s;
+})();
+
+document.querySelectorAll('.reveal').forEach(r=>r.addEventListener('click',()=>r.classList.toggle('on')));
+document.querySelectorAll('.dcard').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('on')));
+</script>
+</body>
+</html>
