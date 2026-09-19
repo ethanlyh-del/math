@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>頂點與 x 軸交點在哪裡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  .route{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin:16px 0;font-weight:500}
+  .route b{color:var(--violet)}
+  .route .tag{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin-bottom:6px}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:62px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:72px;text-align:right;color:var(--coral)}
+  .readout{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:8px}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 6px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  .reveal{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;cursor:pointer;background:#fff;text-align:center;transition:.15s}
+  .reveal:hover{border-color:var(--violet)}
+  .rq{font-weight:700;color:var(--violet);font-size:.96rem}
+  .ra{display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed var(--grid-strong)}
+  .reveal.on .ra{display:block}
+  .reveal.on .rq{color:var(--ink-soft)}
+  .expand{font-family:"JetBrains Mono",monospace;font-size:1.02rem;line-height:2;text-align:left}
+  .expand b{color:var(--violet)}
+  .eqline{font-family:"JetBrains Mono",monospace;font-size:1.05rem;line-height:2.1;background:#F3F6F9;border-radius:10px;padding:14px 16px;margin-top:12px;overflow-x:auto}
+  .eqline .cmt{color:var(--ink-soft);font-size:.85rem;font-family:"Noto Sans TC",sans-serif}
+  .eqline b{color:var(--violet)}
+  .plus{color:var(--coral);font-weight:700}
+  .minus{color:var(--teal);font-weight:700}
+  .eqbig{font-family:"JetBrains Mono",monospace;font-size:1.14rem;font-weight:700;text-align:center;background:var(--violet-tint);border-radius:12px;padding:16px;margin-top:12px;color:var(--violet)}
+  .drill{display:grid;grid-template-columns:1fr;gap:10px;margin-top:6px}
+  .dcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:14px 16px;background:#fff;cursor:pointer;user-select:none;transition:.15s}
+  .dcard:hover{border-color:var(--violet)}
+  .dq{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem}
+  .dhint{font-size:.78rem;color:var(--violet);font-weight:700;margin-top:6px}
+  .da{display:none;margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--grid-strong);font-size:.92rem;color:var(--ink-soft);text-align:left}
+  .da .r{font-family:"JetBrains Mono",monospace;color:var(--ink);font-size:1.02rem;font-weight:700;display:block;margin-bottom:5px}
+  .dcard.on .da{display:block}
+  .dcard.on .dhint{display:none}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  @media(max-width:600px){.two{grid-template-columns:1fr}}
+  .col{border:1.5px solid var(--grid-strong);border-radius:13px;padding:15px 16px;background:#fff}
+  .col.a{border-color:var(--teal)}
+  .col.b{border-color:var(--violet)}
+  .colh{font-weight:800;font-size:.98rem;margin-bottom:8px}
+  .col.a .colh{color:var(--teal)} .col.b .colh{color:var(--violet)}
+  .colf{font-family:"JetBrains Mono",monospace;font-size:1.06rem;font-weight:700;margin-bottom:8px}
+  .colt{font-size:.9rem;color:var(--ink-soft);line-height:1.65}
+  .work{border:2px dashed var(--grid-strong);border-radius:12px;background:#fff;margin-top:12px;
+    background-image:repeating-linear-gradient(transparent,transparent 33px,#EEF3F7 33px,#EEF3F7 34px);}
+  .work.h180{height:180px} .work.h220{height:220px}
+  .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
+  .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+
+  .fbox{text-align:center;padding:20px 10px 16px;background:#F7F4FD;border-radius:14px;margin:14px 0}
+  .fml{display:inline-flex;align-items:center;gap:10px;font-family:"JetBrains Mono",monospace;
+    font-weight:700;font-size:1.45rem;color:var(--ink)}
+  .frac{display:inline-flex;flex-direction:column;align-items:center}
+  .frac .num{padding:0 12px 5px;border-bottom:3px solid var(--ink);white-space:nowrap}
+  .frac .den{padding-top:5px}
+  .rad{display:inline-flex;align-items:flex-start;color:var(--teal)}
+  .rad .sg{font-size:1.5rem;line-height:.95;margin-right:1px}
+  .rad .bd{border-top:2.5px solid var(--teal);padding:3px 3px 0 2px}
+  .step{background:#F3F6F9;border-radius:12px;padding:14px 16px;margin:10px 0;
+    font-family:"JetBrains Mono",monospace;font-size:1.05rem;line-height:2}
+  .step .lab{font-family:"Noto Sans TC",sans-serif;font-size:.86rem;color:var(--ink-soft);font-weight:700}
+  .four{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:8px}
+  @media(max-width:560px){.four{grid-template-columns:1fr}}
+  .fcard{border:1.5px solid var(--grid-strong);border-radius:13px;padding:13px 15px;background:#fff}
+  .fcard h4{font-size:1rem;font-weight:800;color:var(--violet);margin-bottom:5px}
+  .fcard p{font-size:.92rem;color:var(--ink-soft);line-height:1.7}
+  .hint{border:1.5px dashed var(--teal);border-radius:12px;padding:11px 15px;margin:12px 0;
+    cursor:pointer;background:#F2FAF8;user-select:none;transition:.15s}
+  .hint:hover{background:#E8F6F2}
+  .hint .ht{font-weight:700;color:var(--teal);font-size:.93rem}
+  .hint .ht::before{content:"＋ "}
+  .hint.on .ht::before{content:"− "}
+  .hint .hb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .hint.on .hb{display:block}
+  .hint .hb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .ifr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;
+    font-size:.86em;line-height:1.15;margin:0 2px}
+  .ifr>span:first-child{border-bottom:2px solid currentColor;padding:0 4px 1px}
+  .ifr>span:last-child{padding:2px 4px 0}
+  .eqline.frl{line-height:2.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1><span class="hl">頂點與 x 軸<br>交點在哪裡</span></h1>
+</header>
+
+<section class="card">
+  <h2>公園的噴水池</h2>
+  <p class="desc">噴嘴裝在水面上，水柱斜斜噴出去，升到最高再落回水面。實際量過：落點距離噴嘴 8 公尺，最高的地方離水面 8 公尺。</p>
+  <div class="plain">水柱的形狀可以寫成一條二次函數。x 是離噴嘴的水平距離，y 是離水面的高度，單位都是公尺。</div>
+  <div class="eqbig">y = −0.5x² + 4x</div>
+  <div class="ask">a 是 −0.5、c 是 0。從這兩個數可以知道什麼？</div>
+  <div class="reveal" id="rvAC">
+    <div class="rq">點開對答案</div>
+    <div class="ra">
+      <div class="plain">a 是 −0.5，小於 0，所以是山型、開口向下——水柱升到最高再落下來。</div>
+      <div class="plain">c 是 0，圖形通過 (0, 0)。噴嘴就裝在水面上，所以水平距離 0 的地方，高度也是 0。</div>
+    </div>
+  </div>
+</section>
+
+<section class="card" style="border-color:var(--violet)">
+  <h2>最高的地方在哪裡（頂點的位置）</h2>
+  <p class="desc">水柱最高到哪裡，看原本的式子看不出來。要配方。</p>
+  <div class="step">
+    <span class="lab">提出 −0.5</span><br>
+    y = −0.5(x² − 8x)<br><br>
+    <span class="lab">8 的一半是 4，湊成平方會多出 16，把它減掉</span><br>
+    y = −0.5[ (x − 4)² − 16 ]<br><br>
+    <span class="lab">把 −0.5 乘進中括號，兩項都要乘</span><br>
+    y = <b style="color:var(--violet)">−0.5(x − 4)² + 8</b>
+  </div>
+  <div class="hint">
+    <div class="ht">把 −0.5 乘進中括號時，−16 那一項怎麼算？點開看一次</div>
+    <div class="hb">
+      中括號裡有兩項：<span class="eq">(x − 4)²</span> 和 <span class="eq">−16</span>。<br>
+      −0.5 要跟<b>每一項</b>各乘一次。<br><br>
+      <span class="eq">−0.5 × (x − 4)² = −0.5(x − 4)²</span><br>
+      <span class="eq">−0.5 × (−16) = +8</span>　<span style="color:var(--ink-soft)">負乘以負是正</span><br><br>
+      所以中括號拆開之後是 <span class="eq">−0.5(x − 4)² + 8</span>。<br>
+      很容易只乘第一項就往下走，第二項要記得乘到。
+    </div>
+  </div>
+  <div class="plain">括號裡的 x − 4 等於 0 時 x = 4，代回去 y = 8。所以頂點在 <b>(4, 8)</b>——水柱飛出 4 公尺時最高，離水面 8 公尺。跟實際量到的一致。</div>
+
+  <h3 style="margin-top:20px">式子最後面的那個數，意思不一樣</h3>
+  <div class="two">
+    <div class="col a">
+      <div class="colh">原本的式子</div>
+      <div class="colf">y = −0.5x² + 4x</div>
+      <div class="colt">後面沒有常數項，所以 c 是 0：圖形通過 (0, 0)，噴嘴在水面上。</div>
+    </div>
+    <div class="col b">
+      <div class="colh">配方後的式子</div>
+      <div class="colf">y = −0.5(x − 4)² <b>+ 8</b></div>
+      <div class="colt">8 是<b>頂點的高度</b>，也就是水柱最高 8 公尺。</div>
+    </div>
+  </div>
+  <div class="plain">c 是通過 y 軸的高度，配方後最後面那個數是頂點的高度。這一題一個是 0、一個是 8，差很多。</div>
+</section>
+
+<section class="card">
+  <h2>跟 x 軸交在哪裡</h2>
+  <p class="desc">x 軸就是水面。跟 x 軸的交點，就是水柱碰到水面的位置。這一題有兩條路可以走。</p>
+
+  <h3 style="margin-top:18px">第一條路：提出 x</h3>
+  <div class="plain">這一條式子的兩項都含有 x，而且後面<b>沒有常數項</b>，所以可以把 x 提出來：</div>
+  <div class="eqline">y = −0.5x² + 4x = x(−0.5x + 4)</div>
+  <div class="plain">兩個東西相乘要等於 0，只有一種可能：其中一個是 0。</div>
+  <div class="step">
+    x = 0<br>
+    或　−0.5x + 4 = 0　→　x = 8
+  </div>
+  <div class="hint">
+    <div class="ht">−0.5x + 4 = 0 怎麼解？點開看一次</div>
+    <div class="hb">
+      把 4 移到右邊，移過去要變號：<br>
+      <span class="eq">−0.5x = −4</span><br>
+      兩邊同除以 −0.5：<br>
+      <span class="eq">x = −4 ÷ (−0.5) = 8</span>　<span style="color:var(--ink-soft)">負除以負是正</span>
+    </div>
+  </div>
+  <div class="note">提出 x 很快，但只有在<b>沒有常數項</b>的時候行得通。式子後面只要多一個數字，這條路就走不通了。</div>
+
+  <h3 style="margin-top:22px">第二條路：用配方後的式子</h3>
+  <div class="plain">配方後的式子是 −0.5(x − 4)² + 8。令 y = 0，解出來：</div>
+  <div class="step">
+    −0.5(x − 4)² + 8 = 0<br><br>
+    <span class="lab">把 8 移到右邊</span><br>
+    −0.5(x − 4)² = −8<br><br>
+    <span class="lab">兩邊同除以 −0.5</span><br>
+    (x − 4)² = 16<br><br>
+    <span class="lab">平方等於 16 的數有兩個：4 和 −4</span><br>
+    x − 4 = 4　或　x − 4 = −4<br>
+    x = <b style="color:var(--teal)">8</b>　或　x = <b style="color:var(--teal)">0</b>
+  </div>
+  <div class="hint">
+    <div class="ht">為什麼平方等於 16 會有兩個答案？點開看一次</div>
+    <div class="hb">
+      <span class="eq">4 × 4 = 16</span><br>
+      <span class="eq">(−4) × (−4) = 16</span>　<span style="color:var(--ink-soft)">負負得正</span><br><br>
+      所以平方等於 16 的數有 4 和 −4 兩個。<br>
+      同樣地，平方等於 9 的數有 3 和 −3；平方等於 0 的數只有 0 一個。
+    </div>
+  </div>
+  <div class="plain">兩條路算出來一樣：交點是 <b>0</b> 和 <b>8</b>——噴出去的位置，和落回水面的位置。跟實際量到的 8 公尺一致。</div>
+  <div class="plain"><b>提出 x 只在沒有常數項時行得通，配方後的式子則是每一條都能用。</b></div>
+  <div class="plain">另外，0 和 8 的中間是 4，正好是頂點的位置。曲線左右對稱，最高點一定落在兩個交點的正中間。</div>
+</section>
+
+<section class="card" style="border-color:var(--violet)">
+  <h2>四件事湊齊，把噴水池畫出來</h2>
+  <p class="desc">前面找到的四件事排出來。</p>
+  <div class="four">
+    <div class="fcard"><h4>開口朝哪</h4><p>a = −0.5，是負的，開口向下，是山型，頂點在最高的地方。</p></div>
+    <div class="fcard"><h4>通過 y 軸的哪裡</h4><p>c = 0，圖形通過 (0, 0)，噴嘴就在水面上。</p></div>
+    <div class="fcard"><h4>頂點在哪裡</h4><p>配方後是 −0.5(x − 4)² + 8，頂點在 (4, 8)。</p></div>
+    <div class="fcard"><h4>跟 x 軸交在哪裡</h4><p>拆成 x(−0.5x + 4)，交點是 0 和 8。</p></div>
+  </div>
+  <div class="fig" style="margin-top:14px"><svg id="fSvg" viewBox="0 0 340 300" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="plain">把頂點和兩個交點標上去，再照著開口向下的方向連成一條左右對稱的曲線，水柱的形狀就出來了。</div>
+  <div class="note">畫的時候從頂點開始最穩：先點頂點，再點兩個交點，三個點就決定了這條曲線的高矮胖瘦。</div>
+</section>
+
+<section class="card" style="border-color:var(--violet)">
+  <h2>換一條自己走一次</h2>
+  <p class="desc">罰球。球出手的時候離地 1.75 公尺，飛到水平 5 公尺遠的地方，剛好通過 3 公尺高的籃框。</p>
+  <div class="eqbig">y = −0.25x² + 1.5x + 1.75</div>
+  <div class="plain">x 是球飛出去的水平距離，y 是球離地的高度，單位都是公尺。這條式子是從出手高度、籃框的位置與高度配出來的。</div>
+  <div class="ask">把四件事一件一件找出來，再把圖畫到下面的格子上。</div>
+  <div class="fig"><svg id="blankSvg" viewBox="0 0 340 300" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="work h220"></div>
+  <div class="reveal" id="rvDraw">
+    <div class="rq">點開對答案</div>
+    <div class="ra">
+      <div class="four">
+        <div class="fcard"><h4>開口朝哪</h4><p>a = −0.25，是負的，開口向下，球升到最高再落下。</p></div>
+        <div class="fcard"><h4>通過 y 軸的哪裡</h4><p>c = 1.75，通過 (0, 1.75)。那是球出手時離地的高度。</p></div>
+        <div class="fcard"><h4>頂點在哪裡</h4><p>提出 −0.25 得 −0.25(x² − 6x)，6 的一半是 3，多出 9 減掉：−0.25[(x − 3)² − 9] + 1.75 = −0.25(x − 3)² + 4。頂點 (3, 4)，飛出 3 公尺時最高 4 公尺。</p></div>
+        <div class="fcard"><h4>跟 x 軸交在哪裡</h4><p>令 y = 0 解出 −1 和 7。</p></div>
+      </div>
+      <div class="fig" style="margin-top:12px"><svg id="ansSvg" viewBox="0 0 340 300" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="plain">這一題的 c 不是 0，所以圖形不通過原點——球是從手上出去的，出手時已經在 1.75 公尺高。</div>
+      <div class="ask">交點 −1 是什麼意思？球會飛到水平距離 −1 公尺的地方嗎？</div>
+      <div class="plain"><b>不會。</b>x = −1 是在出手位置的後方，球那時候還在手上，根本還沒被丟出去。式子算得出這個答案，但現實中不存在——這是<b>適用範圍</b>的問題。</div>
+      <div class="plain">另一個交點 7 才有意義：如果球沒進籃、一路飛下去，會在水平 7 公尺的地方落地。</div>
+      <div class="note">籃框在水平 5 公尺、高 3 公尺的位置。把 5 代進去算算看，會得到 3——球剛好通過籃框。</div>
+    </div>
+  </div>
+</section>
+
+<section class="card" style="border:none;background:transparent;box-shadow:none;padding:0">
+  <div class="cliff">
+    <h4>如果係數不整齊呢</h4>
+    <p style="margin-top:2px">噴水池和罰球這兩條式子，配方之後的數字都還算整齊。</p>
+    <p style="margin-top:8px">但係數不整齊的時候，配方的過程裡會出現一堆分數。有沒有更快的辦法？</p>
+  </div>
+</section>
+
+</div>
+<script>
+
+const PL=48,PB=40,PT=22,PR=18;
+function mkmap(L,T,W,H,xmin,xmax,ymin,ymax){
+  const CW=W-L-PR, CH=H-T-PB;
+  return {X:x=>L+((x-xmin)/(xmax-xmin))*CW, Y:y=>T+CH-((y-ymin)/(ymax-ymin))*CH,
+          L:L,T:T,CW:CW,CH:CH,xmin:xmin,xmax:xmax,ymin:ymin,ymax:ymax};
+}
+function axes(m,xstep,ystep){
+  let s='';
+  for(let v=Math.ceil(m.ymin/ystep)*ystep;v<=m.ymax;v+=ystep)
+    s+=`<line x1="${m.L}" y1="${m.Y(v)}" x2="${m.L+m.CW}" y2="${m.Y(v)}" stroke="#F4F7FA" stroke-width="1"/>`;
+  for(let x=Math.ceil(m.xmin/xstep)*xstep;x<=m.xmax;x+=xstep)
+    s+=`<line x1="${m.X(x)}" y1="${m.T}" x2="${m.X(x)}" y2="${m.T+m.CH}" stroke="#F4F7FA" stroke-width="1"/>`;
+  const ax=(m.ymin<=0&&m.ymax>=0)?m.Y(0):m.T+m.CH;
+  const ay=(m.xmin<=0&&m.xmax>=0)?m.X(0):m.L;
+  s+=`<line x1="${m.L}" y1="${ax}" x2="${m.L+m.CW}" y2="${ax}" stroke="#1D4E89" stroke-width="2"/>`;
+  s+=`<line x1="${ay}" y1="${m.T}" x2="${ay}" y2="${m.T+m.CH}" stroke="#B3541E" stroke-width="2"/>`;
+  for(let x=Math.ceil(m.xmin/xstep)*xstep;x<=m.xmax;x+=xstep){ if(x===0) continue;
+    s+=`<text x="${m.X(x)}" y="${ax+15}" fill="#1D4E89" font-size="10" text-anchor="middle">${x}</text>`;}
+  for(let v=Math.ceil(m.ymin/ystep)*ystep;v<=m.ymax;v+=ystep){ if(v===0) continue;
+    s+=`<text x="${ay-6}" y="${m.Y(v)+4}" fill="#B3541E" font-size="10" text-anchor="end">${v}</text>`;}
+  return s;
+}
+function curve(m,f,col,w){
+  let p='',pen=false;
+  for(let x=m.xmin;x<=m.xmax;x+=(m.xmax-m.xmin)/400){
+    const y=f(x);
+    if(y<m.ymin-(m.ymax-m.ymin)*.05||y>m.ymax+(m.ymax-m.ymin)*.05){pen=false;continue;}
+    p+=(pen?'L':'M')+m.X(x).toFixed(1)+' '+m.Y(y).toFixed(1)+' ';pen=true;
+  }
+  return `<path d="${p}" fill="none" stroke="${col}" stroke-width="${w||2.8}" stroke-linecap="round"/>`;
+}
+document.querySelectorAll('.reveal').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+document.querySelectorAll('.hint').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+document.querySelectorAll('.dcard').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+
+function plotFull(id,f,vx,vy,roots,xmin,xmax,ymin,ymax,xs,ys){
+  const svg=document.getElementById(id); if(!svg) return;
+  const m=mkmap(PL,PT,340,300,xmin,xmax,ymin,ymax);
+  let s=axes(m,xs,ys);
+  if(f){
+    s+=curve(m,f,'#7A5CC7');
+    s+=`<circle cx="${m.X(vx)}" cy="${m.Y(vy)}" r="7" fill="#E8593F"/>`;
+    s+=`<text x="${m.X(vx)}" y="${m.Y(vy)-12}" fill="#E8593F" font-size="11.5" font-weight="700" text-anchor="middle">(${vx}, ${vy})</text>`;
+    roots.forEach(r=>{ s+=`<circle cx="${m.X(r)}" cy="${m.Y(0)}" r="6" fill="#0E9C8B"/>`;
+      s+=`<text x="${m.X(r)}" y="${m.Y(0)+20}" fill="#0E9C8B" font-size="11" font-weight="700" text-anchor="middle">${r}</text>`;});
+  }
+  svg.innerHTML=s;
+}
+plotFull('fSvg', x=>-0.5*x*x+4*x, 4,8,[0,8], -1,9,-2,10, 2,2);
+plotFull('blankSvg', null,0,0,[], -2,8,-2,5, 1,1);
+plotFull('ansSvg', x=>-0.25*x*x+1.5*x+1.75, 3,4,[-1,7], -2,8,-2,5, 1,1);
+
+</script>
+</body>
+</html>
