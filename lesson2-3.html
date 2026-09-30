@@ -107,6 +107,7 @@
 
 <header>
   <h1>這條彎線叫<span class="hl">拋物線</span></h1>
+  <p class="lead">二次函數畫出來的那條彎線，有一個名字叫拋物線。<br>拋物線有三個固定的性質：它左右對稱；它的開口不是向上就是向下；轉折的那一點有最高或最低的值。接下來要把這三件事一個一個看清楚，並且回頭用它們解決籬笆圍地的問題。</p>
 </header>
 
 <section class="card">
@@ -118,8 +119,10 @@
   </div>
   <div class="fig"><svg id="symSvg" viewBox="0 0 340 270" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="readout" id="symRead"></div>
-  <div class="plain">同一個高度，通常會交在<b>兩個</b>地方，而且這兩點離中間那條線<b>一樣遠</b>。<br><br>
-  中間那條垂直線稱為<b>對稱軸</b>，它跟曲線相交的那一點稱為<b>頂點</b>。頂點是唯一只交一個點的位置——再往上就碰不到了。</div>
+  <div class="plain">拉一條水平線過去，它會跟曲線交在<b>兩個</b>地方，而且這兩個交點離中間那條垂直線<b>一樣遠</b>。<br>
+  只有一個高度例外：水平線剛好擦過最高處的時候，只會交到一個點；再往上拉就完全碰不到曲線了。<br><br>
+  中間那條垂直線稱為<b>對稱軸</b>。它的作用是：把整條曲線沿著這條線對折，左右兩半會完全疊在一起。<br>
+  對稱軸跟曲線相交的那一點稱為<b>頂點</b>。頂點就是剛才說的那個例外——整條曲線上，只有這個高度的水平線只交到一個點。</div>
 
   <div class="plain" style="background:var(--coral-tint)">交在兩個點，在現實裡是什麼意思？<br><br>
   以面積 150 平方公尺為例：可以圍成<b>寬 5、長 30</b>，也可以圍成<b>寬 15、長 10</b>——<b>兩種完全不同的圍法，面積一樣</b>。<br><br>
@@ -137,11 +140,15 @@
   <div class="readout" id="abRead"></div>
   <div class="plain">x² 前面的數字是<b>負的</b>，開口向<b>下</b>，頂點在最高處，函數有<b>最大值</b>。<br>
   x² 前面的數字是<b>正的</b>，開口向<b>上</b>，頂點在最低處，函數有<b>最小值</b>。<br><br>
-  圍籬問題的式子是 −2x² + 40x，前面是負的，所以有最大值——也就是要找的最大面積。</div>
+  圍籬問題的式子是 −2x² + 40x，前面是負的，所以有最大值——也就是要找的最大面積。<br><br>
+  為什麼 x² 前面的正負號能決定開口方向：式子裡有 40x 和 −2x² 兩項，一項讓結果變大，一項讓結果變小。<br>
+  x 還小的時候，40x 這一項佔上風，所以 y 一路往上。例如 x = 2 時，40x 是 80，−2x² 只有 −8。<br>
+  x 變大之後情況反過來，因為 x² 增加的速度比 x 快得多。x = 15 時，40x 是 600，−2x² 已經是 −450，往下拉的力量追了上來；x = 20 時兩項剛好抵消，y 回到 0。<br>
+  一路往上、再一路往下，中間必然有一個轉折的最高處。反過來說，如果 x² 前面是正號，往上拉的那一項最後會佔上風，圖形就先下後上，中間變成最低處。</div>
 </section>
 
 <section class="card">
-  <h2>籬笆 40 公尺的地</h2>
+  <h2>回到籬笆 40 公尺的地：頂點在哪裡</h2>
   <div class="fig"><svg id="fenceSvg" viewBox="0 0 340 270" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="plain">頂點就在寬 = 10 的正上方，面積 200。<br><br>
   用眼睛看得出來它在那裡，也可以拉滑桿一個一個試——但如果籬笆是 37 公尺、數字不那麼剛好呢？</div>
@@ -150,10 +157,11 @@
 
 <section class="card" style="border:none;background:transparent;box-shadow:none;padding:0">
   <div class="cliff">
-    <h4>回家想想看</h4>
+    <h4>延伸問題</h4>
     <p style="margin-top:2px">40 公尺的籬笆，四邊都要圍，圍成一塊長方形的地。</p>
-    <p style="margin-top:8px">寬設為 x 公尺，長是多少？面積是多少？</p>
-    <p style="margin-top:8px">怎麼圍面積最大？</p>
+    <p style="margin-top:8px">一、寬設為 x 公尺，長是多少？面積是多少？</p>
+    <p style="margin-top:8px">二、怎麼圍面積最大？</p>
+    <p style="margin-top:8px">三、除了一個一個試以外，有沒有辦法說明為什麼那一種圍法最大？</p>
   </div>
 </section>
 </div>

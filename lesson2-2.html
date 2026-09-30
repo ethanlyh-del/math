@@ -137,6 +137,7 @@
 
 <header>
   <h1>為什麼是<span class="hl">彎的，不是直的</span>？</h1>
+  <p class="lead">一次函數畫出來是直線，二次函數畫出來是一條彎曲的線。彎這件事不是規定，而是有原因的。<br>原因藏在「每走一步，增加多少」這個量裡面。接下來從正方形長大的過程開始看，一步一步找出線為什麼會彎。</p>
 </header>
 
 <section class="card">
@@ -159,8 +160,8 @@
 </section>
 
 <section class="card" style="border-color:var(--violet)">
-  <h2>多出來幾格？</h2>
-  <p class="desc">邊長從 n 長到 n+1，新長出來的那一圈有幾格？先不要一格一格數。</p>
+  <h2>不數格子，用算的</h2>
+  <p class="desc">上一節是把新長的一圈整個看出來，這一節要把它算出來。邊長從 n 長到 n+1，新長的那一圈有幾格？不要一格一格數，想辦法用 n 把它寫成式子。同一圈格子可以有好幾種數法。</p>
   <div class="fig"><svg id="cntSvg" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="ask">這一圈有幾格？是怎麼數出來的？</div>
 
@@ -191,7 +192,10 @@
   </table>
   <div class="plain">周長每次都固定多 <b style="color:#B07E15">4</b>——每一步增加的量一樣，畫出來是<b>直線</b>，這是<b>一次函數</b>（周長 = 4x）。<br><br>
   面積多的是 <b style="color:var(--teal)">3、5、7、9、11</b>——<b>一次比一次多</b>，因為正方形越大，新長的那一圈就越長。畫出來是<b>曲線</b>，這是<b>二次函數</b>（面積 = x²）。<br><br>
-  <b>變化量固定就是直線，變化量會變就是曲線。</b></div>
+  把這件事畫成圖就看得出來為什麼一個是直的、一個是彎的。<br>
+  周長每往右一格就往上升 4，每一段升的高度都一樣，所有線段的斜度相同，接起來自然是一條直線。<br>
+  面積每往右一格升的高度是 3、5、7、9、11，後面的線段比前面陡，每一段的斜度都不一樣，接起來就是一條越來越陡的彎線。<br><br>
+  <b>每一步增加的量固定，畫出來就是直線；每一步增加的量會變，畫出來就是曲線。</b></div>
   <div class="fig" style="margin-top:14px"><svg id="periSvg" viewBox="0 0 340 250" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="note">金色的周長排成一條直線，綠色的面積越來越陡，在邊長 4 交會後就超過周長。</div>
 </section>
