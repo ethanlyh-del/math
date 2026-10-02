@@ -263,12 +263,12 @@
     {see:'底下一排 n 個、右邊一排 n 個，角落再 1 個。',eq:'n + n + 1',
      colour:(r,c)=>{ if(r===M-1&&c===M-1) return '#E0A32E';
                      if(r===M-1) return '#7A5CC7';
-                     if(c===M-1) return '#0E9C8B'; return null; }},
+                     if(c===M-1) return '#E8593F'; return null; }},
     {see:'大正方形的總格數，減掉原本小正方形的格數。',eq:'(n + 1)² − n²',
-     colour:(r,c)=>(r===M-1||c===M-1)?'#E8593F':null, sub:true},
+     colour:(r,c)=>(r===M-1||c===M-1)?'#E8593F':null},
     {see:'底下一整排是 n+1 個，右邊剩下的是 n 個。',eq:'(n + 1) + n',
      colour:(r,c)=>{ if(r===M-1) return '#7A5CC7';
-                     if(c===M-1) return '#0E9C8B'; return null; }}
+                     if(c===M-1) return '#E8593F'; return null; }}
   ];
   let cur=-1;
   function draw(){
@@ -281,7 +281,7 @@
       else{
         const col=views[cur].colour(r,c);
         if(col){ fill=col+'2E'; stroke=col; }
-        else if(views[cur].sub){ fill='#EDF2F7'; stroke='#C3D3E0'; }
+        else { fill='#EDF2F7'; stroke='#C3D3E0'; }
       }
       s+=`<rect x="${ox+c*cell}" y="${oy+r*cell}" width="${cell-2}" height="${cell-2}" rx="2" fill="${fill}" stroke="${stroke}" stroke-width="1.4"/>`;
     }
