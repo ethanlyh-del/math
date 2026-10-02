@@ -130,6 +130,14 @@
   footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
   .wall{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:15px 18px;text-align:left}
   .wall b{color:var(--coral)}
+  .hint{border:1.5px dashed var(--teal);border-radius:12px;padding:11px 15px;margin:12px 0;background:#F4FBFA;cursor:pointer;transition:.15s}
+  .hint:hover{background:#E8F6F2}
+  .hint .ht{font-weight:700;color:var(--teal);font-size:.93rem}
+  .hint .ht::before{content:"\25B8 "}
+  .hint.on .ht::before{content:"\25BE "}
+  .hint .hb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .hint.on .hb{display:block}
+  .hint .hb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
 </style>
 </head>
 <body>
@@ -190,14 +198,37 @@
     <thead><tr><th>邊長</th><th>周長</th><th>周長多多少</th><th>面積</th><th>面積多多少</th></tr></thead>
     <tbody></tbody>
   </table>
-  <div class="plain">周長每次都固定多 <b style="color:#B07E15">4</b>——每一步增加的量一樣，畫出來是<b>直線</b>，這是<b>一次函數</b>（周長 = 4x）。<br><br>
-  面積多的是 <b style="color:var(--teal)">3、5、7、9、11</b>——<b>一次比一次多</b>，因為正方形越大，新長的那一圈就越長。畫出來是<b>曲線</b>，這是<b>二次函數</b>（面積 = x²）。<br><br>
-  把這件事畫成圖就看得出來為什麼一個是直的、一個是彎的。<br>
-  周長每往右一格就往上升 4，每一段升的高度都一樣，所有線段的斜度相同，接起來自然是一條直線。<br>
-  面積每往右一格升的高度是 3、5、7、9、11，後面的線段比前面陡，每一段的斜度都不一樣，接起來就是一條越來越陡的彎線。<br><br>
-  <b>每一步增加的量固定，畫出來就是直線；每一步增加的量會變，畫出來就是曲線。</b></div>
+  <div class="plain">周長每次都固定多 <b style="color:#B07E15">4</b>——每一步增加的量一樣，這是<b>一次函數</b>（周長 = 4x）。<br><br>
+  面積多的是 <b style="color:var(--teal)">3、5、7、9、11</b>——<b>一次比一次多</b>，因為正方形越大，新長的那一圈就越長。這是<b>二次函數</b>（面積 = x²）。</div>
   <div class="fig" style="margin-top:14px"><svg id="periSvg" viewBox="0 0 340 250" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="note">金色的周長排成一條直線，綠色的面積越來越陡，在邊長 4 交會後就超過周長。</div>
+
+  <div class="plain" style="margin-top:14px">為什麼一個是直的、一個是彎的，可以從<b>斜率</b>看出來。斜率指的是往右走一格時，線往上升了多少。<br><br>
+  周長每往右一格就往上升 4。每一段升的高度都一樣，所以每一段的斜率都是 4，接起來自然是一條直線。<br>
+  面積每往右一格升的高度是 3、5、7、9、11。每一段的斜率都比前一段大，後面的線段比前面陡，接起來就是一條越來越陡的彎線。</div>
+
+  <div class="hint">
+    <div class="ht">斜率是什麼？點開看一次</div>
+    <div class="hb">
+      斜率描述的是一條線有多陡，也就是<b>往右走一格的時候，往上升了多少</b>。<br><br>
+      <span class="eq">往右 1 格、往上 4 格　→　斜率 4</span>　　比較陡<br>
+      <span class="eq">往右 1 格、往上 1 格　→　斜率 1</span>　　比較平<br>
+      <span class="eq">往右 1 格、往上 0 格　→　斜率 0</span>　　完全水平<br><br>
+      斜率越大，線越陡。<br><br>
+      往右走的不一定剛好是一格。走了好幾格的時候，用除法算出「平均每一格升多少」：<br>
+      <span class="eq" style="font-size:1.08rem"><b>斜率 = 往上升的量 ÷ 往右走的量</b></span><br><br>
+      例如往右走 2 格、往上升 8 格：<span class="eq">8 ÷ 2 = 4</span>，斜率是 4。<br><br>
+      拿周長的表格檢查一次。邊長從 2 走到 5，往右走了 3 格；周長從 8 變成 20，往上升了 12：<br>
+      <span class="eq">12 ÷ 3 = 4</span>　斜率是 4。<br>
+      換一段，邊長從 1 走到 3，周長從 4 變成 12：<span class="eq">8 ÷ 2 = 4</span>　還是 4。<br>
+      不管挑哪一段，算出來都是 4，這就是直線的特徵。<br><br>
+      一條<b>直線</b>從頭到尾的斜率都一樣，所以不管看哪一段，陡的程度都相同。<br>
+      一條<b>曲線</b>每一段的斜率都不一樣，所以有的地方平、有的地方陡，線才會彎。<br><br>
+      周長那條線每一段斜率都是 4，所以是直線。面積那條線斜率從 3 變成 5、7、9、11，越來越大，所以越走越陡、彎了起來。
+    </div>
+  </div>
+
+  <div class="plain"><b>每一步增加的量固定，斜率就固定，畫出來是直線；每一步增加的量會變，斜率就會變，畫出來是曲線。</b></div>
 </section>
 
 <section class="card">
@@ -223,6 +254,8 @@
 </div>
 
 <script>
+document.querySelectorAll('.hint').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+
 /* L 形 */
 (function(){
   const sl=document.getElementById('lS'), svg=document.getElementById('lSvg');
