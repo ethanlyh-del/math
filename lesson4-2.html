@@ -118,6 +118,16 @@
   .ifr>span:first-child{border-bottom:2px solid currentColor;padding:0 4px 1px}
   .ifr>span:last-child{padding:2px 4px 0}
   .eqline.frl{line-height:2.5}
+
+  .review{border:1.5px solid var(--gold);border-radius:12px;padding:11px 15px;margin:12px 0;background:#FFFBF1;cursor:pointer;user-select:none;transition:.15s}
+  .review:hover{background:#FDF4DE}
+  .review .rvt{font-weight:700;color:#9A6B12;font-size:.93rem}
+  .review .rvt::before{content:"▸ "}
+  .review.on .rvt::before{content:"▾ "}
+  .review .rvb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .review.on .rvb{display:block}
+  .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
 </style>
 </head>
 <body>
@@ -154,7 +164,7 @@
     y = <b style="color:var(--violet)">−0.5(x − 4)² + 8</b>
   </div>
   <div class="hint">
-    <div class="ht">把 −0.5 乘進中括號時，−16 那一項怎麼算？點開看一次</div>
+    <div class="ht">提示　把 −0.5 乘進中括號時，−16 那一項怎麼算？</div>
     <div class="hb">
       中括號裡有兩項：<span class="eq">(x − 4)²</span> 和 <span class="eq">−16</span>。<br>
       −0.5 要跟<b>每一項</b>各乘一次。<br><br>
@@ -162,6 +172,12 @@
       <span class="eq">−0.5 × (−16) = +8</span>　<span style="color:var(--ink-soft)">負乘以負是正</span><br><br>
       所以中括號拆開之後是 <span class="eq">−0.5(x − 4)² + 8</span>。<br>
       很容易只乘第一項就往下走，第二項要記得乘到。
+    </div>
+  </div>
+    <div class="review">
+    <div class="rvt">概念複習：正負數相乘、相除的符號</div>
+    <div class="rvb">
+      <span class="lb">規則</span>同號得正，異號得負。<br><span class="eq">正 × 正 = 正</span>　<span class="eq">負 × 負 = 正</span>　<span class="eq">正 × 負 = 負</span>　<span class="eq">負 × 正 = 負</span><br><span class="lb">例子</span><span class="eq">3 × (−2) = −6</span>　<span class="eq">(−3) × (−2) = 6</span><br><span class="lb">除法也一樣</span><span class="eq">40 ÷ (−2) = −20</span>　<span class="eq">(−8) ÷ (−2) = 4</span>
     </div>
   </div>
   <div class="plain">括號裡的 x − 4 等於 0 時 x = 4，代回去 y = 8。所以頂點在 <b>(4, 8)</b>——水柱飛出 4 公尺時最高，離水面 8 公尺。跟實際量到的一致。</div>
@@ -194,9 +210,9 @@
     x = 0<br>
     或　−0.5x + 4 = 0　→　x = 8
   </div>
-  <div class="hint">
-    <div class="ht">−0.5x + 4 = 0 怎麼解？點開看一次</div>
-    <div class="hb">
+  <div class="review">
+    <div class="rvt">概念複習：移項：−0.5x + 4 = 0 怎麼解？</div>
+    <div class="rvb">
       把 4 移到右邊，移過去要變號：<br>
       <span class="eq">−0.5x = −4</span><br>
       兩邊同除以 −0.5：<br>
@@ -217,9 +233,9 @@
     x − 4 = 4　或　x − 4 = −4<br>
     x = <b style="color:var(--teal)">8</b>　或　x = <b style="color:var(--teal)">0</b>
   </div>
-  <div class="hint">
-    <div class="ht">為什麼平方等於 16 會有兩個答案？點開看一次</div>
-    <div class="hb">
+  <div class="review">
+    <div class="rvt">概念複習：為什麼平方等於 16 會有兩個答案？</div>
+    <div class="rvb">
       <span class="eq">4 × 4 = 16</span><br>
       <span class="eq">(−4) × (−4) = 16</span>　<span style="color:var(--ink-soft)">負負得正</span><br><br>
       所以平方等於 16 的數有 4 和 −4 兩個。<br>
@@ -335,6 +351,10 @@ plotFull('fSvg', x=>-0.5*x*x+4*x, 4,8,[0,8], -1,9,-2,10, 2,2);
 plotFull('blankSvg', null,0,0,[], -2,8,-2,5, 1,1);
 plotFull('ansSvg', x=>-0.25*x*x+1.5*x+1.75, 3,4,[-1,7], -2,8,-2,5, 1,1);
 
+</script>
+
+<script>
+document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
 </script>
 </body>
 </html>

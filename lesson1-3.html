@@ -91,9 +91,6 @@
   th,td{border:1.5px solid var(--grid-strong);padding:8px 4px;text-align:center}
   th{background:#F3F6F9;font-weight:700;font-size:.82rem}
   td.hl2{background:var(--teal-tint);color:var(--teal);font-weight:700}
-  .hw{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px 20px;margin-top:18px}
-  .hwt{font-weight:800;color:var(--coral);font-size:1.05rem;margin-bottom:8px}
-  .hwb{font-size:1rem;line-height:1.9}
   .fillbox{background:#fff;border:2px solid var(--coral);border-radius:13px;padding:18px 20px;margin:16px 0}
   .fill-lead{font-size:.96rem;color:var(--ink-soft);line-height:1.8;margin-bottom:14px}
   .diagram{max-width:340px;margin:6px auto 0;display:block}
@@ -120,6 +117,16 @@
   footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
   .wall{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:15px 18px;text-align:left}
   .wall b{color:var(--coral)}
+
+  .review{border:1.5px solid var(--gold);border-radius:12px;padding:11px 15px;margin:12px 0;background:#FFFBF1;cursor:pointer;user-select:none;transition:.15s}
+  .review:hover{background:#FDF4DE}
+  .review .rvt{font-weight:700;color:#9A6B12;font-size:.93rem}
+  .review .rvt::before{content:"▸ "}
+  .review.on .rvt::before{content:"▾ "}
+  .review .rvb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .review.on .rvb{display:block}
+  .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
 </style>
 </head>
 <body>
@@ -132,6 +139,12 @@
 <section class="card" style="border-color:var(--coral)">
   <p class="desc">以 <b>40 公尺</b>籬笆靠牆圍出一塊長方形的地（靠牆一側不需圍）。<b>如何圍出最大面積？</b></p>
 
+    <div class="review">
+    <div class="rvt">概念複習：面積和周長差在哪裡？</div>
+    <div class="rvb">
+      <span class="lb">面積</span>圖形佔了多大的地方，看它可以鋪滿幾個 1 × 1 的小方格。長方形面積 = 長 × 寬。<br><span class="lb">周長</span>沿著圖形外圍走一圈的長度。長 5、寬 3 的長方形，周長是 5 + 3 + 5 + 3 = 16；正方形的周長是 4 × 邊長。<br><svg viewBox="0 0 262 72" style="max-width:262px;margin:8px 0" role="img" aria-label="面積 15 格，周長 16"><rect x="1" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="1" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="1" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="67" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="67" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="67" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="89" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="89" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="89" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><text x="124" y="39.0" font-size="14" fill="#22303C">面積 15 格，周長 16</text></svg><br><span class="lb">差別</span>周長量的是邊的長度，例如籬笆、圍牆；面積量的是裡面的大小，例如地板、草皮。
+    </div>
+  </div>
   <div class="fillbox">
     <div class="fill-lead">籬笆總共 40 公尺，只圍三邊：左右兩條「寬」與前面一條「長」。</div>
     <svg class="diagram" viewBox="0 0 320 190" preserveAspectRatio="xMidYMid meet">
@@ -180,16 +193,6 @@
   </div>
 
   <div class="ask">如果籬笆改成 37 公尺呢？<br>用試的，能保證找到的就是最大值嗎？</div>
-
-  <div class="hw">
-    <div class="hwt">回家想想看</div>
-    <div class="hwb">
-      剛才是把「寬」設為 x。<br>
-      如果改成把「<b>長</b>」設為 x 呢？<br><br>
-      寬要怎麼用 x 表示？面積的式子會變成什麼？<br>
-      算出來的最大面積，會跟原來一樣嗎？
-    </div>
-  </div>
 </section>
 
 <script>
@@ -282,6 +285,10 @@
   upd();
 })();
 
+</script>
+
+<script>
+document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
 </script>
 </body>
 </html>

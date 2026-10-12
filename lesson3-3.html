@@ -80,6 +80,16 @@
   .q.done .qexp{display:block}
   .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
   .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+
+  .review{border:1.5px solid var(--gold);border-radius:12px;padding:11px 15px;margin:12px 0;background:#FFFBF1;cursor:pointer;user-select:none;transition:.15s}
+  .review:hover{background:#FDF4DE}
+  .review .rvt{font-weight:700;color:#9A6B12;font-size:.93rem}
+  .review .rvt::before{content:"▸ "}
+  .review.on .rvt::before{content:"▾ "}
+  .review .rvb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .review.on .rvb{display:block}
+  .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
 </style>
 </head>
 <body>
@@ -97,11 +107,23 @@
   <table>
     <thead><tr><th>步驟</th><th>結果</th></tr></thead>
     <tbody>
-      <tr><td>(x − 10)²</td><td>任何實數的平方都大於或等於 0，所以只能是 0 或正數</td></tr>
+      <tr><td>(x − 10)²</td><td>任何實數（數線上所有的數，包括正數、負數、0、分數和小數）的平方都大於或等於 0，所以只能是 0 或正數</td></tr>
       <tr><td>× (−2)</td><td>0 或正數乘上負數，只能是 0 或負數</td></tr>
       <tr><td>+ 200</td><td>200 加上一個不會是正數的東西，結果只會等於 200 或比 200 小</td></tr>
     </tbody>
   </table>
+    <div class="review">
+    <div class="rvt">概念複習：正負數相乘、相除的符號</div>
+    <div class="rvb">
+      <span class="lb">規則</span>同號得正，異號得負。<br><span class="eq">正 × 正 = 正</span>　<span class="eq">負 × 負 = 正</span>　<span class="eq">正 × 負 = 負</span>　<span class="eq">負 × 正 = 負</span><br><span class="lb">例子</span><span class="eq">3 × (−2) = −6</span>　<span class="eq">(−3) × (−2) = 6</span><br><span class="lb">除法也一樣</span><span class="eq">40 ÷ (−2) = −20</span>　<span class="eq">(−8) ÷ (−2) = 4</span>
+    </div>
+  </div>
+    <div class="review">
+    <div class="rvt">概念複習：≥ 是什麼意思？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>≥ 讀作「大於或等於」。a ≥ 0 表示 a 是 0，或比 0 大。<br><span class="lb">四個符號</span><span class="eq">></span> 大於　<span class="eq">≥</span> 大於或等於　<span class="eq"><</span> 小於　<span class="eq">≤</span> 小於或等於<br><span class="lb">例子</span>遊樂設施規定身高 120 公分以上才能搭乘，寫成 身高 ≥ 120。剛好 120 公分也可以搭。
+    </div>
+  </div>
   <div class="plain">所以 y <b>最大就是 200</b>，而且只發生在括號等於 0 的時候，也就是 x = 10。拉動下面的滑桿可以逐一確認。</div>
   <div class="slider-row"><span class="slabel">x</span>
     <input type="range" id="pS" min="4" max="16" value="7" step="0.5">
@@ -124,6 +146,13 @@
     <div class="vrow"><span class="vk">對稱軸</span><span class="vv">通過頂點的那條垂直線。曲線以它為界左右對稱，離它一樣遠的兩個位置，高度相同。</span></div>
     <div class="vrow"><span class="vk">極值</span><span class="vv">最大值與最小值合起來的稱呼，也就是頂點的 y 座標。開口向下的函數有最大值，開口向上的有最小值。</span></div>
   </div>
+  <div class="review">
+    <div class="rvt">概念複習：座標是什麼？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>座標用兩個數標出一個點的位置，寫成 (橫向的值, 縱向的值)。第一個數叫 x 座標，第二個數叫 y 座標。<br><span class="lb">例子</span>(3, 14) 表示從原點往右 3、往上 14。(−3, −4) 表示往左 3、往下 4。<br><span class="lb">容易搞混</span>順序不能對調。(3, 14) 和 (14, 3) 是兩個不同的點。
+    </div>
+  </div>
+
 </section>
 
 <section class="card">
@@ -297,6 +326,10 @@ document.querySelectorAll('.q').forEach(q=>{
     else{ o.classList.add('wrong'); }
   }));
 });
+</script>
+
+<script>
+document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
 </script>
 </body>
 </html>

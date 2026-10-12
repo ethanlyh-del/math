@@ -79,6 +79,21 @@
   .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
   .expand{font-family:"JetBrains Mono",monospace;font-size:.95rem;background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;line-height:2}
   footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
+
+  .review{border:1.5px solid var(--gold);border-radius:12px;padding:11px 15px;margin:12px 0;background:#FFFBF1;cursor:pointer;user-select:none;transition:.15s}
+  .review:hover{background:#FDF4DE}
+  .review .rvt{font-weight:700;color:#9A6B12;font-size:.93rem}
+  .review .rvt::before{content:"▸ "}
+  .review.on .rvt::before{content:"▾ "}
+  .review .rvb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .review.on .rvb{display:block}
+  .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
+
+  .upstream{background:#fff;border:1.5px solid var(--violet);border-radius:16px;padding:22px 22px 18px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  .upstream h2{color:var(--violet);margin-bottom:10px}
+  .upstream p{margin:0 0 10px;font-size:1rem;line-height:1.85}
+  .upstream p b{color:var(--violet)}
 </style>
 </head>
 <body>
@@ -88,6 +103,15 @@
   <h1>一直併下去，<br><span class="hl">要準備幾張椅子？</span></h1>
   <div class="bigidea">要回答的問題：<b>一個看得見的規律，怎麼變成一條算得出來的式子？</b></div>
 </header>
+
+<section class="upstream">
+  <h2>上游思想：為什麼要學這個？</h2>
+  <p>到目前為止，數學大多是「給一個題目，算出一個答案」。但生活裡很多量，是跟著別的量一起變的。併桌的張數一變，要準備的椅子就跟著變；計程車坐得越遠，車資越高；同樣長的籬笆，圍法一變，圍出來的面積也跟著變。</p>
+  <p>這裡要練習一種新的眼光：不只算一個數，而是看<b>「一個量決定另一個量」的關係</b>。這種關係叫做函數。</p>
+  <p>找到關係有什麼用？第一，可以預測沒看過的情況：併 100 張桌子要幾張椅子？不必真的去併。第二，可以比較和選擇：同樣 40 公尺的籬笆，哪一種圍法的面積最大？</p>
+  <p>先用圖、表格和一句話找出規律，再把規律寫成式子。最後會發現，用試的找到的最大面積，沒辦法保證真的是最大，這需要新的工具。</p>
+</section>
+
 
 <!-- 1 視覺樣式 -->
 <section class="card">
@@ -115,6 +139,12 @@
   <div class="fig"><svg id="viewSvg" viewBox="0 0 360 130" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="views" id="viewGrid"></div>
   <div class="ask">這四條式子長得不一樣，算出來的答案會不會一樣？</div>
+    <div class="review">
+    <div class="rvt">概念複習：括號怎麼展開？</div>
+    <div class="rvb">
+      <span class="lb">規則</span>括號外面的數，要和括號裡的<b>每一項</b>各乘一次。這個規則叫做<b>分配律</b>：<span class="eq">a(b + c) = ab + ac</span><br><span style="color:var(--ink-soft);font-size:.9rem">a、b、c 代表任何數。</span><br><span class="lb">數字例子</span><span class="eq">3 × (10 + 2) = 3 × 10 + 3 × 2 = 36</span>，和直接算 <span class="eq">3 × 12 = 36</span> 一樣。<br><span class="lb">含 n 的例子</span><span class="eq">4(n − 1) = 4 × n − 4 × 1 = 4n − 4</span><br><span class="lb">容易搞混</span>括號前面是減號時，括號裡每一項都要變號：<span class="eq">−2(n − 1) = −2n + 2</span>，因為 (−2) × (−1) = +2。
+    </div>
+  </div>
   <div class="expand">
     4n + 2<br>
     6 + 4(n − 1) &nbsp;=&nbsp; 6 + 4n − 4 &nbsp;=&nbsp; 4n + 2<br>
@@ -131,6 +161,12 @@
   <div class="slider-row"><span class="slabel">桌數</span>
     <input type="range" id="nS2" min="1" max="8" value="3" step="1">
     <span class="val" id="nV2">3 張</span>
+  </div>
+    <div class="review">
+    <div class="rvt">概念複習：座標是什麼？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>座標用兩個數標出一個點的位置，寫成 (橫向的值, 縱向的值)。第一個數叫 x 座標，第二個數叫 y 座標。<br><span class="lb">例子</span>(3, 14) 表示從原點往右 3、往上 14。(−3, −4) 表示往左 3、往下 4。<br><span class="lb">容易搞混</span>順序不能對調。(3, 14) 和 (14, 3) 是兩個不同的點。
+    </div>
   </div>
   <div style="display:grid;grid-template-columns:0.8fr 1.2fr;gap:14px" id="tgWrap">
     <div><table><thead><tr><th>桌數</th><th>座位</th></tr></thead><tbody id="tb2"></tbody></table></div>
@@ -359,6 +395,10 @@ function dot(p,fill,r){ return '<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixe
 })();
 
 
+</script>
+
+<script>
+document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
 </script>
 </body>
 </html>

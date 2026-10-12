@@ -73,6 +73,16 @@
   .lim2{font-size:.88rem;color:var(--ink-soft);margin-top:10px;padding-left:13px;border-left:3px solid var(--gold);line-height:1.75}
   .score{font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--coral);margin-top:16px}
   footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
+
+  .review{border:1.5px solid var(--gold);border-radius:12px;padding:11px 15px;margin:12px 0;background:#FFFBF1;cursor:pointer;user-select:none;transition:.15s}
+  .review:hover{background:#FDF4DE}
+  .review .rvt{font-weight:700;color:#9A6B12;font-size:.93rem}
+  .review .rvt::before{content:"▸ "}
+  .review.on .rvt::before{content:"▾ "}
+  .review .rvb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .review.on .rvb{display:block}
+  .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
 </style>
 </head>
 <body>
@@ -93,6 +103,42 @@
 <section class="card" style="border-color:var(--violet)">
   <h2>把情境配到圖上</h2>
   <p class="desc">每一段情境都對應上面其中一張圖。選出代號，配對成功後會展開這個函數的完整資料與可拖曳的圖。</p>
+    <div class="review">
+    <div class="rvt">概念複習：x² 是什麼？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>x² 唸作「x 的平方」，意思是 x × x，也就是 x 自己乘自己。<br><span class="lb">由來</span>邊長 3 的正方形，可以切成 3 × 3 = 9 個小方格。「平方」原本就是正方形面積的意思。<br><svg viewBox="0 0 218 72" style="max-width:218px;margin:8px 0" role="img" aria-label="3 × 3 = 3² = 9 格"><rect x="1" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="1" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="1" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><text x="80" y="39.0" font-size="14" fill="#22303C">3 × 3 = 3² = 9 格</text></svg><br><span class="lb">例子</span><span class="eq">3² = 3 × 3 = 9</span>　<span class="eq">5² = 5 × 5 = 25</span>　x 是 4 時，<span class="eq">x² = 16</span><br><span class="lb">容易搞混</span>3² 不是 3 × 2 = 6。右上角的 2 代表「乘兩次」，不是「乘以 2」。
+    </div>
+  </div>
+    <div class="review">
+    <div class="rvt">概念複習：負數是什麼？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>比 0 還小的數，前面加一個負號，例如 −3。<br><span class="lb">生活例子</span>氣溫零下 3 度寫成 −3 度；地下 2 樓寫成 B2，也可以看成 −2 樓。<br><span class="lb">在圖上</span>座標圖上，x 軸往左、y 軸往下都是負數。
+    </div>
+  </div>
+    <div class="review">
+    <div class="rvt">概念複習：120/x 是什麼意思？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>分數線就是除號。<span class="eq">120/x</span> 就是 120 ÷ x。<br><span class="lb">例子</span>時速 60 公里，120 公里要 <span class="eq">120/60 = 2</span> 小時。<br><span class="lb">容易搞混</span>除數不能是 0：<span class="eq">120/0</span> 算不出來，因為沒有一個數乘以 0 會等於 120。
+    </div>
+  </div>
+    <div class="review">
+    <div class="rvt">概念複習：百分比是什麼？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>% 讀作「百分之」，是「每 100 份裡的幾份」。<span class="eq">10% = 10/100 = 0.1</span><br><span class="lb">例子</span>坡度 10%，意思是每往前走 100 公尺，往上升 10 公尺。
+    </div>
+  </div>
+    <div class="review">
+    <div class="rvt">概念複習：|x| 是什麼意思？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>|x| 讀作「x 的絕對值」，代表 x 離 0 有多遠，所以一定不是負的。<br><span class="lb">例子</span><span class="eq">|5| = 5</span>　<span class="eq">|−5| = 5</span>　<span class="eq">|0| = 0</span><br><span class="lb">用在這裡</span><span class="eq">|x − 25|</span> 是 x 和 25 相差多少。室溫 27 度和 23 度，和 25 度都差 2 度。
+    </div>
+  </div>
+    <div class="review">
+    <div class="rvt">概念複習：角度是什麼？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>角度描述轉了多少，單位是「度」，寫成 °。轉一整圈是 360°，轉半圈是 180°，直角是 90°。<br><span class="lb">例子</span>平地是 0°，垂直的牆是 90°，坡越陡角度越大。
+    </div>
+  </div>
   <div id="quiz"></div>
   <div class="score" id="score">已配對 0 / 9</div>
 </section>
@@ -333,6 +379,10 @@ const fns=[
   });
 })();
 
+</script>
+
+<script>
+document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
 </script>
 </body>
 </html>

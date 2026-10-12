@@ -118,6 +118,21 @@
   .ifr>span:first-child{border-bottom:2px solid currentColor;padding:0 4px 1px}
   .ifr>span:last-child{padding:2px 4px 0}
   .eqline.frl{line-height:2.5}
+
+  .review{border:1.5px solid var(--gold);border-radius:12px;padding:11px 15px;margin:12px 0;background:#FFFBF1;cursor:pointer;user-select:none;transition:.15s}
+  .review:hover{background:#FDF4DE}
+  .review .rvt{font-weight:700;color:#9A6B12;font-size:.93rem}
+  .review .rvt::before{content:"▸ "}
+  .review.on .rvt::before{content:"▾ "}
+  .review .rvb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .review.on .rvb{display:block}
+  .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
+
+  .upstream{background:#fff;border:1.5px solid var(--violet);border-radius:16px;padding:22px 22px 18px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  .upstream h2{color:var(--violet);margin-bottom:10px}
+  .upstream p{margin:0 0 10px;font-size:1rem;line-height:1.85}
+  .upstream p b{color:var(--violet)}
 </style>
 </head>
 <body>
@@ -127,12 +142,21 @@
   <h1><span class="hl">畫出二次函數<br>的圖形</span></h1>
 </header>
 
+<section class="upstream">
+  <h2>上游思想：為什麼要學這個？</h2>
+  <p>到目前為止，改寫式子回答了一個問題：最高點或最低點在哪裡。但一條拋物線還有其他要知道的事：開口朝上還是朝下、從哪裡出發、在哪裡落回地面。噴水池的水柱，落在離噴嘴多遠的地方？罰球如果沒進，球會落在哪裡？貼紙定價多少，才剛好打平？</p>
+  <p>這裡要練習一種新的眼光：<b>把一條式子當成一張說明書</b>，直接從式子裡的幾個數，讀出圖形的樣子，不必一個點一個點描。</p>
+  <p>會讀說明書有什麼用？第一，看到式子就能畫出大概的圖形，知道情境會怎麼發展。第二，不必把答案算出來，就能先判斷有沒有答案、有幾個答案：24 公尺的邊條，能不能圍出 40 平方公尺的背板？</p>
+  <p>先讀出開口和起點，再找頂點和交點，最後把改寫式子的步驟整理成一條公式。最後會遇到一種成長，長得比二次函數還快。</p>
+</section>
+
+
 <section class="card">
   <h2>籬笆 37 公尺的結果</h2>
   <p class="desc">籬笆 37 公尺、靠牆圍成長方形的地，寬設為 x 公尺，長是 37 − 2x 公尺。</p>
-  <div class="hint">
-    <div class="ht">忘記怎麼把 x(37 − 2x) 乘開？點開看一次</div>
-    <div class="hb">
+  <div class="review">
+    <div class="rvt">概念複習：括號怎麼展開？</div>
+    <div class="rvb">
       括號外面的數，要跟括號裡的每一項各乘一次。這個規則叫做<b>分配律</b>：<br>
       <span class="eq">a(b + c) = ab + ac</span><br>
       <span style="color:var(--ink-soft);font-size:.9rem">（這裡的 a、b、c 代表任何數，跟二次函數裡的 a、b、c 是不同的用法。）</span><br><br>
@@ -183,9 +207,9 @@
     y = a × 0² + b × 0 + c<br>
     <span style="color:var(--violet)">y = c</span>
   </div>
-  <div class="hint">
-    <div class="ht">0² 是多少？點開看一次</div>
-    <div class="hb">
+  <div class="review">
+    <div class="rvt">概念複習：0 乘任何數是多少？</div>
+    <div class="rvb">
       <span class="eq">0² = 0 × 0 = 0</span><br>
       任何數乘以 0 都是 0，所以 <span class="eq">a × 0 = 0</span>、<span class="eq">b × 0 = 0</span>。<br>
       兩項都變成 0，式子就只剩下 c。
@@ -204,6 +228,12 @@
 <section class="card" style="border-color:var(--violet)">
   <h2>讀三條真實的式子</h2>
   <p class="desc">李灝宇本季在大聯盟打出的全壘打，每一支的擊球初速、仰角與飛行距離都有紀錄。以下是其中三支：</p>
+    <div class="review">
+    <div class="rvt">概念複習：英里和呎是什麼單位？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>美國常用的長度單位。棒球紀錄的速度用「英里每小時」，距離用「呎」。<br><span class="lb">換算</span><span class="eq">1 英里 ≈ 1.609 公里</span>　<span class="eq">1 呎 ≈ 0.3048 公尺</span><br><span class="lb">例子</span>402 呎 ≈ 402 × 0.3048 ≈ 122 公尺；時速 105.8 英里 ≈ 105.8 × 1.609 ≈ 170 公里。
+    </div>
+  </div>
   <table>
     <thead><tr><th>日期</th><th>對手</th><th>擊球初速</th><th>仰角</th><th>飛行距離</th></tr></thead>
     <tbody>
@@ -234,7 +264,7 @@
   <div class="fig"><svg id="hrSvg" viewBox="0 0 360 230" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="readout" id="hrRead"></div>
   <div class="plain">a 決定開口的寬窄。三支的 a 是紅人 −0.0041、小熊 −0.0058、太空人 −0.0068，數字越往下走開口越窄——太空人那支的 a 是 −0.0068，開口最窄，曲線最瘦。</div>
-  <div class="plain">b 決定起點有多陡，b 越大球出去的角度越斜。三支的 b 是紅人 0.49、小熊 0.68、太空人 0.75，正好是三個仰角的正切值。</div>
+  <div class="plain">b 決定起點有多陡，b 越大球出去的角度越斜。三支的 b 是紅人 0.49、小熊 0.68、太空人 0.75，正好是球剛飛出去時，每往前 1 公尺上升的高度。</div>
   <div class="ask">飛得最遠的那一支，是不是打得最高的那一支？</div>
   <div class="reveal" id="rv2">
     <div class="rq">點開對答案</div>
@@ -380,6 +410,10 @@ document.querySelectorAll('.dcard').forEach(el=>el.addEventListener('click',()=>
   draw();
 })();
 
+</script>
+
+<script>
+document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
 </script>
 </body>
 </html>

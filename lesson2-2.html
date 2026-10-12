@@ -138,6 +138,16 @@
   .hint .hb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
   .hint.on .hb{display:block}
   .hint .hb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+
+  .review{border:1.5px solid var(--gold);border-radius:12px;padding:11px 15px;margin:12px 0;background:#FFFBF1;cursor:pointer;user-select:none;transition:.15s}
+  .review:hover{background:#FDF4DE}
+  .review .rvt{font-weight:700;color:#9A6B12;font-size:.93rem}
+  .review .rvt::before{content:"▸ "}
+  .review.on .rvt::before{content:"▾ "}
+  .review .rvb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .review.on .rvb{display:block}
+  .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
 </style>
 </head>
 <body>
@@ -152,6 +162,12 @@
   <h2>正方形長大一格，多出多少？</h2>
   <p class="desc">邊長從 n 變成 n+1，紅色是新長出來的部分。</p>
 
+    <div class="review">
+    <div class="rvt">概念複習：面積是什麼？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>面積是一個圖形佔了多大的地方，看它可以鋪滿幾個 1 × 1 的小方格。<br><svg viewBox="0 0 262 72" style="max-width:262px;margin:8px 0" role="img" aria-label="長 5、寬 3，共 15 格"><rect x="1" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="1" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="1" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="67" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="67" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="67" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="89" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="89" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="89" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><text x="124" y="39.0" font-size="14" fill="#22303C">長 5、寬 3，共 15 格</text></svg><span class="lb">算法</span>長 5、寬 3 的長方形，每排 5 格、共 3 排，總共 5 × 3 = 15 格。所以長方形面積 = 長 × 寬，正方形面積 = 邊長 × 邊長。<br><span class="lb">單位</span>小方格的邊長是 1 公尺時，面積的單位是平方公尺。
+    </div>
+  </div>
   <div class="slider-row"><span class="slabel">邊長</span>
     <input type="range" id="lS" min="1" max="7" value="3" step="1">
     <span class="val" id="lV">3 → 4</span>
@@ -194,6 +210,12 @@
 <section class="card">
   <h2>周長與面積，長大的方式不同</h2>
   <p class="desc">同一個正方形，周長和面積都隨邊長改變，但方式不一樣。</p>
+    <div class="review">
+    <div class="rvt">概念複習：面積和周長差在哪裡？</div>
+    <div class="rvb">
+      <span class="lb">面積</span>圖形佔了多大的地方，看它可以鋪滿幾個 1 × 1 的小方格。長方形面積 = 長 × 寬。<br><span class="lb">周長</span>沿著圖形外圍走一圈的長度。長 5、寬 3 的長方形，周長是 5 + 3 + 5 + 3 = 16；正方形的周長是 4 × 邊長。<br><svg viewBox="0 0 262 72" style="max-width:262px;margin:8px 0" role="img" aria-label="面積 15 格，周長 16"><rect x="1" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="1" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="1" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="67" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="67" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="67" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="89" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="89" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="89" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><text x="124" y="39.0" font-size="14" fill="#22303C">面積 15 格，周長 16</text></svg><span class="lb">差別</span>周長量的是邊的長度，例如籬笆、圍牆；面積量的是裡面的大小，例如地板、草皮。
+    </div>
+  </div>
   <table id="cmpTable">
     <thead><tr><th>邊長</th><th>周長</th><th>周長多多少</th><th>面積</th><th>面積多多少</th></tr></thead>
     <tbody></tbody>
@@ -459,6 +481,10 @@ document.querySelectorAll('.hint').forEach(el=>el.addEventListener('click',()=>e
   s+=`<text x="${PL-4}" y="${PT-6}" fill="#5B6B77" font-size="11" text-anchor="end">面積</text>`;
   svg.innerHTML=s;
 })();
+</script>
+
+<script>
+document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
 </script>
 </body>
 </html>

@@ -122,6 +122,21 @@
   footer{text-align:center;color:var(--ink-soft);font-size:.92rem;margin-top:38px;padding-top:22px;border-top:1.5px dashed var(--grid-strong)}
   .wall{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:15px 18px;text-align:left}
   .wall b{color:var(--coral)}
+
+  .review{border:1.5px solid var(--gold);border-radius:12px;padding:11px 15px;margin:12px 0;background:#FFFBF1;cursor:pointer;user-select:none;transition:.15s}
+  .review:hover{background:#FDF4DE}
+  .review .rvt{font-weight:700;color:#9A6B12;font-size:.93rem}
+  .review .rvt::before{content:"▸ "}
+  .review.on .rvt::before{content:"▾ "}
+  .review .rvb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .review.on .rvb{display:block}
+  .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
+
+  .upstream{background:#fff;border:1.5px solid var(--violet);border-radius:16px;padding:22px 22px 18px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  .upstream h2{color:var(--violet);margin-bottom:10px}
+  .upstream p{margin:0 0 10px;font-size:1rem;line-height:1.85}
+  .upstream p b{color:var(--violet)}
 </style>
 </head>
 <body>
@@ -131,6 +146,22 @@
   <h1>為什麼叫<span class="hl">「二次」</span>？</h1>
   <p class="lead">一條式子裡如果出現 x²，就稱為二次函數。「二次」指的是式子裡 x 的最高次方是 2。<br>接下來要看的是：把一個生活中的情境寫成式子的時候，x² 是從哪裡跑出來的，以及為什麼有些情境一定會出現 x²、有些則不會。</p>
 </header>
+
+<section class="upstream">
+  <h2>上游思想：為什麼要學這個？</h2>
+  <p>到目前為止，最單純的關係是每一步增加的量都一樣。像計程車每多 1 公里多 25 元，畫出來是一條直線。但很多情況不是這樣：正方形邊長每加 1，面積多出的是 3、5、7、9；演唱會票價一降，每張少賺一點，賣出的張數卻變多。</p>
+  <p>這裡要練習一種新的眼光：不只看數量本身，還要看<b>「每一步增加的量」怎麼變</b>。增加的量一直在變，線就會彎。</p>
+  <p>看懂它有什麼用？第一，可以知道一個情境寫成式子時，為什麼會出現 x²：兩個都會跟著改變的量相乘了。第二，可以找出最好的那一點：票價降到多少，總收入最高？收入先增後減，中間一定有一個最高點。</p>
+  <p>先用表格和圖形把最高點找出來。接著會遇到數字不剛好、怎麼試都試不準的情況。</p>
+</section>
+
+  <div class="review">
+    <div class="rvt">概念複習：x² 是什麼？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>x² 唸作「x 的平方」，意思是 x × x，也就是 x 自己乘自己。<br><span class="lb">由來</span>邊長 3 的正方形，可以切成 3 × 3 = 9 個小方格。「平方」原本就是正方形面積的意思。<br><svg viewBox="0 0 218 72" style="max-width:218px;margin:8px 0" role="img" aria-label="3 × 3 = 3² = 9 格"><rect x="1" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="1" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="1" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><text x="80" y="39.0" font-size="14" fill="#22303C">3 × 3 = 3² = 9 格</text></svg><span class="lb">例子</span><span class="eq">3² = 3 × 3 = 9</span>　<span class="eq">5² = 5 × 5 = 25</span>　x 是 4 時，<span class="eq">x² = 16</span><br><span class="lb">容易搞混</span>3² 不是 3 × 2 = 6。右上角的 2 代表「乘兩次」，不是「乘以 2」。
+    </div>
+  </div>
+
 
 <section class="card">
   <h2>同一塊地，兩個人設的 x 不一樣</h2>
@@ -145,6 +176,12 @@
       <div class="wtag">乙：設長為 x</div>
       <div class="weq">長 = x<br>寬 = (40 − x) ÷ 2<br>y = x(40 − x) ÷ 2</div>
       <div class="wexp">展開<br>= (40x − x²) ÷ 2<br>= <b>20x − 0.5x²</b></div>
+    </div>
+  </div>
+    <div class="review">
+    <div class="rvt">概念複習：括號怎麼展開？</div>
+    <div class="rvb">
+      <span class="lb">規則</span>括號外面的數，要和括號裡的<b>每一項</b>各乘一次。這個規則叫做<b>分配律</b>：<span class="eq">a(b + c) = ab + ac</span><br><span style="color:var(--ink-soft);font-size:.9rem">a、b、c 代表任何數。</span><br><span class="lb">數字例子</span><span class="eq">3 × (10 + 2) = 3 × 10 + 3 × 2 = 36</span>，和直接算 <span class="eq">3 × 12 = 36</span> 一樣。<br><span class="lb">含 x 的例子</span><span class="eq">x(40 − 2x) = x × 40 − x × 2x = 40x − 2x²</span><br><span class="lb">容易搞混</span>只乘了第一項，忘了後面那一項也要乘。
     </div>
   </div>
   <div class="ask">兩個人得到的式子不一樣，誰算錯了？</div>
@@ -208,6 +245,12 @@
     <div class="fillrow"><span class="fl">展開後 y =</span><span class="bk wide"></span></div>
   </div>
 
+    <div class="review">
+    <div class="rvt">概念複習：兩個括號怎麼相乘？</div>
+    <div class="rvb">
+      <span class="lb">規則</span>前面括號的每一項，都要和後面括號的每一項各乘一次。兩項乘兩項，總共乘四次：<br><span class="eq">(a + b)(c + d) = ac + ad + bc + bd</span><br><span class="lb">例子</span><span class="eq">(x + 2)(x + 3) = x² + 3x + 2x + 6 = x² + 5x + 6</span><br><span class="lb">合併同類項</span>3x 和 2x 都是「幾個 x」，可以合併成 5x，這叫做<b>合併同類項</b>。x² 和 x 不是同一類，不能合併。
+    </div>
+  </div>
   <div class="reveal" id="rv2"><div class="rq">寫完之後，點開對答案</div>
     <div class="ra">
       <div class="expand" style="font-size:1rem">
@@ -341,6 +384,10 @@ document.querySelectorAll('.reveal').forEach(r=>r.addEventListener('click',()=>{
   }
 }));
 
+</script>
+
+<script>
+document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
 </script>
 </body>
 </html>

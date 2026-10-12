@@ -86,6 +86,21 @@
   .work.h180{height:180px} .work.h220{height:220px}
   .cliff{background:#fff;border:2px dashed var(--coral);border-radius:14px;padding:18px;margin-top:14px}
   .cliff h4{color:var(--coral);font-weight:800;margin-bottom:6px}
+
+  .review{border:1.5px solid var(--gold);border-radius:12px;padding:11px 15px;margin:12px 0;background:#FFFBF1;cursor:pointer;user-select:none;transition:.15s}
+  .review:hover{background:#FDF4DE}
+  .review .rvt{font-weight:700;color:#9A6B12;font-size:.93rem}
+  .review .rvt::before{content:"▸ "}
+  .review.on .rvt::before{content:"▾ "}
+  .review .rvb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .review.on .rvb{display:block}
+  .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
+
+  .upstream{background:#fff;border:1.5px solid var(--violet);border-radius:16px;padding:22px 22px 18px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  .upstream h2{color:var(--violet);margin-bottom:10px}
+  .upstream p{margin:0 0 10px;font-size:1rem;line-height:1.85}
+  .upstream p b{color:var(--violet)}
 </style>
 </head>
 <body>
@@ -94,6 +109,15 @@
 <header>
   <h1><span class="hl">配方法</span></h1>
 </header>
+
+<section class="upstream">
+  <h2>上游思想：為什麼要學這個？</h2>
+  <p>到目前為止，找最大面積的方法是一個一個試：寬 9、寬 10、寬 11，看哪一個面積最大。籬笆 40 公尺時剛好試得出來，寬 10 公尺時面積最大，是 200 平方公尺。可是籬笆改成 37 公尺，最大值落在小數的位置，試再多次也不能保證找到。</p>
+  <p>這裡要練習一種新的眼光：不去試數字，而是<b>改寫式子本身，讓答案自己出現在式子上</b>。</p>
+  <p>改寫式子有什麼用？第一，不必試，就能直接讀出最大值或最小值，以及發生在哪裡：定價多少收入最高、怎麼圍面積最大、投出去的球最高到哪裡。第二，任何二次式都能這樣改寫，不只是剛好能拆成整數括號的那幾題。</p>
+  <p>這個做法來自一個很老的想法：把面積拼成一個正方形。先處理 x² 前面是 1 的情況，再處理不是 1 的情況。最後會得到一種寫法，最高點或最低點的位置就直接寫在式子上。</p>
+</section>
+
 
 <section class="card">
   <h2>同一塊地，籬笆換成 37 公尺</h2>
@@ -107,7 +131,7 @@
 
 <section class="card">
   <h2>一條係數為 1 的二次函數</h2>
-  <p class="desc">以下為一條不對應任何情境的二次函數。</p>
+  <p class="desc">以下為一條不對應任何情境的二次函數。<b>係數</b>是乘在 x² 或 x 前面的那個數，例如 3x² 的係數是 3、−6x 的係數是 −6；x² 前面沒寫數字時，係數就是 1。</p>
   <div class="eqbig">y = x² + 6x + 5</div>
   <div class="ask">此函數的最小值為何？發生於 x 等於多少？</div>
 </section>
@@ -118,6 +142,12 @@
   <div class="eqline">
     □ × □ = 4　→　□ = <b>2</b> 或 <b>−2</b><br>
     □ × □ = 3　→　□ = <b>√3</b> 或 <b>−√3</b>
+  </div>
+    <div class="review">
+    <div class="rvt">概念複習：√ 是什麼？為什麼會有兩個答案？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>√a 唸作「根號 a」，代表自己乘自己會得到 a 的那個<b>正數</b>。<span class="eq">√9 = 3</span>，因為 3 × 3 = 9。<br>大部分的數開根號不是整數，例如 <span class="eq">√3 ≈ 1.732</span>，就直接寫成 √3。<br><span class="lb">兩個答案</span>「□ × □ = 9」的 □ 有兩個：3 和 −3，因為 (−3) × (−3) = 9 也成立。√9 只代表正的 3，負的那一個寫成 −√9。<br><span class="lb">所以</span><span class="eq">□² = 9　→　□ = 3 或 −3</span>，常寫成 <span class="eq">□ = ±3</span>，± 讀作「正負」。
+    </div>
   </div>
   <div class="plain">只要式子寫成 <b>□²</b>，□ 就能直接開根號求出來。</div>
   <div class="plain">x² + 6x + 5 不是這種形式，x 分散在 x² 與 6x 兩處。</div>
@@ -132,6 +162,12 @@
   <h2>x² 與 6x 的圖形</h2>
   <p class="desc">要湊出 □² 的形式，用面積來看最清楚。<b>x² 為一個邊長 x 的正方形；6x 為一條寬 6、長 x 的長條。</b>把這兩塊拼成一個正方形，邊長就是要找的 □。常數項 5 暫不納入，於後段處理。</p>
 
+    <div class="review">
+    <div class="rvt">概念複習：面積是什麼？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>面積是一個圖形佔了多大的地方，看它可以鋪滿幾個 1 × 1 的小方格。<br><svg viewBox="0 0 262 72" style="max-width:262px;margin:8px 0" role="img" aria-label="長 5、寬 3，共 15 格"><rect x="1" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="1" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="1" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="23" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="45" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="67" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="67" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="67" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="89" y="1" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="89" y="23" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><rect x="89" y="45" width="22" height="22" fill="#F8ECCF" stroke="#E0A32E" stroke-width="1.2"/><text x="124" y="39.0" font-size="14" fill="#22303C">長 5、寬 3，共 15 格</text></svg><span class="lb">算法</span>長 5、寬 3 的長方形，每排 5 格、共 3 排，總共 5 × 3 = 15 格。所以長方形面積 = 長 × 寬，正方形面積 = 邊長 × 邊長。<br><span class="lb">單位</span>小方格的邊長是 1 公尺時，面積的單位是平方公尺。
+    </div>
+  </div>
   <div class="toggle">
     <button class="tbtn mode on" data-m="one" id="btnOne">整條放右邊</button>
     <button class="tbtn mode" data-m="split" id="btnSplit">對半切開</button>
@@ -150,6 +186,12 @@
 <section class="card">
   <h2>驗算：把 (x + 3)² 乘開</h2>
   <p class="desc">圖上得到的邊長是 x + 3。</p>
+    <div class="review">
+    <div class="rvt">概念複習：兩個括號怎麼相乘？</div>
+    <div class="rvb">
+      <span class="lb">規則</span>前面括號的每一項，都要和後面括號的每一項各乘一次。兩項乘兩項，總共乘四次：<br><span class="eq">(a + b)(c + d) = ac + ad + bc + bd</span><br><span class="lb">例子</span><span class="eq">(x + 2)(x + 3) = x² + 3x + 2x + 6 = x² + 5x + 6</span><br><span class="lb">合併同類項</span>3x 和 2x 都是「幾個 x」，可以合併成 5x，這叫做<b>合併同類項</b>。x² 和 x 不是同一類，不能合併。
+    </div>
+  </div>
   <div class="work h220"></div>
   <div class="reveal" id="rvExp"><div class="rq">乘開的結果</div>
     <div class="ra">
@@ -197,6 +239,13 @@
   </table>
   <div class="plain">每一列多出來的數，都是<b>中間項係數的一半再平方</b>。6 的一半是 3，3 的平方是 9；−8 的一半是 −4，−4 的平方是 16。</div>
   <div class="note">中間項為負時，取一半得到的也是負數。例如 −8 的一半是 −4，括號內因此寫成 x − 4；而 −4 的平方是 16，仍是正數。</div>
+  <div class="review">
+    <div class="rvt">概念複習：負數的平方是多少？</div>
+    <div class="rvb">
+      <span class="lb">規則</span>負數乘負數得到正數，所以負數的平方一定是正的。<br><span class="lb">例子</span><span class="eq">(−4)² = (−4) × (−4) = 16</span><br><span class="lb">容易搞混</span><span class="eq">−4²</span> 和 <span class="eq">(−4)²</span> 不一樣。−4² 是先算 4² = 16，再加上負號，等於 −16。有括號才是整個 −4 去平方。
+    </div>
+  </div>
+
 </section>
 
 <section class="card">
@@ -228,6 +277,12 @@
 <section class="card">
   <h2>兩種改寫方式</h2>
   <p class="desc">同一條 y = x² + 6x + 5，有兩種改寫方式，各自方便回答不同的問題。</p>
+    <div class="review">
+    <div class="rvt">概念複習：因式分解是什麼？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>把一個式子改寫成幾個括號相乘，是「乘開」反過來的動作。<br><span class="lb">例子</span><span class="eq">(x + 1)(x + 5)</span> 乘開是 <span class="eq">x² + 6x + 5</span>。反過來，把 x² + 6x + 5 寫回 (x + 1)(x + 5)，就是因式分解。<br><span class="lb">怎麼找</span>要找兩個數，相乘得到最後的 5，相加得到中間的 6：1 × 5 = 5，1 + 5 = 6。
+    </div>
+  </div>
   <div class="two">
     <div class="col a">
       <div class="colh">因式分解</div>
@@ -396,6 +451,10 @@ function pathOf(f,x0,x1,X,Y,step){
 
 document.querySelectorAll('.reveal').forEach(r=>r.addEventListener('click',()=>r.classList.toggle('on')));
 document.querySelectorAll('.dcard').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('on')));
+</script>
+
+<script>
+document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
 </script>
 </body>
 </html>
