@@ -90,6 +90,25 @@
   .review.on .rvb{display:block}
   .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
   .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
+
+  .mc{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;background:#fff}
+  .mc .mq{font-weight:700;margin-bottom:10px}
+  .mc .opt{display:block;width:100%;text-align:left;border:1.5px solid var(--grid-strong);background:#fff;border-radius:10px;padding:9px 13px;margin:7px 0;font:inherit;font-size:.96rem;color:var(--ink);cursor:pointer;transition:.15s}
+  .mc .opt:hover{border-color:var(--violet)}
+  .mc .opt.right{border-color:var(--teal);background:var(--teal-tint)}
+  .mc .opt.wrong{border-color:var(--no);background:#FBEAE8}
+  .mc .fb{display:none;margin:-2px 0 8px 14px;padding:6px 12px;font-size:.92rem;border-left:3px solid var(--grid-strong);color:var(--ink-soft)}
+  .mc .fb.show{display:block}
+  .mc .fb.ok{border-left-color:var(--teal);color:var(--ink)}
+  .mc .fb.no{border-left-color:var(--no)}
+  .mc .status{font-size:.88rem;font-weight:700;margin-top:6px;min-height:1.2em}
+  .sub{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin:20px 0 2px}
+
+  .reveal{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;cursor:pointer;background:#fff;text-align:left;transition:.15s}
+  .reveal:hover{border-color:var(--violet)}
+  .rq{font-weight:700;color:var(--ink);font-size:.96rem;line-height:1.8}
+  .ra{display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed var(--grid-strong);line-height:1.9}
+  .reveal.on .ra{display:block}
 </style>
 </head>
 <body>
@@ -163,10 +182,11 @@
   <div class="plain">兩個規律：<br>
   ・頂點的 <b>x 座標，是使括號等於 0 的那個數</b>。(x + 3)² 要 x = −3 才等於 0，(x − 10)² 要 x = 10 才等於 0。<br>
   ・頂點的 <b>y 座標，就是括號外的常數</b>。<br><br>
-  把這兩件事寫成通式：</div>
+  把這兩件事寫成通式（用字母代替具體數字、每一題都成立的寫法）：</div>
   <div class="eqbig">y = a(x − h)² + k　→　頂點 (h, k)</div>
   <div class="plain">括號內寫成 x − h，所以 x = h 時括號為 0，此時 y = k，頂點就是 (h, k)。<br><br>
   要注意括號是<b>減號</b>。式子寫成 (x + 3)² 時，要看成 (x − (−3))²，對照之下 h = −3，頂點的 x 座標是 −3，不是 3。</div>
+  <div class="plain">a、h、k 是代號，代表任何數：a 是提出來的係數，h 是使括號等於 0 的那個數，k 是括號外的常數。對回前面的表：(x + 3)² − 4 的 a = 1、h = −3、k = −4。這種寫法稱為<b>頂點式</b>，因為頂點的座標直接寫在式子上。</div>
 </section>
 
 <section class="card">
@@ -183,33 +203,74 @@
 
 <section class="card">
   <h2>概念題</h2>
-  <p class="desc">三題都在問這個方法本身，而不是問計算的結果。</p>
-
-  <div class="q" data-ans="B">
-    <div class="qt">1. 配方法的目的是什麼？</div>
-    <div class="opt" data-k="A">(A) 把二次函數變成一次函數，計算比較簡單。</div>
-    <div class="opt" data-k="B">(B) 把式子改寫成「一個平方加一個常數」，讓含有 x 的部分集中在同一處。</div>
-    <div class="opt" data-k="C">(C) 把式子裡所有的係數都變成 1。</div>
-    <div class="opt" data-k="D">(D) 求出圖形與 x 軸相交的位置。</div>
-    <div class="qexp">含有 x 的部分分散在兩處時，看不出最大或最小值在哪裡。集中成一個平方之後，因為平方的最小值是 0 這件事是已知的，頂點與極值就能直接讀出來。</div>
+  <div class="mc" data-ans="B">
+    <div class="mq">1. 為什麼配方之後，就能直接讀出最大值或最小值？</div>
+    <button class="opt" data-k="A">(A) 配方會把二次函數變成一次函數。</button>
+    <div class="fb" data-k="A">錯：配方後仍有平方，還是二次函數。</div>
+    <button class="opt" data-k="B">(B) 配方後含有 x 的部分只剩一個平方，平方最小是 0，括號外的常數就是極值。</button>
+    <div class="fb" data-k="B">對：含有 x 的部分集中成一個平方之後，平方最小是 0 這件事是已知的，所以頂點與極值能直接讀出來。</div>
+    <button class="opt" data-k="C">(C) 配方會把所有係數都變成 1。</button>
+    <div class="fb" data-k="C">錯：−2(x − 10)² + 200 的係數仍是 −2。</div>
+    <button class="opt" data-k="D">(D) 數學規定配方後的常數一定是最大值。</button>
+    <div class="fb" data-k="D">錯：不是規定；係數為正時，那個常數是最小值。</div>
+    <div class="status"></div>
   </div>
-
-  <div class="q" data-ans="C">
-    <div class="qt">2. 同一條二次函數，配方前的式子與配方後的式子是什麼關係？</div>
-    <div class="opt" data-k="A">(A) 配方後的式子是原式的近似值，會有一點誤差。</div>
-    <div class="opt" data-k="B">(B) 兩者是不同的函數，畫出來的圖形也不同。</div>
-    <div class="opt" data-k="C">(C) 兩者是同一個函數，只是寫法不同，圖形完全重疊。</div>
-    <div class="opt" data-k="D">(D) 配方後的式子只在頂點附近才成立。</div>
-    <div class="qexp">配方的每一步都保持等號成立：多出來多少就減掉多少，提出去的係數最後又乘回來。代任何一個 x 進去，兩條式子算出來的 y 都相同。</div>
+  <div class="mc" data-ans="A">
+    <div class="mq">2. 為什麼 x² + 6x 配方時，括號裡要放 6 的一半？</div>
+    <button class="opt" data-k="A">(A) (x + 3)² 乘開後 3x 會出現兩次，合起來才是 6x。</button>
+    <div class="fb" data-k="A">對：括號內放的數乘開後會變成兩倍，所以要放中間項係數的一半。</div>
+    <button class="opt" data-k="B">(B) 6 是偶數，偶數都要除以 2。</button>
+    <div class="fb" data-k="B">錯：中間項是奇數時也取一半，例如 3 的一半是 3/2。</div>
+    <button class="opt" data-k="C">(C) 這樣多出來的那一塊會剛好是 0。</button>
+    <div class="fb" data-k="C">錯：多出來的是 3 × 3 = 9，不是 0。</div>
+    <button class="opt" data-k="D">(D) 取一半之後數字比較小，比較好算。</button>
+    <div class="fb" data-k="D">錯：取一半是因為乘開時會變兩倍，跟好不好算無關。</div>
+    <div class="status"></div>
   </div>
+  <div class="mc" data-ans="D">
+    <div class="mq">3. 為什麼 x² + 6x 要寫成 (x + 3)² − 9，而不是 (x + 3)²？</div>
+    <button class="opt" data-k="A">(A) 9 是 3 的平方，習慣上要寫出來。</button>
+    <div class="fb" data-k="A">錯：減 9 是為了讓兩邊相等，不是習慣。</div>
+    <button class="opt" data-k="B">(B) 減掉 9 可以讓圖形往下移。</button>
+    <div class="fb" data-k="B">錯：兩邊本來就是同一個式子，圖形沒有移動。</div>
+    <button class="opt" data-k="C">(C) 先補上 9，之後要記得還回去。</button>
+    <div class="fb" data-k="C">錯：方向反了。不是先加再還，而是 (x + 3)² 本身就比 x² + 6x 大 9。</div>
+    <button class="opt" data-k="D">(D) (x + 3)² 乘開是 x² + 6x + 9，比原式多 9，多的部分要扣掉，兩邊才會相等。</button>
+    <div class="fb" data-k="D">對：(x + 3)² 是完整的正方形，x² + 6x 少了右下角 3 × 3 = 9 那一塊，所以要減 9。</div>
+    <div class="status"></div>
+  </div>
+  <div class="mc" data-ans="C">
+    <div class="mq">4. 已經學過因式分解，為什麼還需要配方法？</div>
+    <button class="opt" data-k="A">(A) 因為因式分解算起來比較慢。</button>
+    <div class="fb" data-k="A">錯：能拆的時候，因式分解求 y = 0 的解反而比較快。</div>
+    <button class="opt" data-k="B">(B) 因為因式分解只能用在開口向上的函數。</button>
+    <div class="fb" data-k="B">錯：因式分解跟開口方向無關，例如 −x² + 4x = −x(x − 4) 一樣拆得開。</div>
+    <button class="opt" data-k="C">(C) 因為能夠拆成整數括號的式子很少，配方法則對任何二次式都可以進行。</button>
+    <div class="fb" data-k="C">對：兩者回答的問題也不同：因式分解方便看出 y = 0 的解，配方法方便看出頂點與極值。x² + 6x + 3 就是拆不開但配得動的例子。</div>
+    <button class="opt" data-k="D">(D) 因為因式分解無法得到圖形與 x 軸相交的位置。</button>
+    <div class="fb" data-k="D">錯：能拆開時，令每個括號等於 0，就能得到與 x 軸相交的位置。</div>
+    <div class="status"></div>
+  </div>
+</section>
 
-  <div class="q" data-ans="D">
-    <div class="qt">3. 已經學過因式分解，為什麼還需要配方法？</div>
-    <div class="opt" data-k="A">(A) 因為因式分解算起來比較慢。</div>
-    <div class="opt" data-k="B">(B) 因為因式分解只能用在開口向上的函數。</div>
-    <div class="opt" data-k="C">(C) 因為因式分解無法得到圖形與 x 軸相交的位置。</div>
-    <div class="opt" data-k="D">(D) 因為能夠拆成整數括號的式子很少，配方法則對任何二次式都可以進行。</div>
-    <div class="qexp">兩者回答的問題也不同：因式分解方便看出 y = 0 的解，配方法方便看出頂點與極值。x² + 6x + 3 就是拆不開但配得動的例子。</div>
+<section class="card">
+  <h2>進階練習</h2>
+  <div class="reveal">
+    <div class="rq">1. 有人把 y = −2x² + 12x − 5 配方如下，錯在哪一步？為什麼？正確的結果是什麼？<br><span style="font-family:'JetBrains Mono',monospace">y = −2(x² − 6x) − 5<br>　= −2[(x − 3)² − 9] − 5<br>　= −2(x − 3)² − 9 − 5<br>　= −2(x − 3)² − 14</span></div>
+    <div class="ra">錯在第三行。−2 要乘進中括號裡的<b>兩項</b>，只乘了 (x − 3)²，漏了 −9：−2 × (−9) = +18。<br>正確是 <span style="font-family:'JetBrains Mono',monospace">−2(x − 3)² + 18 − 5 = −2(x − 3)² + 13</span>，頂點 (3, 13)。</div>
+  </div>
+  <div class="reveal">
+    <div class="rq">2. 有人把 x² − 10x + 4 配成 (x − 5)² + 25 + 4 = (x − 5)² + 29。錯在哪裡？</div>
+    <div class="ra">(x − 5)² 乘開是 x² − 10x + 25，<b>本身就比 x² − 10x 多 25</b>，多出的部分要減掉，不是加上去。<br>正確是 <span style="font-family:'JetBrains Mono',monospace">(x − 5)² − 25 + 4 = (x − 5)² − 21</span>。</div>
+  </div>
+  <div class="reveal">
+    <div class="rq">3. 從地面把球垂直往上丟，高度 = 出手速度 × 時間 − 5 × 時間²（5 來自重力，是示意值，不計空氣阻力）。出手速度每秒 15 公尺時，先寫出式子，再用配方找出球最高到幾公尺、發生在第幾秒。</div>
+    <div class="ra">設時間為 t 秒，高度為 y 公尺：<span style="font-family:'JetBrains Mono',monospace">y = 15t − 5t²</span><br><span style="font-family:'JetBrains Mono',monospace">= −5(t² − 3t)</span>　提出 −5，15t 除以 −5 得 −3t<br><span style="font-family:'JetBrains Mono',monospace">= −5[(t − 1.5)² − 2.25]</span>　−3 的一半是 −1.5，−1.5 的平方是 2.25<br><span style="font-family:'JetBrains Mono',monospace">= −5(t − 1.5)² + 11.25</span>　−5 乘 −2.25 得 +11.25<br>第 1.5 秒時最高，離地 11.25 公尺。</div>
+  </div>
+  <span class="sub">思考題</span>
+  <div class="reveal">
+    <div class="rq">4. 能不能寫出一條二次函數，配方後頂點在 (2, −1)？寫成 ax² + bx + c 的樣子。這樣的式子有幾條？</div>
+    <div class="ra">頂點式是 <span style="font-family:'JetBrains Mono',monospace">y = a(x − 2)² − 1</span>，a 可以是任何不是 0 的數，所以有無限多條。<br>例如 a = 1：<span style="font-family:'JetBrains Mono',monospace">(x − 2)² − 1 = x² − 4x + 4 − 1 = x² − 4x + 3</span>。<br>a 不同，開口的方向或寬窄就不同，但頂點都在 (2, −1)。</div>
   </div>
 </section>
 
@@ -220,7 +281,7 @@
 </section>
 
 <div class="cliff">
-  <h4>延伸</h4>
+  <h4>下一個問題</h4>
   一元二次方程式有一條求解的公式：x = ( −b ± √(b² − 4ac) ) ÷ 2a。這條公式很難背，也看不出從哪裡來。<br><br>
   但它並不是另外一套方法。把 ax² + bx + c 用配方的步驟走一次，再令 y = 0 繼續解下去，出現的就是這條公式——會配方法的人，不需要背它。
 </div>
@@ -324,6 +385,24 @@ document.querySelectorAll('.q').forEach(q=>{
 
 <script>
 document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+</script>
+
+<script>
+document.querySelectorAll('.mc').forEach(mc=>{
+  const ans=mc.dataset.ans, st=mc.querySelector('.status');
+  mc.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+    if(mc.classList.contains('done'))return;
+    const k=b.dataset.k, fb=mc.querySelector('.fb[data-k="'+k+'"]');
+    if(k===ans){
+      b.classList.add('right'); mc.classList.add('done');
+      mc.querySelectorAll('.fb').forEach(f=>{f.classList.add('show'); if(f.dataset.k===ans)f.classList.add('ok'); else f.classList.add('no');});
+      st.textContent='答對了。其他選項錯在哪裡，也列在下面。'; st.style.color='var(--teal)';
+    }else{
+      b.classList.add('wrong'); fb.classList.add('show','no');
+      st.textContent='這個選項不對，原因寫在選項下方。可以再選一次。'; st.style.color='var(--no)';
+    }
+  }));
+});
 </script>
 </body>
 </html>
