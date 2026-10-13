@@ -202,21 +202,35 @@
 </section>
 
 <section class="card">
-  <h2>概念題</h2>
-  <div class="mc" data-ans="B">
-    <div class="mq">1. 為什麼配方之後，就能直接讀出最大值或最小值？</div>
-    <button class="opt" data-k="A">(A) 配方會把二次函數變成一次函數。</button>
-    <div class="fb" data-k="A">錯：配方後仍有平方，還是二次函數。</div>
-    <button class="opt" data-k="B">(B) 配方後含有 x 的部分只剩一個平方，平方最小是 0，括號外的常數就是極值。</button>
-    <div class="fb" data-k="B">對：含有 x 的部分集中成一個平方之後，平方最小是 0 這件事是已知的，所以頂點與極值能直接讀出來。</div>
-    <button class="opt" data-k="C">(C) 配方會把所有係數都變成 1。</button>
-    <div class="fb" data-k="C">錯：−2(x − 10)² + 200 的係數仍是 −2。</div>
-    <button class="opt" data-k="D">(D) 數學規定配方後的常數一定是最大值。</button>
-    <div class="fb" data-k="D">錯：不是規定；係數為正時，那個常數是最小值。</div>
-    <div class="status"></div>
+  <h2>籬笆 37 公尺</h2>
+  <p class="desc">有了頂點式，就能回答籬笆 37 公尺的問題。寬設為 x 公尺，長是 37 − 2x 公尺，面積 y = x(37 − 2x) = 37x − 2x²。</p>
+  <div class="review">
+    <div class="rvt">概念複習：括號怎麼展開？</div>
+    <div class="rvb">
+      括號外面的數，要跟括號裡的每一項各乘一次。這個規則叫做<b>分配律</b>：<br>
+      <span class="eq">a(b + c) = ab + ac</span><br>
+      <span style="color:var(--ink-soft);font-size:.9rem">（這裡的 a、b、c 代表任何數。）</span><br><br>
+      套到這一題：括號外面是 x，括號裡是 37 和 −2x。<br>
+      <span class="eq">x × 37 = 37x</span><br>
+      <span class="eq">x × (−2x) = −2x²</span><br><br>
+      兩個 x 相乘寫成 x²，就像 3 × 3 寫成 3²。<br>
+      所以 <span class="eq">x(37 − 2x) = 37x − 2x²</span>
+    </div>
   </div>
+  <div class="eqline">
+    y = −2x² + 37x<br>
+    = −2(x² − 18.5x)　<span class="cmt">把 −2 提到括號外：37x 除以 −2 得 −18.5x</span><br>
+    = −2[ (x − 9.25)² − 85.5625 ]　<span class="cmt">−18.5 的一半是 −9.25，−9.25 的平方是 85.5625；(x − 9.25)² 比 x² − 18.5x 多 85.5625，需減 85.5625</span><br>
+    = −2(x − 9.25)² + <b>171.125</b>　<span class="cmt">把 −2 乘進中括號：−2 乘 −85.5625 得 +171.125</span>
+  </div>
+  <div class="plain">對照頂點式 y = a(x − h)² + k：a = −2、h = 9.25、k = 171.125，頂點為 (9.25, 171.125)。a 是負的，開口向下，頂點是最高點。所以<b>寬 9.25 公尺時面積最大</b>，此時長 37 − 2 × 9.25 = 18.5 公尺，<b>最大面積 171.125 平方公尺</b>。驗算：9.25 × 18.5 = 171.125。</div>
+  <div class="note">若只需要寬與長，配方做到「−18.5 的一半是 −9.25」時就已經知道寬是 9.25，面積可以直接用寬乘長算出，不必計算 9.25 的平方。</div>
+</section>
+
+<section class="card">
+  <h2>概念題</h2>
   <div class="mc" data-ans="A">
-    <div class="mq">2. 為什麼 x² + 6x 配方時，括號裡要放 6 的一半？</div>
+    <div class="mq">1. 為什麼 x² + 6x 配方時，括號裡要放 6 的一半？</div>
     <button class="opt" data-k="A">(A) (x + 3)² 乘開後 3x 會出現兩次，合起來才是 6x。</button>
     <div class="fb" data-k="A">對：括號內放的數乘開後會變成兩倍，所以要放中間項係數的一半。</div>
     <button class="opt" data-k="B">(B) 6 是偶數，偶數都要除以 2。</button>
@@ -228,7 +242,7 @@
     <div class="status"></div>
   </div>
   <div class="mc" data-ans="D">
-    <div class="mq">3. 為什麼 x² + 6x 要寫成 (x + 3)² − 9，而不是 (x + 3)²？</div>
+    <div class="mq">2. 為什麼 x² + 6x 要寫成 (x + 3)² − 9，而不是 (x + 3)²？</div>
     <button class="opt" data-k="A">(A) 9 是 3 的平方，習慣上要寫出來。</button>
     <div class="fb" data-k="A">錯：減 9 是為了讓兩邊相等，不是習慣。</div>
     <button class="opt" data-k="B">(B) 減掉 9 可以讓圖形往下移。</button>
@@ -237,18 +251,6 @@
     <div class="fb" data-k="C">錯：方向反了。不是先加再還，而是 (x + 3)² 本身就比 x² + 6x 大 9。</div>
     <button class="opt" data-k="D">(D) (x + 3)² 乘開是 x² + 6x + 9，比原式多 9，多的部分要扣掉，兩邊才會相等。</button>
     <div class="fb" data-k="D">對：(x + 3)² 是完整的正方形，x² + 6x 少了右下角 3 × 3 = 9 那一塊，所以要減 9。</div>
-    <div class="status"></div>
-  </div>
-  <div class="mc" data-ans="C">
-    <div class="mq">4. 已經學過因式分解，為什麼還需要配方法？</div>
-    <button class="opt" data-k="A">(A) 因為因式分解算起來比較慢。</button>
-    <div class="fb" data-k="A">錯：能拆的時候，因式分解求 y = 0 的解反而比較快。</div>
-    <button class="opt" data-k="B">(B) 因為因式分解只能用在開口向上的函數。</button>
-    <div class="fb" data-k="B">錯：因式分解跟開口方向無關，例如 −x² + 4x = −x(x − 4) 一樣拆得開。</div>
-    <button class="opt" data-k="C">(C) 因為能夠拆成整數括號的式子很少，配方法則對任何二次式都可以進行。</button>
-    <div class="fb" data-k="C">對：兩者回答的問題也不同：因式分解方便看出 y = 0 的解，配方法方便看出頂點與極值。x² + 6x + 3 就是拆不開但配得動的例子。</div>
-    <button class="opt" data-k="D">(D) 因為因式分解無法得到圖形與 x 軸相交的位置。</button>
-    <div class="fb" data-k="D">錯：能拆開時，令每個括號等於 0，就能得到與 x 軸相交的位置。</div>
     <div class="status"></div>
   </div>
 </section>
@@ -267,17 +269,39 @@
     <div class="rq">3. 從地面把球垂直往上丟，高度 = 出手速度 × 時間 − 5 × 時間²（5 來自重力，是示意值，不計空氣阻力）。出手速度每秒 15 公尺時，先寫出式子，再用配方找出球最高到幾公尺、發生在第幾秒。</div>
     <div class="ra">設時間為 t 秒，高度為 y 公尺：<span style="font-family:'JetBrains Mono',monospace">y = 15t − 5t²</span><br><span style="font-family:'JetBrains Mono',monospace">= −5(t² − 3t)</span>　提出 −5，15t 除以 −5 得 −3t<br><span style="font-family:'JetBrains Mono',monospace">= −5[(t − 1.5)² − 2.25]</span>　−3 的一半是 −1.5，−1.5 的平方是 2.25<br><span style="font-family:'JetBrains Mono',monospace">= −5(t − 1.5)² + 11.25</span>　−5 乘 −2.25 得 +11.25<br>第 1.5 秒時最高，離地 11.25 公尺。</div>
   </div>
-  <span class="sub">思考題</span>
-  <div class="reveal">
-    <div class="rq">4. 能不能寫出一條二次函數，配方後頂點在 (2, −1)？寫成 ax² + bx + c 的樣子。這樣的式子有幾條？</div>
-    <div class="ra">頂點式是 <span style="font-family:'JetBrains Mono',monospace">y = a(x − 2)² − 1</span>，a 可以是任何不是 0 的數，所以有無限多條。<br>例如 a = 1：<span style="font-family:'JetBrains Mono',monospace">(x − 2)² − 1 = x² − 4x + 4 − 1 = x² − 4x + 3</span>。<br>a 不同，開口的方向或寬窄就不同，但頂點都在 (2, −1)。</div>
-  </div>
 </section>
 
 <section class="card">
   <h2>回家作業</h2>
-  <p class="desc">一塊靠牆的長方形空地，只有三邊需要圍籬笆（靠牆的那一邊不用圍），籬笆總長 37 公尺。</p>
-  <div class="ask">要圍出最大的面積，寬與長各是多少？最大面積是多少平方公尺？</div>
+  <div class="mc" data-ans="B">
+    <div class="mq">1. 為什麼配方之後，就能直接讀出最大值或最小值？</div>
+    <button class="opt" data-k="A">(A) 配方會把二次函數變成一次函數。</button>
+    <div class="fb" data-k="A">錯：配方後仍有平方，還是二次函數。</div>
+    <button class="opt" data-k="B">(B) 配方後含有 x 的部分只剩一個平方，平方最小是 0，括號外的常數就是極值。</button>
+    <div class="fb" data-k="B">對：含有 x 的部分集中成一個平方之後，平方最小是 0 這件事是已知的，所以頂點與極值能直接讀出來。</div>
+    <button class="opt" data-k="C">(C) 配方會把所有係數都變成 1。</button>
+    <div class="fb" data-k="C">錯：−2(x − 10)² + 200 的係數仍是 −2。</div>
+    <button class="opt" data-k="D">(D) 數學規定配方後的常數一定是最大值。</button>
+    <div class="fb" data-k="D">錯：不是規定；係數為正時，那個常數是最小值。</div>
+    <div class="status"></div>
+  </div>
+  <div class="mc" data-ans="C">
+    <div class="mq">2. 已經學過因式分解，為什麼還需要配方法？</div>
+    <button class="opt" data-k="A">(A) 因為因式分解算起來比較慢。</button>
+    <div class="fb" data-k="A">錯：能拆的時候，因式分解求 y = 0 的解反而比較快。</div>
+    <button class="opt" data-k="B">(B) 因為因式分解只能用在開口向上的函數。</button>
+    <div class="fb" data-k="B">錯：因式分解跟開口方向無關，例如 −x² + 4x = −x(x − 4) 一樣拆得開。</div>
+    <button class="opt" data-k="C">(C) 因為能夠拆成整數括號的式子很少，配方法則對任何二次式都可以進行。</button>
+    <div class="fb" data-k="C">對：兩者回答的問題也不同：因式分解方便看出 y = 0 的解，配方法方便看出頂點與極值。x² + 6x + 3 就是拆不開但配得動的例子。</div>
+    <button class="opt" data-k="D">(D) 因為因式分解無法得到圖形與 x 軸相交的位置。</button>
+    <div class="fb" data-k="D">錯：能拆開時，令每個括號等於 0，就能得到與 x 軸相交的位置。</div>
+    <div class="status"></div>
+  </div>
+  <span class="sub">思考題</span>
+  <div class="reveal">
+    <div class="rq">3. 能不能寫出一條二次函數，配方後頂點在 (2, −1)？寫成 ax² + bx + c 的樣子。這樣的式子有幾條？</div>
+    <div class="ra">頂點式是 <span style="font-family:'JetBrains Mono',monospace">y = a(x − 2)² − 1</span>，a 可以是任何不是 0 的數，所以有無限多條。<br>例如 a = 1：<span style="font-family:'JetBrains Mono',monospace">(x − 2)² − 1 = x² − 4x + 4 − 1 = x² − 4x + 3</span>。<br>a 不同，開口的方向或寬窄就不同，但頂點都在 (2, −1)。</div>
+  </div>
 </section>
 
 <div class="cliff">
