@@ -211,7 +211,7 @@
 
 <section class="card" style="border-color:var(--violet)">
   <h2>讀三條真實的式子</h2>
-  <p class="desc">李灝宇本季在大聯盟打出的全壘打，每一支的擊球初速、仰角與飛行距離都有紀錄。以下是其中三支：</p>
+  <p class="desc">李灝宇 2026 年球季在大聯盟打出的全壘打，每一支的擊球初速、仰角與飛行距離都有紀錄。以下是其中三支：</p>
     <div class="review">
     <div class="rvt">概念複習：英里和呎是什麼單位？</div>
     <div class="rvb">
@@ -223,14 +223,15 @@
     <tbody>
       <tr><td>4 月 26 日</td><td>紅人</td><td>105.8 英里</td><td>26°</td><td>402 呎（約 122 公尺）</td></tr>
       <tr><td>7 月 22 日</td><td>小熊</td><td>105.9 英里</td><td>34°</td><td>388 呎（約 118 公尺）</td></tr>
-      <tr><td>6 月 27 日</td><td>太空人</td><td>93.8 英里</td><td>37°</td><td>369 呎（約 112 公尺）</td></tr>
+      <tr><td>8 月 22 日</td><td>皇家</td><td>110.0 英里</td><td>27°</td><td>446 呎（約 136 公尺）</td></tr>
     </tbody>
   </table>
+  <div class="note">資料來源：MLB.com 官方比賽影片頁面的 Statcast 數據（2026 年 4 月 26 日對紅人、7 月 22 日對小熊、8 月 22 日對皇家）。</div>
   <div class="plain">由擊球高度（約 1 公尺）、仰角與落點，可以配出每一支的式子。x 是水平距離，y 是高度，單位都是公尺。</div>
   <div class="eqline">
     紅人　　y = −0.0041x² + 0.49x + 1<br>
     小熊　　y = −0.0058x² + 0.68x + 1<br>
-    太空人　y = −0.0068x² + 0.75x + 1
+    皇家　　y = −0.0038x² + 0.51x + 1
   </div>
   <div class="note">真實的球會受空氣阻力影響，下降那一段比上升那一段陡，以上是不計空氣阻力的簡化模型。</div>
   <div class="ask">三條式子的 a 都是負的、c 都是 1。這代表什麼？</div>
@@ -247,8 +248,8 @@
   <div class="toggle" id="hrBtns"></div>
   <div class="fig"><svg id="hrSvg" viewBox="0 0 360 230" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="readout" id="hrRead"></div>
-  <div class="plain">a 決定開口的寬窄。三支的 a 是紅人 −0.0041、小熊 −0.0058、太空人 −0.0068，數字越往下走開口越窄——太空人那支的 a 是 −0.0068，開口最窄，曲線最瘦。</div>
-  <div class="plain">b 決定起點有多陡，b 越大球出去的角度越斜。三支的 b 是紅人 0.49、小熊 0.68、太空人 0.75，正好是球剛飛出去時，每往前 1 公尺上升的高度。</div>
+  <div class="plain">a 決定開口的寬窄，a 離 0 越遠，開口越窄。三支的 a 是紅人 −0.0041、小熊 −0.0058、皇家 −0.0038：小熊那支的 a 離 0 最遠，開口最窄，曲線最瘦；皇家那支的 a 離 0 最近，開口最寬。</div>
+  <div class="plain">b 決定起點有多陡，b 越大球出去的角度越斜。三支的 b 是紅人 0.49、小熊 0.68、皇家 0.51，正好是球剛飛出去時，每往前 1 公尺上升的高度。</div>
   <div class="ask">飛得最遠的那一支，是不是打得最高的那一支？</div>
   <div class="reveal" id="rv2">
     <div class="rq">點開對答案</div>
@@ -258,11 +259,11 @@
         <tbody>
           <tr><td>紅人</td><td>26°</td><td>約 16 公尺</td><td>122 公尺</td></tr>
           <tr><td>小熊</td><td>34°</td><td>約 21 公尺</td><td>118 公尺</td></tr>
-          <tr><td>太空人</td><td>37°</td><td>約 22 公尺</td><td>112 公尺</td></tr>
+          <tr><td>皇家</td><td>27°</td><td>約 18 公尺</td><td>136 公尺</td></tr>
         </tbody>
       </table>
-      <div class="plain">不是。<b>飛最遠的那一支，最高點反而最低。</b></div>
-      <div class="plain">紅人那支和小熊那支的擊球初速幾乎一樣（105.8 與 105.9 英里），差別只在仰角：26 度對 34 度。角度比較低的那支多飛了 4 公尺。角度太大時，力氣花在把球往上送，往前的部分就少了。</div>
+      <div class="plain">不是。<b>飛最遠的皇家那支，最高點約 18 公尺，比小熊那支的約 21 公尺低。</b></div>
+      <div class="plain">紅人和小熊這兩支，擊球初速幾乎一樣（105.8 與 105.9 英里），差別在仰角：26 度對 34 度。仰角比較低的紅人那支，反而多飛了 4 公尺。<br>紅人和皇家這兩支，仰角幾乎一樣（26 度與 27 度），擊球初速比較快的皇家那支（110 英里）多飛了約 13 公尺。<br>真實的飛行距離還受風和球的旋轉影響，所以不是每一支都這樣。</div>
     </div>
   </div>
 </section>
@@ -353,32 +354,32 @@ document.querySelectorAll('.dcard').forEach(el=>el.addEventListener('click',()=>
 /* 三支全壘打 */
 (function(){
   const svg=document.getElementById('hrSvg'), btns=document.getElementById('hrBtns');
-  const hrs=[{n:'紅人 26°',a:-0.0041,b:0.49,col:'#E8593F'},
-             {n:'小熊 34°',a:-0.0058,b:0.68,col:'#7A5CC7'},
-             {n:'太空人 37°',a:-0.0068,b:0.75,col:'#0E9C8B'}];
+  const hrs=[{n:'紅人 26°',a:-0.0041,b:0.49,d:122,col:'#E8593F'},
+             {n:'小熊 34°',a:-0.0058,b:0.68,d:118,col:'#7A5CC7'},
+             {n:'皇家 27°',a:-0.0038,b:0.51,d:136,col:'#0E9C8B'}];
   let show=[true,true,true];
   const L=44,T=16,W=360,H=230,CW=W-L-14,CH=H-T-34;
-  const X=x=>L+(x/130)*CW, Y=y=>T+CH-(y/26)*CH;
+  const X=x=>L+(x/140)*CW, Y=y=>T+CH-(y/26)*CH;
   function draw(){
     let s='';
     for(let v=0;v<=25;v+=5) s+=`<line x1="${L}" y1="${Y(v)}" x2="${L+CW}" y2="${Y(v)}" stroke="#F4F7FA" stroke-width="1"/>`;
-    for(let x=0;x<=130;x+=20) s+=`<line x1="${X(x)}" y1="${T}" x2="${X(x)}" y2="${T+CH}" stroke="#F4F7FA" stroke-width="1"/>`;
+    for(let x=0;x<=140;x+=20) s+=`<line x1="${X(x)}" y1="${T}" x2="${X(x)}" y2="${T+CH}" stroke="#F4F7FA" stroke-width="1"/>`;
     s+=`<line x1="${L}" y1="${Y(0)}" x2="${L+CW}" y2="${Y(0)}" stroke="#1D4E89" stroke-width="2"/>`;
     s+=`<line x1="${L}" y1="${T}" x2="${L}" y2="${T+CH}" stroke="#B3541E" stroke-width="2"/>`;
-    for(let x=20;x<=120;x+=20) s+=`<text x="${X(x)}" y="${Y(0)+14}" fill="#1D4E89" font-size="9.5" text-anchor="middle">${x}</text>`;
+    for(let x=20;x<=140;x+=20) s+=`<text x="${X(x)}" y="${Y(0)+14}" fill="#1D4E89" font-size="9.5" text-anchor="middle">${x}</text>`;
     for(let v=5;v<=25;v+=5) s+=`<text x="${L-5}" y="${Y(v)+3.5}" fill="#B3541E" font-size="9.5" text-anchor="end">${v}</text>`;
     let out=[];
     hrs.forEach((o,i)=>{
       if(!show[i]) return;
       let p='';
-      for(let x=0;x<=130;x+=0.5){ const y=o.a*x*x+o.b*x+1; if(y<0) break;
+      for(let x=0;x<=140;x+=0.5){ const y=o.a*x*x+o.b*x+1; if(y<0) break;
         p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(y).toFixed(1)+' '; }
       s+=`<path d="${p}" fill="none" stroke="${o.col}" stroke-width="2.6" stroke-linecap="round"/>`;
       const xv=-o.b/(2*o.a), yv=o.a*xv*xv+o.b*xv+1;
       s+=`<circle cx="${X(xv)}" cy="${Y(yv)}" r="5" fill="${o.col}"/>`;
       const root=(-o.b-Math.sqrt(o.b*o.b-4*o.a))/(2*o.a);
       s+=`<circle cx="${X(root)}" cy="${Y(0)}" r="4" fill="${o.col}"/>`;
-      out.push(`<span style="color:${o.col}"><b>${o.n}</b>　最高 ${yv.toFixed(1)} m　落點 ${root.toFixed(0)} m</span>`);
+      out.push(`<span style="color:${o.col}"><b>${o.n}</b>　最高 ${yv.toFixed(1)} m　落點 ${o.d} m</span>`);
     });
     s+=`<text x="${L+CW/2}" y="${H-4}" fill="#1D4E89" font-size="10.5" font-weight="700" text-anchor="middle">水平距離（公尺）　x</text>`;
     s+=`<text x="${L-2}" y="${T-4}" fill="#B3541E" font-size="10.5" font-weight="700" text-anchor="end">高度　y</text>`;

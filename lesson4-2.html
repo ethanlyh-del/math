@@ -139,7 +139,7 @@
 
 <section class="card">
   <h2>公園的噴水池</h2>
-  <p class="desc">噴嘴裝在水面上，水柱斜斜噴出去，升到最高再落回水面。實際量過：落點距離噴嘴 8 公尺，最高的地方離水面 8 公尺。</p>
+  <p class="desc">噴嘴裝在水面上，水柱斜斜噴出去，升到最高再落回水面。設計時規定：落點距離噴嘴 8 公尺，最高的地方離水面 8 公尺。</p>
   <div class="plain">水柱的形狀可以寫成一條二次函數。x 是離噴嘴的水平距離，y 是離水面的高度，單位都是公尺。</div>
   <div class="eqbig">y = −0.5x² + 4x</div>
   <div class="ask">a 是 −0.5、c 是 0。從這兩個數可以知道什麼？</div>
@@ -164,6 +164,16 @@
     y = <b style="color:var(--violet)">−0.5(x − 4)² + 8</b>
   </div>
   <div class="hint">
+    <div class="ht">提示　提出 −0.5 之後，括號裡為什麼是 x² − 8x？</div>
+    <div class="hb">
+      提出 −0.5，就是含 x 的兩項各除以 −0.5：<br><br>
+      <span class="eq">−0.5x² ÷ (−0.5) = x²</span>　<span style="color:var(--ink-soft)">負除以負是正</span><br>
+      <span class="eq">4x ÷ (−0.5) = −8x</span>　<span style="color:var(--ink-soft)">正除以負是負</span><br><br>
+      除以 0.5 等於乘以 2，所以 4 ÷ 0.5 = 8，再加上負號就是 −8。<br><br>
+      檢查：把 −0.5 乘回括號裡，<span class="eq">−0.5 × x² = −0.5x²</span>，<span class="eq">−0.5 × (−8x) = +4x</span>，和原本的式子一樣。
+    </div>
+  </div>
+  <div class="hint">
     <div class="ht">提示　把 −0.5 乘進中括號時，−16 那一項怎麼算？</div>
     <div class="hb">
       中括號裡有兩項：<span class="eq">(x − 4)²</span> 和 <span class="eq">−16</span>。<br>
@@ -180,7 +190,7 @@
       <span class="lb">規則</span>同號得正，異號得負。<br><span class="eq">正 × 正 = 正</span>　<span class="eq">負 × 負 = 正</span>　<span class="eq">正 × 負 = 負</span>　<span class="eq">負 × 正 = 負</span><br><span class="lb">例子</span><span class="eq">3 × (−2) = −6</span>　<span class="eq">(−3) × (−2) = 6</span><br><span class="lb">除法也一樣</span><span class="eq">40 ÷ (−2) = −20</span>　<span class="eq">(−8) ÷ (−2) = 4</span>
     </div>
   </div>
-  <div class="plain">括號裡的 x − 4 等於 0 時 x = 4，代回去 y = 8。所以頂點在 <b>(4, 8)</b>——水柱飛出 4 公尺時最高，離水面 8 公尺。跟實際量到的一致。</div>
+  <div class="plain">括號裡的 x − 4 等於 0 時 x = 4，代回去 y = 8。所以頂點在 <b>(4, 8)</b>——水柱飛出 4 公尺時最高，離水面 8 公尺。跟設計的一致。</div>
 
   <h3 style="margin-top:20px">式子最後面的那個數，意思不一樣</h3>
   <div class="two">
@@ -242,7 +252,7 @@
       同樣地，平方等於 9 的數有 3 和 −3；平方等於 0 的數只有 0 一個。
     </div>
   </div>
-  <div class="plain">兩條路算出來一樣：交點是 <b>0</b> 和 <b>8</b>——噴出去的位置，和落回水面的位置。跟實際量到的 8 公尺一致。</div>
+  <div class="plain">兩條路算出來一樣：交點是 <b>0</b> 和 <b>8</b>——噴出去的位置，和落回水面的位置。跟設計的 8 公尺一致。</div>
   <div class="plain"><b>提出 x 只在沒有常數項時行得通，配方後的式子則是每一條都能用。</b></div>
   <div class="plain">另外，0 和 8 的中間是 4，正好是頂點的位置。曲線左右對稱，最高點一定落在兩個交點的正中間。</div>
 </section>
@@ -263,9 +273,9 @@
 
 <section class="card" style="border-color:var(--violet)">
   <h2>換一條自己走一次</h2>
-  <p class="desc">罰球。球出手的時候離地 1.75 公尺，飛到水平 5 公尺遠的地方，剛好通過 3 公尺高的籃框。</p>
+  <p class="desc">罰球。球出手的時候離地 1.75 公尺，飛到水平 5 公尺遠的地方，剛好通過 3 公尺高的籃框（示意值，實際依出手高度與角度而異）。</p>
   <div class="eqbig">y = −0.25x² + 1.5x + 1.75</div>
-  <div class="plain">x 是球飛出去的水平距離，y 是球離地的高度，單位都是公尺。這條式子是從出手高度、籃框的位置與高度配出來的。</div>
+  <div class="plain">x 是球飛出去的水平距離，y 是球離地的高度，單位都是公尺。</div>
   <div class="ask">把四件事一件一件找出來，再把圖畫到下面的格子上。</div>
   <div class="fig"><svg id="blankSvg" viewBox="0 0 340 300" preserveAspectRatio="xMidYMid meet"></svg></div>
   <div class="work h220"></div>
@@ -275,7 +285,7 @@
       <div class="four">
         <div class="fcard"><h4>開口朝哪</h4><p>a = −0.25，是負的，開口向下，球升到最高再落下。</p></div>
         <div class="fcard"><h4>通過 y 軸的哪裡</h4><p>c = 1.75，通過 (0, 1.75)。那是球出手時離地的高度。</p></div>
-        <div class="fcard"><h4>頂點在哪裡</h4><p>提出 −0.25 得 −0.25(x² − 6x)，6 的一半是 3，多出 9 減掉：−0.25[(x − 3)² − 9] + 1.75 = −0.25(x − 3)² + 4。頂點 (3, 4)，飛出 3 公尺時最高 4 公尺。</p></div>
+        <div class="fcard"><h4>頂點在哪裡</h4><p>提出 −0.25 得 −0.25(x² − 6x)（1.5x ÷ (−0.25) = −6x，除以 0.25 等於乘以 4），6 的一半是 3，多出 9 減掉：−0.25[(x − 3)² − 9] + 1.75 = −0.25(x − 3)² + 4。頂點 (3, 4)，飛出 3 公尺時最高 4 公尺。</p></div>
         <div class="fcard"><h4>跟 x 軸交在哪裡</h4><p>令 y = 0 解出 −1 和 7。</p></div>
       </div>
       <div class="fig" style="margin-top:12px"><svg id="ansSvg" viewBox="0 0 340 300" preserveAspectRatio="xMidYMid meet"></svg></div>
@@ -343,7 +353,7 @@ function plotFull(id,f,vx,vy,roots,xmin,xmax,ymin,ymax,xs,ys){
     s+=`<circle cx="${m.X(vx)}" cy="${m.Y(vy)}" r="7" fill="#E8593F"/>`;
     s+=`<text x="${m.X(vx)}" y="${m.Y(vy)-12}" fill="#E8593F" font-size="11.5" font-weight="700" text-anchor="middle">(${vx}, ${vy})</text>`;
     roots.forEach(r=>{ s+=`<circle cx="${m.X(r)}" cy="${m.Y(0)}" r="6" fill="#0E9C8B"/>`;
-      s+=`<text x="${m.X(r)}" y="${m.Y(0)+20}" fill="#0E9C8B" font-size="11" font-weight="700" text-anchor="middle">${r}</text>`;});
+      const left=r<vx; s+=`<text x="${m.X(r)+(left?-9:9)}" y="${m.Y(0)-9}" fill="#0E9C8B" font-size="11" font-weight="700" text-anchor="${left?'end':'start'}">${r}</text>`;});
   }
   svg.innerHTML=s;
 }
