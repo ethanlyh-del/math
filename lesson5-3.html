@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>指數是分數的時候</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .lead{color:var(--ink-soft);margin-top:14px;font-size:1.04rem}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  .route{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin:16px 0;font-weight:500}
+  .route b{color:var(--violet)}
+  .route .tag{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin-bottom:6px}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:82px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:72px;text-align:right;color:var(--coral)}
+  .readout{font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:10px;background:#F3F6F9;border-radius:10px;padding:12px 15px}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 6px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.up{color:var(--coral);font-weight:700}
+  td.flat{color:var(--teal);font-weight:700}
+  .scroller{overflow-x:auto}
+  .reveal{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;cursor:pointer;background:#fff;text-align:center;transition:.15s}
+  .reveal:hover{border-color:var(--violet)}
+  .rq{font-weight:700;color:var(--violet);font-size:.96rem}
+  .ra{display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed var(--grid-strong)}
+  .reveal.on .ra{display:block}
+  .reveal.on .rq{color:var(--ink-soft)}
+  .hint{border:1.5px dashed var(--teal);border-radius:12px;padding:11px 15px;margin:12px 0;
+    background:#F4FBFA;cursor:pointer;transition:.15s}
+  .hint:hover{background:#E8F6F2}
+  .hint .ht{font-weight:700;color:var(--teal);font-size:.93rem}
+  .hint .ht::before{content:"▸ "}
+  .hint.on .ht::before{content:"▾ "}
+  .hint .hb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .hint.on .hb{display:block}
+  .hint .hb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .eqline{font-family:"JetBrains Mono",monospace;font-size:1.05rem;line-height:2.1;background:#F3F6F9;border-radius:10px;padding:14px 16px;margin-top:12px;overflow-x:auto}
+  .fill{display:inline-block;min-width:74px;border-bottom:2px solid var(--coral);height:1.5em;vertical-align:bottom}
+  .big{font-family:"JetBrains Mono",monospace;font-size:1.5rem;font-weight:700;color:var(--coral)}
+  .minifig{background:#FCFDFE;border:1.5px solid var(--grid);border-radius:10px;padding:8px;margin-top:12px}
+  .mcap{font-size:.82rem;color:var(--ink-soft);margin-top:6px;text-align:center}
+  ul{margin:10px 0 0 20px}
+  li{margin:5px 0}
+
+  .mc{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;background:#fff}
+  .mc .mq{font-weight:700;margin-bottom:10px}
+  .mc .opt{display:block;width:100%;text-align:left;border:1.5px solid var(--grid-strong);background:#fff;border-radius:10px;padding:9px 13px;margin:7px 0;font:inherit;font-size:.96rem;color:var(--ink);cursor:pointer;transition:.15s}
+  .mc .opt:hover{border-color:var(--violet)}
+  .mc .opt.right{border-color:var(--teal);background:var(--teal-tint)}
+  .mc .opt.wrong{border-color:var(--no);background:#FBEAE8}
+  .mc .fb{display:none;margin:-2px 0 8px 14px;padding:6px 12px;font-size:.92rem;border-left:3px solid var(--grid-strong);color:var(--ink-soft)}
+  .mc .fb.show{display:block}
+  .mc .fb.ok{border-left-color:var(--teal);color:var(--ink)}
+  .mc .fb.no{border-left-color:var(--no)}
+  .mc .status{font-size:.88rem;font-weight:700;margin-top:6px;min-height:1.2em}
+  .sub{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin:20px 0 2px}
+
+  .review{border:1.5px solid var(--gold);border-radius:12px;padding:11px 15px;margin:12px 0;background:#FFFBF1;cursor:pointer;user-select:none;transition:.15s}
+  .review:hover{background:#FDF4DE}
+  .review .rvt{font-weight:700;color:#9A6B12;font-size:.93rem}
+  .review .rvt::before{content:"▸ "}
+  .review.on .rvt::before{content:"▾ "}
+  .review .rvb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .review.on .rvb{display:block}
+  .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>指數是<span class="hl">分數的時候</span></h1>
+  <p class="lead">指數還剩最後一種情況沒有處理：指數是分數的時候。<br>2<sup>1/2</sup> 照字面看是「2 連乘半次」，可是一個數要怎麼乘半次，完全沒有辦法想像。<br>處理的辦法和前面一樣——先假設它是某個數，再用已經確定的規則去算，找出規則會逼出什麼答案。</p>
+</header>
+
+<section class="card">
+  <h2>假設它是某個數</h2>
+  <p class="desc">2<sup>1/2</sup> 等於多少還不知道。先不管它是什麼，就把它當成一個數，然後拿兩個 2<sup>1/2</sup> 相乘。<br>乘冪相乘要把指數相加，這是規則一，而規則一在指數是分數的時候也應該照樣成立。</p>
+
+  <div class="eqline">
+    2<sup>1/2</sup> × 2<sup>1/2</sup><br>
+    = 2<sup>(1/2 + 1/2)</sup>　　規則一：乘冪相乘，指數相加<br>
+    = 2<sup>1</sup><br>
+    = <b>2</b>
+  </div>
+
+  <div class="ask">有一個數，自己乘自己會得到 2。這個數是多少？</div>
+
+  <div class="plain">
+    自己乘自己會得到 2 的那個正數，就是 <b>&radic;2</b>。<br>
+    所以 2<sup>1/2</sup> = &radic;2。
+  </div>
+
+  <div class="hint">
+    <div class="ht">提示　&radic;2 大概是多少？</div>
+    <div class="hb">
+      &radic;2 不是整數，也寫不成分數，只能一步一步逼近：<br>
+      <span class="eq">1.4 × 1.4 = 1.96</span>　　比 2 小一點<br>
+      <span class="eq">1.5 × 1.5 = 2.25</span>　　比 2 大<br>
+      <span class="eq">1.41 × 1.41 = 1.9881</span>　　更接近了<br>
+      <span class="eq">1.414 × 1.414 = 1.999396</span>　　再更接近<br><br>
+      可以一直算下去越來越接近 2，但<b>小數點後面不會停</b>，永遠寫不完。<br>
+      所以用 &radic; 這個符號來表示它，不去寫它的小數。
+    </div>
+  </div>
+
+  <div class="route">
+    <span class="tag">結論</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:1.2rem">a<sup>1/2</sup> = &radic;a</span><br>
+    指數是 1/2 的時候，算出來的是「自己乘自己兩次會得到 a 的那個數」。<br>
+    為什麼是兩次：指數 1/2 相加兩次剛好湊成 1，而 a<sup>1</sup> 就是 a 本身。所以需要兩個 a<sup>1/2</sup> 相乘才會還原成 a。<br>
+    分母的 2 決定的就是「要乘幾次才會還原」。<br><br>
+    這個結果不是另外規定的。只要規則一在指數是分數的時候照樣成立，2<sup>1/2</sup> 就非得是 &radic;2 不可，否則兩個相乘不會等於 2。
+  </div>
+
+  <div class="review">
+    <div class="rvt">概念複習：根號是什麼意思？</div>
+    <div class="rvb">
+      &radic;a 代表「自己乘自己會得到 a 的那個正數」。<br>
+      <span class="eq">&radic;9 = 3</span>　因為 3 × 3 = 9<br>
+      <span class="eq">&radic;25 = 5</span>　因為 5 × 5 = 25<br>
+      <span class="eq">&radic;100 = 10</span>　因為 10 × 10 = 100<br>
+      <span class="eq">&radic;2 &asymp; 1.414</span>　因為 1.414 × 1.414 &asymp; 2<br><br>
+      9、25、100 這種剛好有整數答案的情況比較少。大部分的數開根號之後，小數點後面是不會停的。
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>分母換成別的數</h2>
+  <p class="desc">2<sup>1/3</sup> 用同樣的方法看。這次指數的分母是 3，所以要三個 2<sup>1/3</sup> 相乘，指數 1/3 加三次才會湊成 1。</p>
+
+  <div class="eqline">
+    2<sup>1/3</sup> × 2<sup>1/3</sup> × 2<sup>1/3</sup><br>
+    = 2<sup>(1/3 + 1/3 + 1/3)</sup><br>
+    = 2<sup>1</sup> = <b>2</b>
+  </div>
+
+  <div class="plain">
+    自己乘三次會得到 2 的那個數，叫做 2 的<b>三次方根</b>，寫成 <sup>3</sup>&radic;2。<br>
+    所以 2<sup>1/3</sup> = <sup>3</sup>&radic;2 &asymp; 1.26。
+  </div>
+
+  <div class="note">平常寫的 &radic; 左上角其實藏著一個 2，只是習慣上省略不寫，所以 &radic;2 完整寫出來是 <sup>2</sup>&radic;2。左上角那個位置也可以放 3、4 或其他數字，放什麼數字就代表「自己乘幾次會還原」。放 3 就是乘三次，放 4 就是乘四次。</div>
+
+  <div class="route">
+    <span class="tag">一般式</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:1.15rem">a<sup>n/m</sup> = <sup>m</sup>&radic;(a<sup>n</sup>)</span><br>
+    分母的 m 決定要開幾次方根，也就是「自己乘幾次才會還原」。<br>
+    分子的 n 決定根號裡面那個數要先幾次方。<br>
+    舉一個例子：3<sup>3/4</sup> 的分子是 3、分母是 4。先把 3 做 3 次方得到 27，再開 4 次方根，寫成 <sup>4</sup>&radic;27，算出來大約是 2.28。
+  </div>
+
+  <div class="scroller">
+  <table>
+    <tr><th>分數指數</th><th>換成根號</th><th>大約是多少</th></tr>
+    <tr><td>2<sup>1/2</sup></td><td>&radic;2</td><td>1.414</td></tr>
+    <tr><td>9<sup>1/2</sup></td><td>&radic;9</td><td>3</td></tr>
+    <tr><td>2<sup>1/3</sup></td><td><sup>3</sup>&radic;2</td><td>1.26</td></tr>
+    <tr><td>8<sup>1/3</sup></td><td><sup>3</sup>&radic;8</td><td>2</td></tr>
+    <tr><td>3<sup>3/4</sup></td><td><span class="fill"></span></td><td>2.28</td></tr>
+  </table>
+  </div>
+
+  <div class="reveal">
+    <div class="rq">8<sup>1/3</sup> 為什麼是 2</div>
+    <div class="ra">
+      自己乘三次會得到 8 的那個數是多少？<br>
+      2 × 2 × 2 = 8，所以答案是 2。<br>
+      也可以用規則二檢查：8 = 2<sup>3</sup>，所以 8<sup>1/3</sup> = (2<sup>3</sup>)<sup>1/3</sup> = 2<sup>3 × 1/3</sup> = 2<sup>1</sup> = 2。
+    </div>
+  </div>
+
+  <div class="note">學校考題常要求把分數指數改寫成根號的形式。實際在用數學處理問題時多半反過來，是把根號換成分數指數。原因是根號沒有辦法直接套用前面那三條規則，換成分數指數就可以：<sup>3</sup>&radic;2 乘以 <sup>3</sup>&radic;2 不容易看出答案，但寫成 2<sup>1/3</sup> × 2<sup>1/3</sup> 就只要把指數相加，得到 2<sup>2/3</sup>。</div>
+</section>
+
+<section class="card">
+  <h2>三個空格都填好了</h2>
+
+  <div class="scroller">
+  <table>
+    <tr><th>指數</th><th>原本的問題</th><th>現在的答案</th></tr>
+    <tr><td>2<sup>0</sup></td><td>連乘 0 次說不通</td><td>1</td></tr>
+    <tr><td>2<sup>&minus;1</sup></td><td>連乘 &minus;1 次說不通</td><td>1/2</td></tr>
+    <tr><td>2<sup>1/2</sup></td><td>連乘半次說不通</td><td>&radic;2 &asymp; 1.414</td></tr>
+  </table>
+  </div>
+
+  <div class="plain">
+    這三個答案都是靠同一個辦法得到的：把新的情況放進已經確定的規則裡，由規則推出它必須是哪一個值。<br>
+    2<sup>0</sup> 如果不是 1，2<sup>3</sup> ÷ 2<sup>3</sup> 就會有兩個答案。2<sup>1/2</sup> 如果不是 &radic;2，兩個相乘就不會等於 2。<br>
+    <b>換句話說，這三個值不是新規定，而是唯一不會讓前面的規則自相矛盾的選擇。</b><br>
+    到這裡為止，指數可以填的東西已經沒有限制了——正整數、0、負數、分數，全部都算得出來。
+  </div>
+</section>
+
+<section class="card">
+  <h2>畫成圖形</h2>
+  <p class="desc">指數現在什麼數都能填，所以 x 不論取什麼值，2<sup>x</sup> 都算得出來。把幾個 x 的值代進去求出對應的 y，再把這些點畫在座標上，就能看到 y = 2<sup>x</sup> 長什麼樣子。</p>
+
+  <div class="scroller">
+  <table>
+    <tr><th>x</th><th>&minus;2</th><th>&minus;1</th><th>0</th><th>1/2</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+    <tr><th>y = 2<sup>x</sup></th><td>1/4</td><td>1/2</td><td class="up">1</td><td>1.414</td><td>2</td><td>4</td><td>8</td><td>16</td></tr>
+  </table>
+  </div>
+
+  <div class="toggle" id="fillBtns"></div>
+  <div class="fig">
+    <svg id="fillSvg" viewBox="0 0 700 460" role="img" aria-label="y 等於 2 的 x 次方的圖形"></svg>
+  </div>
+
+  <div class="plain">
+    x = 0 時 y = 1，所以圖形通過 (0, 1) 這個點。<br>
+    x 往左變成負數時，y 越來越小但永遠大於 0——曲線越來越貼近橫軸，卻不會碰到。這條碰不到的線叫做<b>漸近線</b>。<br>
+    x 往右時，曲線急速往上翹。x = 4 已經到 16，x = 8 是 256，x = 12 是 4096——畫沒幾格紙，空間就不夠用了。
+  </div>
+
+  <div class="route">
+    <span class="tag">名稱</span>
+    變數出現在指數位置上的函數，叫做<b>指數函數</b>。<br>
+    y = 2<sup>x</sup>、y = 3<sup>x</sup>、y = 0.5<sup>x</sup> 都是指數函數。<br>
+    y = x<sup>2</sup> 的變數在底數的位置，不是指數函數。
+  </div>
+</section>
+
+<section class="card">
+  <h2>底數換成別的數</h2>
+  <p class="desc">前面畫的都是底數為 2 的情況。底數換成別的數，圖形的走向會跟著改變。底數就是每一步要乘的那個數。</p>
+
+  <div class="slider-row"><span class="slabel">底數 b</span>
+    <input type="range" id="bS" min="0.3" max="3" value="2" step="0.1">
+    <span class="val" id="bV">2.0</span>
+  </div>
+  <div class="fig">
+    <svg id="baseSvg" viewBox="0 0 700 420" role="img" aria-label="不同底數的指數函數圖形"></svg>
+  </div>
+  <div class="readout" id="baseRead"></div>
+
+  <div class="plain">
+    <b style="color:#E8593F">底數大於 1</b>　每一步都乘上比 1 大的數，所以每一步都比前一步多，圖形往右上方翹起。底數越大，每一步乘得越多，翹起來就越陡。<br>
+    <b style="color:#0E9C8B">底數介於 0 與 1 之間</b>　每一步都乘上比 1 小的數，例如乘 0.5 就是變成一半，所以每一步都比前一步少，圖形往右下方落下。<br>
+    <b>底數剛好等於 1</b>　每一步都乘 1，乘了等於沒乘，數值從頭到尾不變，圖形是一條水平線。<br><br>
+    不論底數換成哪一個正數，圖形都會通過 (0, 1) 這個點。原因是 x = 0 時算的是底數的 0 次方，而任何不是 0 的數，0 次方都是 1。
+  </div>
+</section>
+
+<section class="card">
+  <h2>基礎練習</h2>
+  <span class="sub">概念</span>
+  <div class="mc" data-ans="C">
+    <div class="mq">1. 為什麼 2<sup>1/2</sup> 等於 &radic;2？</div>
+    <button class="opt" data-k="A">(A) 因為數學規定分數指數要寫成根號。</button>
+    <div class="fb" data-k="A">分數指數等於根號，是從規則推出來的結果，不是另外規定的。</div>
+    <button class="opt" data-k="B">(B) 因為 1/2 代表一半，取一半就是開根號。</button>
+    <div class="fb" data-k="B">2 的一半是 1，而 &radic;2 大約是 1.414，兩者不同。「一半」和「開根號」是兩回事。</div>
+    <button class="opt" data-k="C">(C) 因為兩個 2<sup>1/2</sup> 相乘，指數相加得到 2<sup>1</sup> = 2，而自己乘自己會得到 2 的數就是 &radic;2。</button>
+    <div class="fb" data-k="C">乘冪相乘、指數相加的規則，逼得 2<sup>1/2</sup> 只能是 &radic;2。</div>
+    <button class="opt" data-k="D">(D) 因為用計算機算，兩個都是 1.414。</button>
+    <div class="fb" data-k="D">計算機的結果可以用來驗算，但說明不了為什麼兩者相等。</div>
+    <div class="status"></div>
+  </div>
+  <div class="mc" data-ans="A">
+    <div class="mq">2. 為什麼不論底數是多少，指數函數的圖形都會通過 (0, 1)？</div>
+    <button class="opt" data-k="A">(A) 因為 x = 0 時算的是底數的 0 次方，任何不是 0 的數，0 次方都是 1。</button>
+    <div class="fb" data-k="A">x = 0 代進去就是底數的 0 次方，所以 y 一定是 1。</div>
+    <button class="opt" data-k="B">(B) 因為圖形一定從原點附近出發。</button>
+    <div class="fb" data-k="B">原點是 (0, 0)。指數函數在 x = 0 時，y 是 1 而不是 0。</div>
+    <button class="opt" data-k="C">(C) 因為底數都比 1 大。</button>
+    <div class="fb" data-k="C">底數也可以小於 1，例如 y = 0.5<sup>x</sup>，一樣通過 (0, 1)。</div>
+    <button class="opt" data-k="D">(D) 因為畫指數函數時規定要經過這一點。</button>
+    <div class="fb" data-k="D">這不是畫圖的規定，而是 0 次方等於 1 的必然結果。</div>
+    <div class="status"></div>
+  </div>
+  <div class="mc" data-ans="B">
+    <div class="mq">3. 為什麼 y = 0.5<sup>x</sup> 的圖形往右下方落下？</div>
+    <button class="opt" data-k="A">(A) 因為 0.5 是小數。</button>
+    <div class="fb" data-k="A">1.5 也是小數，但 y = 1.5<sup>x</sup> 往右上方翹起。關鍵在比 1 大還是比 1 小。</div>
+    <button class="opt" data-k="B">(B) 因為每一步都乘上比 1 小的數，所以每一步都比前一步少。</button>
+    <div class="fb" data-k="B">x 每加 1，就再乘一次 0.5，數量變成一半，所以越來越少。</div>
+    <button class="opt" data-k="C">(C) 因為 x 越大，0.5 被減掉的越多。</button>
+    <div class="fb" data-k="C">指數函數每一步是「乘」，不是「減」。</div>
+    <button class="opt" data-k="D">(D) 因為底數小於 1 的函數規定要往下畫。</button>
+    <div class="fb" data-k="D">這不是規定。乘上比 1 小的數，結果自然變小。</div>
+    <div class="status"></div>
+  </div>
+  <span class="sub">計算</span>
+  <div class="reveal">
+    <div class="rq">4. 把分數指數改寫成根號，再算出或估計大約是多少：<span style="font-family:'JetBrains Mono',monospace">25<sup>1/2</sup>　27<sup>1/3</sup>　5<sup>1/2</sup></span></div>
+    <div class="ra">25<sup>1/2</sup> = &radic;25 = 5<br>27<sup>1/3</sup> = <sup>3</sup>&radic;27 = 3，因為 3 × 3 × 3 = 27<br>5<sup>1/2</sup> = &radic;5 ≈ 2.24，因為 2.2 × 2.2 = 4.84、2.3 × 2.3 = 5.29，答案落在兩者之間，再往下試得到 2.24 × 2.24 ≈ 5.02</div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>進階練習</h2>
+  <div class="reveal">
+    <div class="rq">1. 紙張的 A 系列是這樣規定的：A0 的面積是 1 平方公尺，把 A0 對半裁開是 A1，A1 再對半裁開是 A2，依此類推。寫出 A<sub>x</sub> 紙張面積的式子。A4 的面積是多少平方公尺？</div>
+    <div class="ra">每裁一次，面積變成一半，所以 A<sub>x</sub> 的面積是 <span style="font-family:'JetBrains Mono',monospace">y = 0.5<sup>x</sup></span> 平方公尺。<br>A4 的面積是 0.5<sup>4</sup> = 1/16 平方公尺，也就是 625 平方公分。<br>拿一張 A4 實際量：21 公分 × 29.7 公分 = 623.7 平方公分，和算出來的非常接近。</div>
+  </div>
+  <div class="reveal">
+    <div class="rq">2. 有人這樣算：「8<sup>2/3</sup> = 8 × 2/3 = 16/3」。哪裡錯了？正確答案是多少？</div>
+    <div class="ra">錯在把指數當成乘數。指數 2/3 的分母 3 代表開 3 次方根，分子 2 代表平方。<br><span style="font-family:'JetBrains Mono',monospace">8<sup>2/3</sup> = (8<sup>1/3</sup>)<sup>2</sup> = 2<sup>2</sup> = 4</span></div>
+  </div>
+  <span class="sub">思考題</span>
+  <div class="reveal">
+    <div class="rq">3. 一張 A4 紙的長邊除以短邊，大約是 1.414，也就是 2<sup>1/2</sup>。為什麼 A 系列的紙對半裁之後，形狀還能跟原來一樣？</div>
+    <div class="ra">設長邊是 L、短邊是 S。對半裁開後，新的長邊是 S，新的短邊是 L/2。<br>形狀一樣，表示長短邊的比例不變：L/S = S ÷ (L/2)，整理得 (L/S)<sup>2</sup> = 2，所以 L/S = &radic;2 = 2<sup>1/2</sup>。<br>長寬比只有是 &radic;2，對半裁之後形狀才會一樣。</div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>反過來問</h2>
+  <p class="desc">一個細胞每分裂一次變成 2 倍，分裂 x 次之後的數量是 2<sup>x</sup> 個。</p>
+
+  <div class="scroller">
+  <table>
+    <tr><th>問法</th><th>已知</th><th>要求</th><th>算得出來嗎</th></tr>
+    <tr><td>分裂 20 次有多少個</td><td>次數 20</td><td>數量</td><td>2<sup>20</sup> = 1,048,576</td></tr>
+    <tr><td>要分裂幾次，細胞才到一百萬</td><td>數量 1,000,000</td><td>次數</td><td style="color:#C4574E">？</td></tr>
+  </table>
+  </div>
+
+  <div class="plain">
+    第一列和第二列問的是同一件事，只是方向相反。<br>
+    第一列給的是分裂次數，要算出細胞數量，把次數代進 2<sup>x</sup> 就算得出來。<br>
+    第二列給的是細胞數量，要回頭算出分裂次數。已知的變成 y，要求的變成 x，跟前面完全相反。<br><br>
+    這一題可以用試的：2<sup>19</sup> = 524,288 還不到一百萬，2<sup>20</sup> = 1,048,576 已經超過，所以答案落在 19 和 20 之間，再往下就試不出來了。<br>
+    更麻煩的是，連把這個問題<b>寫成式子</b>都做不到。第一列可以寫成 y = 2<sup>x</sup>，第二列想寫成「x = 什麼」的形式，卻找不到符號可以用——目前為止學過的寫法裡，沒有一個能表達「2 的幾次方會等於一百萬」這件事。
+  </div>
+</section>
+
+<section class="card" style="border:none;background:transparent;box-shadow:none;padding:0">
+  <div style="border:1.5px dashed var(--violet);border-radius:14px;padding:20px 22px;background:#FBFAFE">
+    <h3 style="font-size:1.1rem;font-weight:800;color:var(--violet);margin-bottom:12px">回家作業</h3>
+    <p style="margin-top:14px;line-height:2"><b>一、</b>算出下列各式，並寫出每一題用了哪一條規則：<br>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:1.05rem">2<sup>5</sup> × 2<sup>3</sup>　　(3<sup>2</sup>)<sup>3</sup>　　2<sup>7</sup> ÷ 2<sup>4</sup></span></p>
+    <p style="margin-top:14px;line-height:2"><b>二、</b>y = 3<sup>x</sup> 這個函數，把 x = &minus;1、0、1、2 代進去各算一次。<br>
+    這四個答案裡，有沒有可能出現 0 或負數？為什麼？</p>
+    <p style="margin-top:14px;line-height:2"><b>三、</b>一則訊息每輪轉傳給 3 個人，第 x 輪有 3<sup>x</sup> 個人收到。要到第幾輪，收到的人數才會超過 10000 人？用試的找出答案落在哪兩個整數之間。<br>
+    能不能把這個問題寫成「x = …」的式子？</p>
+  </div>
+</section>
+
+</div>
+
+<script>
+document.querySelectorAll('.reveal').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+document.querySelectorAll('.hint').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+
+/* ---------- y = 2^x 圖形 ---------- */
+(function(){
+  const svg=document.getElementById('fillSvg'), btns=document.getElementById('fillBtns');
+  const W=700,H=460,L=58,R=22,T=20,B=46,CW=W-L-R,CH=H-T-B;
+  const xMin=-3,xMax=4,yMax=17;
+  const X=x=>L+CW*(x-xMin)/(xMax-xMin), Y=v=>T+CH-CH*Math.min(v,yMax)/yMax;
+  let mode=0;
+  function draw(){
+    let s=`<rect x="${L}" y="${T}" width="${CW}" height="${CH}" fill="#FCFDFE" stroke="#DCE6EF"/>`;
+    for(let i=xMin;i<=xMax;i++){
+      s+=`<line x1="${X(i)}" y1="${T}" x2="${X(i)}" y2="${T+CH}" stroke="#E8EEF4"/>`;
+      s+=`<text x="${X(i)}" y="${T+CH+19}" font-size="11.5" fill="#5B6B77" text-anchor="middle">${i}</text>`;
+    }
+    for(let k=0;k<=8;k++){
+      const v=yMax*k/8;
+      s+=`<line x1="${L}" y1="${Y(v)}" x2="${L+CW}" y2="${Y(v)}" stroke="#E8EEF4"/>`;
+      s+=`<text x="${L-6}" y="${Y(v)+4}" font-size="10.5" fill="#5B6B77" text-anchor="end">${v.toFixed(0)}</text>`;
+    }
+    s+=`<line x1="${L}" y1="${Y(0)}" x2="${L+CW}" y2="${Y(0)}" stroke="#22303C" stroke-width="1.8"/>`;
+    s+=`<line x1="${X(0)}" y1="${T}" x2="${X(0)}" y2="${T+CH}" stroke="#22303C" stroke-width="1.8"/>`;
+    if(mode===2){
+      let p='';
+      for(let x=xMin;x<=xMax;x+=0.02){
+        const v=Math.pow(2,x);
+        if(v>yMax) break;
+        p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(v).toFixed(1)+' ';
+      }
+      s+=`<path d="${p}" fill="none" stroke="#E8593F" stroke-width="2.8" stroke-linecap="round"/>`;
+    }
+    const from = mode===0?1:xMin;
+    for(let i=from;i<=xMax;i++){
+      const v=Math.pow(2,i);
+      if(v>yMax) continue;
+      s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="5.4" fill="${(mode>=1&&i<1)?'#7A5CC7':'#E8593F'}"/>`;
+    }
+    if(mode>=1){
+      s+=`<text x="${X(0)+10}" y="${Y(1)-10}" font-size="12.5" fill="#7A5CC7" font-weight="700">(0, 1)</text>`;
+    }
+    if(mode===2){
+      s+=`<text x="${X(-2.6)}" y="${Y(0)-10}" font-size="12" fill="#5B6B77">越來越靠近，但碰不到</text>`;
+    }
+    s+=`<text x="${L+CW/2}" y="${H-6}" font-size="11.5" fill="#5B6B77" text-anchor="middle">x</text>`;
+    s+=`<text x="${L-2}" y="${T-6}" font-size="11.5" fill="#5B6B77" text-anchor="end">y</text>`;
+    svg.innerHTML=s;
+  }
+  ['指數填正整數','加上 0 與負整數','指數填任何數'].forEach((t,i)=>{
+    const b=document.createElement('button');
+    b.className='tbtn'+(i===0?' on':''); b.textContent=t;
+    b.addEventListener('click',()=>{
+      mode=i; draw();
+      btns.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+    });
+    btns.appendChild(b);
+  });
+  draw();
+})();
+
+
+/* ---------- 底數滑桿 ---------- */
+(function(){
+  const svg=document.getElementById('baseSvg'), sl=document.getElementById('bS'),
+        vv=document.getElementById('bV'), rd=document.getElementById('baseRead');
+  const W=700,H=420,L=58,R=22,T=20,B=46,CW=W-L-R,CH=H-T-B;
+  const xMin=-3,xMax=4,yMax=17;
+  const X=x=>L+CW*(x-xMin)/(xMax-xMin), Y=v=>T+CH-CH*Math.min(v,yMax)/yMax;
+  function draw(){
+    const b=+sl.value; vv.textContent=b.toFixed(1);
+    const col = b>1?'#E8593F':(b<1?'#0E9C8B':'#5B6B77');
+    let s=`<rect x="${L}" y="${T}" width="${CW}" height="${CH}" fill="#FCFDFE" stroke="#DCE6EF"/>`;
+    for(let i=xMin;i<=xMax;i++){
+      s+=`<line x1="${X(i)}" y1="${T}" x2="${X(i)}" y2="${T+CH}" stroke="#E8EEF4"/>`;
+      s+=`<text x="${X(i)}" y="${T+CH+19}" font-size="11.5" fill="#5B6B77" text-anchor="middle">${i}</text>`;
+    }
+    for(let k=0;k<=8;k++){
+      const v=yMax*k/8;
+      s+=`<line x1="${L}" y1="${Y(v)}" x2="${L+CW}" y2="${Y(v)}" stroke="#E8EEF4"/>`;
+      s+=`<text x="${L-6}" y="${Y(v)+4}" font-size="10.5" fill="#5B6B77" text-anchor="end">${v.toFixed(0)}</text>`;
+    }
+    s+=`<line x1="${L}" y1="${Y(0)}" x2="${L+CW}" y2="${Y(0)}" stroke="#22303C" stroke-width="1.8"/>`;
+    s+=`<line x1="${X(0)}" y1="${T}" x2="${X(0)}" y2="${T+CH}" stroke="#22303C" stroke-width="1.8"/>`;
+    let p='';
+    for(let x=xMin;x<=xMax;x+=0.02){
+      const v=Math.pow(b,x);
+      if(v>yMax){ if(p!=='') break; else continue; }
+      p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(v).toFixed(1)+' ';
+    }
+    s+=`<path d="${p}" fill="none" stroke="${col}" stroke-width="2.8" stroke-linecap="round"/>`;
+    s+=`<circle cx="${X(0)}" cy="${Y(1)}" r="6" fill="#E0A32E"/>`;
+    s+=`<text x="${X(0)+10}" y="${Y(1)-10}" font-size="12.5" fill="#B3821E" font-weight="700">(0, 1)</text>`;
+    s+=`<text x="${L+CW/2}" y="${H-6}" font-size="11.5" fill="#5B6B77" text-anchor="middle">x</text>`;
+    svg.innerHTML=s;
+    const vals=[-1,0,1,2,3].map(x=>{const v=Math.pow(b,x);return v>=10?v.toFixed(0):v.toFixed(2);});
+    const word = b>1?'往右上翹起':(b<1?'往右下落下':'水平不變');
+    rd.innerHTML=`y = ${b.toFixed(1)}<sup>x</sup>　→　${word}<br>x = −1、0、1、2、3　→　${vals.join('、')}`;
+  }
+  sl.addEventListener('input',draw); draw();
+})();
+
+</script>
+
+<script>
+document.querySelectorAll('.mc').forEach(mc=>{
+  const ans=mc.dataset.ans, st=mc.querySelector('.status');
+  mc.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+    if(mc.classList.contains('done'))return;
+    const k=b.dataset.k, fb=mc.querySelector('.fb[data-k="'+k+'"]');
+    if(k===ans){
+      b.classList.add('right'); mc.classList.add('done');
+      mc.querySelectorAll('.fb').forEach(f=>{f.classList.add('show'); if(f.dataset.k===ans)f.classList.add('ok'); else f.classList.add('no');});
+      st.textContent='答對了。其他選項錯在哪裡，也列在下面。'; st.style.color='var(--teal)';
+    }else{
+      b.classList.add('wrong'); fb.classList.add('show','no');
+      st.textContent='這個選項不對，原因寫在選項下方。可以再選一次。'; st.style.color='var(--no)';
+    }
+  }));
+});
+</script>
+
+<script>
+document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+</script>
+</body>
+</html>

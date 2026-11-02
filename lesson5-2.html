@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>指數是 0 和負數的時候</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .lead{color:var(--ink-soft);margin-top:14px;font-size:1.04rem}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  .route{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin:16px 0;font-weight:500}
+  .route b{color:var(--violet)}
+  .route .tag{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin-bottom:6px}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:82px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:72px;text-align:right;color:var(--coral)}
+  .readout{font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:10px;background:#F3F6F9;border-radius:10px;padding:12px 15px}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 6px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.up{color:var(--coral);font-weight:700}
+  td.flat{color:var(--teal);font-weight:700}
+  .scroller{overflow-x:auto}
+  .reveal{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;cursor:pointer;background:#fff;text-align:center;transition:.15s}
+  .reveal:hover{border-color:var(--violet)}
+  .rq{font-weight:700;color:var(--violet);font-size:.96rem}
+  .ra{display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed var(--grid-strong)}
+  .reveal.on .ra{display:block}
+  .reveal.on .rq{color:var(--ink-soft)}
+  .hint{border:1.5px dashed var(--teal);border-radius:12px;padding:11px 15px;margin:12px 0;
+    background:#F4FBFA;cursor:pointer;transition:.15s}
+  .hint:hover{background:#E8F6F2}
+  .hint .ht{font-weight:700;color:var(--teal);font-size:.93rem}
+  .hint .ht::before{content:"▸ "}
+  .hint.on .ht::before{content:"▾ "}
+  .hint .hb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .hint.on .hb{display:block}
+  .hint .hb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .eqline{font-family:"JetBrains Mono",monospace;font-size:1.05rem;line-height:2.1;background:#F3F6F9;border-radius:10px;padding:14px 16px;margin-top:12px;overflow-x:auto}
+  .fill{display:inline-block;min-width:74px;border-bottom:2px solid var(--coral);height:1.5em;vertical-align:bottom}
+  .big{font-family:"JetBrains Mono",monospace;font-size:1.5rem;font-weight:700;color:var(--coral)}
+  .minifig{background:#FCFDFE;border:1.5px solid var(--grid);border-radius:10px;padding:8px;margin-top:12px}
+  .mcap{font-size:.82rem;color:var(--ink-soft);margin-top:6px;text-align:center}
+  ul{margin:10px 0 0 20px}
+  li{margin:5px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>指數是 0 <span class="hl">和負數的時候</span></h1>
+  <p class="lead">乘冪相除的時候要把指數相減，而相減的結果可能是 0，也可能是負數。可是指數原本記錄的是「連乘幾次」，乘 0 次和乘負 1 次都沒有辦法想像。<br>這兩種情況要等於多少，不是由誰規定的，而是由前面那三條規則逼出來的——只要不讓算出來的答案自相矛盾，答案就只有一種可能。</p>
+</header>
+
+<section class="card">
+  <h2>指數是 0</h2>
+  <p class="desc">2<sup>3</sup> ÷ 2<sup>3</sup> 這個算式有兩種算法。第一種完全不用管指數，直接把上下算出來再相除。第二種用規則三，把指數相減。兩種算的是同一個算式，所以答案一定要一樣。</p>
+
+  <div class="eqline">
+    <b style="color:#0E9C8B">第一種　直接算</b><br>
+    分子和分母完全一樣。任何不是 0 的數除以自己都是 1。<br>
+    2<sup>3</sup> ÷ 2<sup>3</sup>　=　8 ÷ 8　=　<b>1</b><br><br>
+    <b style="color:#E8593F">第二種　用規則三</b><br>
+    乘冪相除，指數相減。<br>
+    2<sup>3</sup> ÷ 2<sup>3</sup>　=　2<sup>3&minus;3</sup>　=　<b>2<sup>0</sup></b>
+  </div>
+
+  <div class="ask">兩種算法算的是同一個算式，答案必須一樣。那 2<sup>0</sup> 是多少？</div>
+
+  <div class="route">
+    <span class="tag">結論</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:1.2rem">a<sup>0</sup> = 1</span><br>
+    任何不是 0 的數，0 次方都是 1。<br>
+    第一種算法算出 1，第二種算法算出 2<sup>0</sup>。同一個算式只會有一個答案，所以 2<sup>0</sup> 只能是 1。<br>
+    這不是有人規定 0 次方要等於 1，而是如果 2<sup>0</sup> 等於別的數，那 2<sup>3</sup> ÷ 2<sup>3</sup> 就會有兩個不同的答案，前面三條規則就沒辦法同時成立了。
+  </div>
+
+  <div class="plain">
+    2<sup>0</sup> = 1　　5<sup>0</sup> = 1　　100<sup>0</sup> = 1　　0.5<sup>0</sup> = 1<br>
+    直覺上很容易答成 0，但 0 會讓上面那兩種算法對不起來。
+  </div>
+
+  <div class="reveal">
+    <div class="rq">用另一個例子檢查一次：5<sup>4</sup> ÷ 5<sup>4</sup></div>
+    <div class="ra">
+      直接算：625 ÷ 625 = 1。<br>
+      用規則三：5<sup>4&minus;4</sup> = 5<sup>0</sup>。<br>
+      兩邊對照，5<sup>0</sup> = 1。換成任何底數，結果都一樣。
+    </div>
+  </div>
+
+  <div class="note">0<sup>0</sup> 是唯一的例外，0 的 0 次方沒有定義。</div>
+</section>
+
+<section class="card">
+  <h2>指數是負數</h2>
+  <p class="desc">2<sup>3</sup> ÷ 2<sup>4</sup> 同樣用兩種方式各算一次。寫成分數之後，分子有 3 個 2 相乘，分母有 4 個 2 相乘。分母比分子多一個。</p>
+
+  <div class="fig">
+    <svg id="negSvg" viewBox="0 0 700 250" role="img" aria-label="2 的 3 次方除以 2 的 4 次方的約分過程"></svg>
+  </div>
+
+  <div class="eqline">
+    <b style="color:#0E9C8B">第一種　上下消掉</b><br>
+    分子的 3 個 2 全部消完，分母還剩一個 2。<br>
+    2<sup>3</sup> ÷ 2<sup>4</sup>　=　<b>1 / 2</b><br><br>
+    <b style="color:#E8593F">第二種　用規則三</b><br>
+    2<sup>3</sup> ÷ 2<sup>4</sup>　=　2<sup>3&minus;4</sup>　=　<b>2<sup>&minus;1</sup></b>
+  </div>
+
+  <div class="ask">兩種算法的答案必須一樣。那 2<sup>&minus;1</sup> 是多少？</div>
+
+  <div class="route">
+    <span class="tag">結論</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:1.2rem">a<sup>&minus;s</sup> = 1 / a<sup>s</sup></span><br>（a 不能是 0，因為分母不能是 0）<br>
+    第一種算法算出 1/2，第二種算法算出 2<sup>&minus;1</sup>，所以 2<sup>&minus;1</sup> 只能是 1/2。<br>
+    寫成一般的形式就是：指數前面帶負號的時候，把整個乘冪從分子搬到分母去，搬過去之後負號就去掉。<br>
+    例如 2<sup>&minus;3</sup>，把 2<sup>3</sup> 搬到分母，變成 1 / 2<sup>3</sup>，也就是 1/8。
+  </div>
+
+  <div class="scroller">
+  <table>
+    <tr><th>負指數</th><th>換成分數</th><th>算出來</th></tr>
+    <tr><td>2<sup>&minus;1</sup></td><td>1 / 2<sup>1</sup></td><td>1/2</td></tr>
+    <tr><td>2<sup>&minus;3</sup></td><td>1 / 2<sup>3</sup></td><td>1/8</td></tr>
+    <tr><td>4<sup>&minus;2</sup></td><td>1 / 4<sup>2</sup></td><td>1/16</td></tr>
+    <tr><td>3<sup>&minus;4</sup></td><td><span class="fill"></span></td><td><span class="fill"></span></td></tr>
+    <tr><td>10<sup>&minus;2</sup></td><td><span class="fill"></span></td><td><span class="fill"></span></td></tr>
+  </table>
+  </div>
+
+  <div class="hint">
+    <div class="ht">提示　1 / 2<sup>3</sup> 是多少？</div>
+    <div class="hb">
+      先算分母：<span class="eq">2<sup>3</sup> = 2 × 2 × 2 = 8</span><br>
+      所以 <span class="eq">1 / 2<sup>3</sup> = 1/8 = 0.125</span><br><br>
+      分母越大，整個分數越小。<b>底數大於 1 的時候，指數是負數，算出來的值一定小於 1。</b>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>換一條路看同一件事</h2>
+  <p class="desc">前面兩節是用規則推出答案。同樣的結果也可以從數字的規律看出來。<br>把 2<sup>3</sup>、2<sup>2</sup>、2<sup>1</sup> 排成一排，它們的值分別是 8、4、2。往右每走一格要乘以 2，所以反過來往左每走一格就是除以 2。照這個規律繼續往左走，會走到什麼地方？</p>
+
+  <div class="toggle" id="lineBtns"></div>
+  <div class="fig">
+    <svg id="lineSvg" viewBox="0 0 700 240" role="img" aria-label="指數從正整數往左延伸到 0 與負數"></svg>
+  </div>
+
+  <div class="plain">
+    從 2<sup>3</sup> = 8 往左：8 ÷ 2 = 4，就是 2<sup>2</sup>。4 ÷ 2 = 2，就是 2<sup>1</sup>。<br>
+    再往左一格是 2 ÷ 2 = <b>1</b>，那個位置寫的是 2<sup>0</sup>。<br>
+    再往左一格是 1 ÷ 2 = <b>1/2</b>，那個位置寫的是 2<sup>&minus;1</sup>。
+  </div>
+
+  <div class="note">這條路走出來的答案是 2<sup>0</sup> = 1、2<sup>&minus;1</sup> = 1/2，和前面兩節用規則推出來的完全相同。兩條路從不同的地方出發卻走到同一個答案，這表示這兩個值不是隨便填的。</div>
+</section>
+
+<section class="card">
+  <h2>兩個空格都填好了</h2>
+
+  <div class="scroller">
+  <table>
+    <tr><th>指數</th><th>原本的問題</th><th>現在的答案</th><th>從哪裡來</th></tr>
+    <tr><td>2<sup>0</sup></td><td>連乘 0 次說不通</td><td>1</td><td>2<sup>3</sup> ÷ 2<sup>3</sup> 的兩種算法</td></tr>
+    <tr><td>2<sup>&minus;1</sup></td><td>連乘 &minus;1 次說不通</td><td>1/2</td><td>2<sup>3</sup> ÷ 2<sup>4</sup> 的兩種算法</td></tr>
+  </table>
+  </div>
+
+  <div class="reveal">
+    <div class="rq">一、7<sup>0</sup> + 3<sup>0</sup></div>
+    <div class="ra">兩個都是 1，所以答案是 2。</div>
+  </div>
+  <div class="reveal">
+    <div class="rq">二、把 1/16 寫成 2 的乘冪</div>
+    <div class="ra">16 = 2<sup>4</sup>，所以 1/16 = 1 / 2<sup>4</sup> = 2<sup>&minus;4</sup>。</div>
+  </div>
+  <div class="reveal">
+    <div class="rq">三、2<sup>5</sup> × 2<sup>&minus;3</sup></div>
+    <div class="ra">
+      規則一照樣適用，指數相加：5 + (&minus;3) = 2，得 2<sup>2</sup> = 4。<br>
+      驗算：2<sup>5</sup> = 32，2<sup>&minus;3</sup> = 1/8，32 × 1/8 = 4。相符。
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="rq">四、10<sup>&minus;1</sup> 和 10<sup>0</sup> 和 10<sup>1</sup> 哪個大</div>
+    <div class="ra">
+      10<sup>&minus;1</sup> = 1/10 = 0.1，10<sup>0</sup> = 1，10<sup>1</sup> = 10。<br>
+      指數越大，值越大。指數是負的時候，值會小於 1。
+    </div>
+  </div>
+
+  <div class="plain">
+    指數是 0 或負數的時候，前面那三條規則<b>照樣可以用</b>，不需要換一套算法。<br>
+    上面第三題就是例子：2<sup>5</sup> × 2<sup>&minus;3</sup> 一樣是指數相加，5 加上 &minus;3 得到 2。<br>
+    也就是說，0 次方和負指數不是三條規則之外的例外，而是把原本的規則用到更多情況上，所必然得到的結果。
+  </div>
+</section>
+
+</div>
+
+<script>
+document.querySelectorAll('.reveal').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+document.querySelectorAll('.hint').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+
+/* ---------- 2^3 ÷ 2^4 約分圖 ---------- */
+(function(){
+  const svg=document.getElementById('negSvg');
+  const W=700,cx=W/2,gap=56,p=3,q=4,pair=3;
+  let s='';
+  for(let i=0;i<p;i++){
+    const x=cx-(p-1)*gap/2+i*gap,y=78;
+    s+=`<text x="${x}" y="${y}" font-size="26" font-weight="700" text-anchor="middle" fill="#B9C6D1" font-family="JetBrains Mono, monospace">2</text>`;
+    s+=`<line x1="${x-13}" y1="${y-22}" x2="${x+13}" y2="${y+6}" stroke="#C4574E" stroke-width="2.4"/>`;
+    if(i<p-1) s+=`<text x="${x+gap/2}" y="${y}" font-size="17" text-anchor="middle" fill="#5B6B77">×</text>`;
+  }
+  s+=`<line x1="${cx-q*gap/2-6}" y1="103" x2="${cx+q*gap/2+6}" y2="103" stroke="#22303C" stroke-width="2.4"/>`;
+  for(let i=0;i<q;i++){
+    const x=cx-(q-1)*gap/2+i*gap,y=146,dead=i<pair;
+    s+=`<text x="${x}" y="${y}" font-size="26" font-weight="700" text-anchor="middle" fill="${dead?'#B9C6D1':'#0E9C8B'}" font-family="JetBrains Mono, monospace">2</text>`;
+    if(dead) s+=`<line x1="${x-13}" y1="${y-22}" x2="${x+13}" y2="${y+6}" stroke="#C4574E" stroke-width="2.4"/>`;
+    if(i<q-1) s+=`<text x="${x+gap/2}" y="${y}" font-size="17" text-anchor="middle" fill="#5B6B77">×</text>`;
+  }
+  s+=`<text x="${cx}" y="200" font-size="15.5" text-anchor="middle" fill="#5B6B77">分子全部消完剩下 1，分母還剩一個 2　→　1 / 2</text>`;
+  svg.innerHTML=s;
+})();
+
+/* ---------- 數線往左延伸 ---------- */
+(function(){
+  const svg=document.getElementById('lineSvg'), btns=document.getElementById('lineBtns');
+  const W=700,L=58,R=34,Y0=100,CW=W-L-R;
+  const exps=[-2,-1,0,1,2,3];
+  const labels={'-2':'1/4','-1':'1/2','0':'1','1':'2','2':'4','3':'8'};
+  let step=3;
+  function supStr(e){
+    const map={'-':'\u207B','0':'\u2070','1':'\u00B9','2':'\u00B2','3':'\u00B3'};
+    return String(e).split('').map(c=>map[c]||c).join('');
+  }
+  function draw(){
+    const X=i=>L+CW*(i+2)/5;
+    let s=`<line x1="${L-16}" y1="${Y0}" x2="${L+CW+18}" y2="${Y0}" stroke="#22303C" stroke-width="2"/>`;
+    exps.forEach(e=>{
+      const on=e>=step, col=on?'#22303C':'#D3DDE5';
+      s+=`<circle cx="${X(e)}" cy="${Y0}" r="5" fill="${col}"/>`;
+      s+=`<text x="${X(e)}" y="${Y0-24}" font-size="19" font-weight="700" text-anchor="middle" fill="${on?'#E8593F':'#D3DDE5'}" font-family="JetBrains Mono, monospace">2${supStr(e)}</text>`;
+      s+=`<text x="${X(e)}" y="${Y0+32}" font-size="19" font-weight="700" text-anchor="middle" fill="${on?'#0E9C8B':'#D3DDE5'}" font-family="JetBrains Mono, monospace">${labels[e]}</text>`;
+    });
+    for(let i=0;i<exps.length-1;i++){
+      const a=exps[i],b=exps[i+1],on=a>=step,mx=(X(a)+X(b))/2;
+      s+=`<path d="M${X(b)-14} ${Y0+54} Q${mx} ${Y0+80} ${X(a)+14} ${Y0+54}" fill="none" stroke="${on?'#7A5CC7':'#E4EAF0'}" stroke-width="2"/>`;
+      s+=`<text x="${mx}" y="${Y0+96}" font-size="13.5" text-anchor="middle" fill="${on?'#7A5CC7':'#D3DDE5'}" font-weight="700">÷ 2</text>`;
+    }
+    svg.innerHTML=s;
+  }
+  [['先看 2³',3],['往左到 2¹',1],['往左到 2⁰',0],['全部展開',-2]].forEach(([t,v])=>{
+    const b=document.createElement('button');
+    b.className='tbtn'; b.textContent=t;
+    b.addEventListener('click',()=>{
+      step=v; draw();
+      btns.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+    });
+    btns.appendChild(b);
+  });
+  btns.querySelector('.tbtn').classList.add('on');
+  draw();
+})();
+
+</script>
+</body>
+</html>
