@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>對數函數長什麼樣子</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .lead{color:var(--ink-soft);margin-top:14px;font-size:1.04rem}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  .route{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin:16px 0;font-weight:500}
+  .route b{color:var(--violet)}
+  .route .tag{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin-bottom:6px}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:82px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:72px;text-align:right;color:var(--coral)}
+  .readout{font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:10px;background:#F3F6F9;border-radius:10px;padding:12px 15px}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 6px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.up{color:var(--coral);font-weight:700}
+  td.flat{color:var(--teal);font-weight:700}
+  .scroller{overflow-x:auto}
+  .reveal{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;cursor:pointer;background:#fff;text-align:center;transition:.15s}
+  .reveal:hover{border-color:var(--violet)}
+  .rq{font-weight:700;color:var(--violet);font-size:.96rem}
+  .ra{display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed var(--grid-strong)}
+  .reveal.on .ra{display:block}
+  .reveal.on .rq{color:var(--ink-soft)}
+  .hint{border:1.5px dashed var(--teal);border-radius:12px;padding:11px 15px;margin:12px 0;
+    background:#F4FBFA;cursor:pointer;transition:.15s}
+  .hint:hover{background:#E8F6F2}
+  .hint .ht{font-weight:700;color:var(--teal);font-size:.93rem}
+  .hint .ht::before{content:"▸ "}
+  .hint.on .ht::before{content:"▾ "}
+  .hint .hb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .hint.on .hb{display:block}
+  .hint .hb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .eqline{font-family:"JetBrains Mono",monospace;font-size:1.05rem;line-height:2.1;background:#F3F6F9;border-radius:10px;padding:14px 16px;margin-top:12px;overflow-x:auto}
+  .fill{display:inline-block;min-width:74px;border-bottom:2px solid var(--coral);height:1.5em;vertical-align:bottom}
+  .big{font-family:"JetBrains Mono",monospace;font-size:1.5rem;font-weight:700;color:var(--coral)}
+  .minifig{background:#FCFDFE;border:1.5px solid var(--grid);border-radius:10px;padding:8px;margin-top:12px}
+  .mcap{font-size:.82rem;color:var(--ink-soft);margin-top:6px;text-align:center}
+  ul{margin:10px 0 0 20px}
+  li{margin:5px 0}
+
+  .mc{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;background:#fff}
+  .mc .mq{font-weight:700;margin-bottom:10px}
+  .mc .opt{display:block;width:100%;text-align:left;border:1.5px solid var(--grid-strong);background:#fff;border-radius:10px;padding:9px 13px;margin:7px 0;font:inherit;font-size:.96rem;color:var(--ink);cursor:pointer;transition:.15s}
+  .mc .opt:hover{border-color:var(--violet)}
+  .mc .opt.right{border-color:var(--teal);background:var(--teal-tint)}
+  .mc .opt.wrong{border-color:var(--no);background:#FBEAE8}
+  .mc .fb{display:none;margin:-2px 0 8px 14px;padding:6px 12px;font-size:.92rem;border-left:3px solid var(--grid-strong);color:var(--ink-soft)}
+  .mc .fb.show{display:block}
+  .mc .fb.ok{border-left-color:var(--teal);color:var(--ink)}
+  .mc .fb.no{border-left-color:var(--no)}
+  .mc .status{font-size:.88rem;font-weight:700;margin-top:6px;min-height:1.2em}
+  .sub{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin:20px 0 2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>對數函數<span class="hl">長什麼樣子</span></h1>
+  <p class="lead">記號會寫、值會算之後，剩下的是認識這個函數本身：它的真數為什麼不能放 0 和負數、圖形長什麼樣、跟指數函數是什麼關係。<br>以及它在實際工作裡最重要的那個用途——處理大到算不動的數字。</p>
+</header>
+
+<section class="card">
+  <h2>真數只能放正數</h2>
+  <p class="desc">log 的真數位置有一個限制。</p>
+
+  <div class="scroller">
+  <table>
+    <tr><th>式子</th><th>問的是</th><th>答案</th></tr>
+    <tr><td>log<sub>2</sub> 8</td><td>2 的幾次方等於 8</td><td>3</td></tr>
+    <tr><td>log<sub>2</sub> 1</td><td>2 的幾次方等於 1</td><td>0</td></tr>
+    <tr><td>log<sub>2</sub> 0.25</td><td>2 的幾次方等於 0.25</td><td>&minus;2</td></tr>
+    <tr><td>log<sub>2</sub> 0</td><td>2 的幾次方等於 0</td><td style="color:#C4574E">沒有答案</td></tr>
+    <tr><td>log<sub>2</sub> (&minus;8)</td><td>2 的幾次方等於 &minus;8</td><td style="color:#C4574E">沒有答案</td></tr>
+  </table>
+  </div>
+
+  <div class="plain">
+    2 的任何次方都是正數。次方數再小，算出來也只是越來越接近 0，永遠到不了 0，更不可能變成負數。<br>
+    所以「2 的幾次方等於 0」和「2 的幾次方等於 &minus;8」這兩個問題沒有答案。<br><br>
+    <b>log 的真數只能放大於 0 的數。</b>這不是額外的規定，而是因為指數函數本來就算不出 0 或負數。
+  </div>
+</section>
+
+<section class="card">
+  <h2>log 怎麼隨真數變化</h2>
+  <p class="desc">真數從小變大的時候，log 算出來的值怎麼跑。</p>
+
+  <div class="slider-row"><span class="slabel">真數</span>
+    <input type="range" id="tS" min="1" max="1024" value="8" step="1">
+    <span class="val" id="tV">8</span>
+  </div>
+  <div class="fig">
+    <svg id="logSvg" viewBox="0 0 700 420" role="img" aria-label="以 2 為底的對數函數圖形"></svg>
+  </div>
+  <div class="readout" id="logRead"></div>
+
+  <div class="plain">
+    真數從 1 走到 2，log 從 0 變成 1。<br>
+    真數從 2 走到 4，log 從 1 變成 2。<br>
+    真數從 4 走到 8，log 從 2 變成 3。<br>
+    真數從 512 走到 1024，log 從 9 變成 10。<br><br>
+    <b>真數要變成兩倍，log 才增加 1。</b>真數越大，要再往上爬 1 就需要多出越來越多的量——曲線因此越來越平。<br>
+    這跟指數函數剛好相反。指數函數是 x 加 1、y 乘 2；對數函數是真數乘 2、答案才加 1。
+  </div>
+</section>
+
+<section class="card">
+  <h2>兩條曲線的關係</h2>
+  <p class="desc">y = 2<sup>x</sup> 和 y = log<sub>2</sub> x 畫在同一張圖上。</p>
+
+  <div class="plain">
+    <b>為什麼字母對調了</b><br>
+    畫函數圖形時，習慣把輸入寫成 x、放在橫軸，把輸出寫成 y、放在縱軸。<br>
+    x = log<sub>2</sub> y 的輸入是數量 y，輸出是次數 x。照這個習慣把兩個字母對調，寫成 y = log<sub>2</sub> x，意思完全一樣，只是現在 x 是數量（真數），y 是次數。<br><br>
+    同一件事 2<sup>3</sup> = 8：在 y = 2<sup>x</sup> 上是點 (3, 8)，在 y = log<sub>2</sub> x 上是點 (8, 3)，橫座標和縱座標剛好對調。
+  </div>
+
+  <div class="toggle" id="pairBtns"></div>
+  <div class="fig">
+    <svg id="pairSvg" viewBox="0 0 700 460" role="img" aria-label="指數函數與對數函數互為反函數的圖形"></svg>
+  </div>
+
+  <div class="plain">
+    兩條曲線沿著中間那條斜線對折，會完全疊在一起。<br>
+    原因是它們問的是同一件事，只是把哪一個當已知、哪一個當要求對調了。<br><br>
+    <b>指數函數</b>　x 可以放任何數，y 一定大於 0。通過 (0, 1)，往左越來越貼近橫軸。<br>
+    <b>對數函數</b>　x 一定大於 0，y 可以是任何數。通過 (1, 0)，往下越來越貼近縱軸。<br><br>
+    x 可以放進去的數（稱為<b>定義域</b>）和 y 可能算出來的數（稱為<b>值域</b>），在兩個函數之間剛好對調。指數函數算不出 0 和負數，所以對數函數的真數不能放 0 和負數。
+  </div>
+
+  <div class="route">
+    <span class="tag">反函數</span>
+    把輸入和輸出對調之後得到的函數，稱為<b>反函數</b>。<br>
+    y = 2<sup>x</sup> 和 y = log<sub>2</sub> x 互為反函數，圖形上表現為沿著 y = x 這條斜線對稱。
+  </div>
+</section>
+
+<section class="card">
+  <h2>大到算不動的數字</h2>
+  <p class="desc">log 最主要的用處在這裡。</p>
+
+  <div class="eqline">
+    y = 3<sup>5000</sup>
+  </div>
+
+  <div class="plain">
+    這個數字有多大？3 連乘 5000 次，寫出來大概有兩千多位。一般的計算機直接按下去會出現錯誤或無限大。<br><br>
+    但是換成 log 的寫法：
+  </div>
+
+  <div class="eqline">
+    log<sub>3</sub> y = 5000
+  </div>
+
+  <div class="plain">
+    要處理的就只剩下 <b>5000</b> 這個數字。<br>
+    兩千多位的龐然大物，換一種記法就變成四位數。<br><br>
+    這就是 log 真正的功能：<b>把位數多到無法處理的數字，換成可以處理的大小</b>。計算過程中先轉成 log 的形式，算完最後再換回來。
+  </div>
+
+  <div class="route">
+    <span class="tag">誰在用</span>
+    天體力學、宇宙物理學這些領域，處理的距離和質量動輒是幾十位數的數字。因為有 log，這類計算的難度才降得下來。<br>
+    地震的規模、聲音的分貝、溶液的酸鹼值 pH，也都是用 log 的方式記錄的。
+  </div>
+
+  <div class="note">想出對數這個概念的是蘇格蘭人約翰・納皮爾（John Napier，1550–1617），大約在四百年前。他花了大約二十年研究對數。在沒有計算機的年代，對數表讓天文學家的計算時間大幅縮短。</div>
+</section>
+
+<section class="card">
+  <h2>基礎練習</h2>
+  <span class="sub">概念</span>
+  <div class="mc" data-ans="D">
+    <div class="mq">1. 為什麼 log 的真數不能放 0 或負數？</div>
+    <button class="opt" data-k="A">(A) 因為計算機不支援。</button>
+    <div class="fb" data-k="A">計算機算不出來是結果，不是原因。</div>
+    <button class="opt" data-k="B">(B) 因為數學規定 log 只能用在正數。</button>
+    <div class="fb" data-k="B">這不是另外規定的，而是從指數函數推出來的。</div>
+    <button class="opt" data-k="C">(C) 因為 0 和負數不能當除數。</button>
+    <div class="fb" data-k="C">log 不是除法，這個理由和 log 無關。</div>
+    <button class="opt" data-k="D">(D) 因為 log 問的是「底數的幾次方等於真數」，而底數的任何次方都不會是 0 或負數。</button>
+    <div class="fb" data-k="D">2 的任何次方都是正數，所以「2 的幾次方等於 0」這個問題沒有答案。</div>
+    <div class="status"></div>
+  </div>
+  <div class="mc" data-ans="A">
+    <div class="mq">2. 為什麼 y = log<sub>2</sub> x 的圖形越往右越平？</div>
+    <button class="opt" data-k="A">(A) 因為真數要變成兩倍，log 才增加 1，越往右，要增加 1 所需要的距離越長。</button>
+    <div class="fb" data-k="A">從 1 到 2 只要走 1，從 512 到 1024 要走 512，才能讓 log 增加 1。</div>
+    <button class="opt" data-k="B">(B) 因為 log 算出來的值最後會停在某個數。</button>
+    <div class="fb" data-k="B">不會停。x 每變成 2 倍，y 就再加 1，而 x 可以一直變成 2 倍。</div>
+    <button class="opt" data-k="C">(C) 因為 x 越大，算得越不精確。</button>
+    <div class="fb" data-k="C">這不是誤差，是 log 本身的性質。</div>
+    <button class="opt" data-k="D">(D) 因為對數函數是指數函數的相反，所以要往下彎。</button>
+    <div class="fb" data-k="D">兩條曲線是沿著 y = x 對折，不是上下相反。對數函數的曲線一直往上，只是越來越平。</div>
+    <div class="status"></div>
+  </div>
+  <div class="mc" data-ans="C">
+    <div class="mq">3. 為什麼 y = 2<sup>x</sup> 和 y = log<sub>2</sub> x 的圖形會沿著 y = x 對稱？</div>
+    <button class="opt" data-k="A">(A) 因為兩個式子都有 2。</button>
+    <div class="fb" data-k="A">式子裡都有 2 只是表面相同，說明不了為什麼對稱。</div>
+    <button class="opt" data-k="B">(B) 因為兩條曲線都越來越貼近座標軸。</button>
+    <div class="fb" data-k="B">這句話是對的，但沒有回答為什麼會對稱。</div>
+    <button class="opt" data-k="C">(C) 因為兩者問的是同一件事，只是輸入和輸出對調，點 (a, b) 就變成 (b, a)。</button>
+    <div class="fb" data-k="C">例如 2<sup>3</sup> = 8 給出點 (3, 8)，log<sub>2</sub> 8 = 3 給出點 (8, 3)，兩點正好沿 y = x 對稱。</div>
+    <button class="opt" data-k="D">(D) 因為對數函數是把指數函數上下翻過來。</button>
+    <div class="fb" data-k="D">上下翻轉會把 (a, b) 變成 (a, &minus;b)，那是對橫軸對稱，不是對 y = x 對稱。</div>
+    <div class="status"></div>
+  </div>
+  <span class="sub">計算</span>
+  <div class="reveal">
+    <div class="rq">4. 算出下列各式，算不出來的寫「算不出來」：<span style="font-family:'JetBrains Mono',monospace">log<sub>2</sub> 16　log<sub>10</sub> 0.001　log<sub>3</sub> (&minus;9)</span></div>
+    <div class="ra">log<sub>2</sub> 16 = 4，因為 2<sup>4</sup> = 16<br>log<sub>10</sub> 0.001 = &minus;3，因為 10<sup>&minus;3</sup> = 1/1000 = 0.001<br>log<sub>3</sub> (&minus;9) 算不出來，因為 3 的任何次方都不會是負數</div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>進階練習</h2>
+  <div class="reveal">
+    <div class="rq">1. 有一個古老傳說：棋盤第 1 格放 1 粒麥子，之後每一格都放前一格的 2 倍。寫出第 x 格麥粒數的式子。棋盤共有 64 格，第 64 格的麥粒數有幾位數？（log<sub>10</sub> 2 ≈ 0.3010）</div>
+    <div class="ra"><b>寫出式子</b><br>第 1 格 1 粒 = 2<sup>0</sup>，第 2 格 2 粒 = 2<sup>1</sup>，第 3 格 4 粒 = 2<sup>2</sup>……每往後一格就多乘一個 2，次方數一直比格數少 1，所以第 x 格是 <span style="font-family:'JetBrains Mono',monospace">y = 2<sup>x&minus;1</sup></span>。第 64 格是 2<sup>63</sup>。<br><br>
+<b>位數和「10 的幾次方」有什麼關係</b><br>10<sup>1</sup> = 10 是 2 位數，10<sup>2</sup> = 100 是 3 位數，10<sup>18</sup> 是 1 後面接 18 個 0，共 19 位數；10<sup>19</sup> 則是 20 位數。夾在 10<sup>18</sup> 和 10<sup>19</sup> 之間的數，都是 19 位數。所以只要知道 2<sup>63</sup> 大約是 10 的幾次方，就知道它有幾位數。<br><br>
+<b>為什麼 2<sup>63</sup> ≈ 10<sup>18.96</sup></b><br>log<sub>10</sub> 2<sup>63</sup> 問的是：10 的幾次方會等於 2<sup>63</sup>？用規則三，次方數 63 搬到前面：<br><span style="font-family:'JetBrains Mono',monospace">log<sub>10</sub> 2<sup>63</sup> = 63 × log<sub>10</sub> 2 ≈ 63 × 0.3010 ≈ 18.96</span><br>答案是 18.96，意思就是 10 的 18.96 次方大約等於 2<sup>63</sup>。<br>換一個角度看：log<sub>10</sub> 2 ≈ 0.3010 的意思是 2 ≈ 10<sup>0.3010</sup>。把 63 個 2 相乘，用指數的規則二：2<sup>63</sup> ≈ (10<sup>0.3010</sup>)<sup>63</sup> = 10<sup>0.3010 × 63</sup> ≈ 10<sup>18.96</sup>。兩種想法得到同一個結果。<br>18.96 介於 18 和 19 之間，所以 2<sup>63</sup> 介於 10<sup>18</sup> 和 10<sup>19</sup> 之間，是 19 位數。<br><br>
+<b>為什麼不直接用計算機按 2<sup>63</sup></b><br>一般計算機的畫面只放得下 10 位左右的數字。按 2<sup>63</sup>，有的會顯示成 9.223372037 × 10<sup>18</sup> 這種寫法，有的直接顯示錯誤——計算機自己也要換成「10 的幾次方」才寫得下。用 log，手邊只要知道 log<sub>10</sub> 2 ≈ 0.3010，乘一次就知道答案的大小。數字再大一點，例如 3<sup>5000</sup>，計算機完全算不出來，這個方法照樣能用。<br><br>
+<b>驗算</b><br>2<sup>63</sup> = 9,223,372,036,854,775,808，數一數，正好 19 位。</div>
+  </div>
+  <span class="sub">思考題</span>
+  <div class="reveal">
+    <div class="rq">2. y = log<sub>2</sub> x 的曲線越往右越平。它最後會停在某個高度嗎？</div>
+    <div class="ra">不會。x 每變成 2 倍，y 就再加 1。x 可以一直變成 2 倍，所以 y 可以一直往上加，只是要往右走越來越遠。</div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>還沒解決的問題</h2>
+
+  <div class="plain">
+        鋼琴上從一個 Do 往右走到下一個 Do，每一步走到相鄰的鍵（白鍵、黑鍵都算），共走 12 步，經過白鍵 7 個、黑鍵 5 個（算起點、不算終點）。<br>
+    彈到下一個 Do 時，琴弦每秒震動的次數剛好變成 2 倍。<br><br>
+    <b>那麼相鄰兩個鍵之間，頻率的比例是多少？</b>
+  </div>
+</section>
+<section class="card" style="border:none;background:transparent;box-shadow:none;padding:0">
+  <div style="border:1.5px dashed var(--violet);border-radius:14px;padding:20px 22px;background:#FBFAFE">
+    <h3 style="font-size:1.1rem;font-weight:800;color:var(--violet);margin-bottom:12px">回家作業</h3>
+    <p style="margin-top:14px;line-height:2"><b>一、</b>算出下列各式：<br>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:1.05rem">log<sub>2</sub> 64　　log<sub>3</sub> 81　　log<sub>10</sub> 1000　　log<sub>2</sub> 0.25</span></p>
+    <p style="margin-top:14px;line-height:2"><b>二、</b>y = log<sub>2</sub> x 這個函數，x 可以代哪些數、不能代哪些數？為什麼？</p>
+    <p style="margin-top:14px;line-height:2"><b>三、</b>有一個朋友說：「長期來看，QQQ 平均每四年會翻倍一次，不過最近一次翻倍只花了兩年。」<br>
+     （QQQ 是一種投資商品，買它等於同時買進美國那斯達克股票市場上規模最大的一百家非金融公司，其中多是科技公司。）<br>
+    如果拿 50 萬去投資，要多久會變成 1000 萬？<br>
+    兩種情況各需要幾年？估計時用哪一個數字比較合理？理由是什麼？</p>
+  </div>
+</section>
+
+</div>
+
+<script>
+document.querySelectorAll('.reveal').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+document.querySelectorAll('.hint').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+/* ---------- 對數函數圖形 ---------- */
+(function(){
+  const svg=document.getElementById('logSvg'), sl=document.getElementById('tS'),
+        vv=document.getElementById('tV'), rd=document.getElementById('logRead');
+  const W=700,H=420,L=62,R=24,T=20,B=48,CW=W-L-R,CH=H-T-B;
+  const xMax=1024, yMin=-1, yMax=11;
+  const X=v=>L+CW*v/xMax, Y=v=>T+CH-CH*(v-yMin)/(yMax-yMin);
+  function draw(){
+    const t=+sl.value; vv.textContent=t;
+    const val=Math.log2(t);
+    let s=`<rect x="${L}" y="${T}" width="${CW}" height="${CH}" fill="#FCFDFE" stroke="#DCE6EF"/>`;
+    for(let k=0;k<=8;k++){
+      const v=xMax*k/8;
+      s+=`<line x1="${X(v)}" y1="${T}" x2="${X(v)}" y2="${T+CH}" stroke="#E8EEF4"/>`;
+      s+=`<text x="${X(v)}" y="${T+CH+19}" font-size="11" fill="#5B6B77" text-anchor="middle">${v}</text>`;
+    }
+    for(let v=0;v<=10;v+=2){
+      s+=`<line x1="${L}" y1="${Y(v)}" x2="${L+CW}" y2="${Y(v)}" stroke="#E8EEF4"/>`;
+      s+=`<text x="${L-6}" y="${Y(v)+4}" font-size="10.5" fill="#5B6B77" text-anchor="end">${v}</text>`;
+    }
+    s+=`<line x1="${L}" y1="${Y(0)}" x2="${L+CW}" y2="${Y(0)}" stroke="#22303C" stroke-width="1.6"/>`;
+    let p='';
+    for(let x=1;x<=xMax;x+=1){
+      p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(Math.log2(x)).toFixed(1)+' ';
+    }
+    s+=`<path d="${p}" fill="none" stroke="#7A5CC7" stroke-width="2.8" stroke-linecap="round"/>`;
+    [1,2,4,8,16,32,64,128,256,512,1024].forEach(v=>{
+      s+=`<circle cx="${X(v)}" cy="${Y(Math.log2(v))}" r="3.4" fill="#7A5CC7" opacity=".75"/>`;
+    });
+    s+=`<line x1="${X(t)}" y1="${T}" x2="${X(t)}" y2="${T+CH}" stroke="#7A5CC7" stroke-width="1.6" stroke-dasharray="5 4"/>`;
+    s+=`<line x1="${L}" y1="${Y(val)}" x2="${X(t)}" y2="${Y(val)}" stroke="#7A5CC7" stroke-width="1.6" stroke-dasharray="5 4"/>`;
+    s+=`<circle cx="${X(t)}" cy="${Y(val)}" r="7" fill="none" stroke="#7A5CC7" stroke-width="3"/>`;
+    s+=`<text x="${L+CW/2}" y="${H-6}" font-size="11.5" fill="#5B6B77" text-anchor="middle">真數</text>`;
+    s+=`<text x="${L-2}" y="${T-6}" font-size="11.5" fill="#5B6B77" text-anchor="end">log₂ 真數</text>`;
+    svg.innerHTML=s;
+    rd.innerHTML=`log<sub>2</sub> ${t.toLocaleString('en-US')} = ${val.toFixed(3)}　　也就是 2 的 ${val.toFixed(3)} 次方等於 ${t.toLocaleString('en-US')}`;
+  }
+  sl.addEventListener('input',draw); draw();
+})();
+
+/* ---------- 互為反函數 ---------- */
+(function(){
+  const svg=document.getElementById('pairSvg'), btns=document.getElementById('pairBtns');
+  const W=700,H=460,L=56,R=22,T=20,B=46,CW=W-L-R,CH=H-T-B;
+  const lo=-4, hi=9;
+  const X=v=>L+CW*(v-lo)/(hi-lo), Y=v=>T+CH-CH*(v-lo)/(hi-lo);
+  const show=[true,true,true];
+  function draw(){
+    let s=`<rect x="${L}" y="${T}" width="${CW}" height="${CH}" fill="#FCFDFE" stroke="#DCE6EF"/>`;
+    for(let v=lo;v<=hi;v++){
+      s+=`<line x1="${X(v)}" y1="${T}" x2="${X(v)}" y2="${T+CH}" stroke="#EDF2F6"/>`;
+      s+=`<line x1="${L}" y1="${Y(v)}" x2="${L+CW}" y2="${Y(v)}" stroke="#EDF2F6"/>`;
+    }
+    for(let v=lo;v<=hi;v+=2){
+      s+=`<text x="${X(v)}" y="${Y(0)+16}" font-size="10.5" fill="#5B6B77" text-anchor="middle">${v}</text>`;
+      if(v!==0) s+=`<text x="${X(0)-7}" y="${Y(v)+4}" font-size="10.5" fill="#5B6B77" text-anchor="end">${v}</text>`;
+    }
+    s+=`<line x1="${L}" y1="${Y(0)}" x2="${L+CW}" y2="${Y(0)}" stroke="#22303C" stroke-width="1.6"/>`;
+    s+=`<line x1="${X(0)}" y1="${T}" x2="${X(0)}" y2="${T+CH}" stroke="#22303C" stroke-width="1.6"/>`;
+    if(show[2]){
+      s+=`<line x1="${X(lo)}" y1="${Y(lo)}" x2="${X(hi)}" y2="${Y(hi)}" stroke="#E0A32E" stroke-width="1.8" stroke-dasharray="6 5"/>`;
+      s+=`<text x="${X(7.6)}" y="${Y(8.2)}" font-size="12" fill="#B3821E" font-weight="700">y = x</text>`;
+    }
+    if(show[0]){
+      let p='';
+      for(let x=lo;x<=hi;x+=0.02){ const v=Math.pow(2,x); if(v>hi) break; p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(v).toFixed(1)+' '; }
+      s+=`<path d="${p}" fill="none" stroke="#E8593F" stroke-width="2.8" stroke-linecap="round"/>`;
+      s+=`<circle cx="${X(0)}" cy="${Y(1)}" r="5" fill="#E8593F"/>`;
+      s+=`<text x="${X(2.4)}" y="${Y(6.2)}" font-size="12.5" fill="#E8593F" font-weight="700">y = 2ˣ</text>`;
+    }
+    if(show[1]){
+      let p='';
+      for(let x=0.02;x<=hi;x+=0.02){ const v=Math.log2(x); if(v<lo) continue; p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(v).toFixed(1)+' '; }
+      s+=`<path d="${p}" fill="none" stroke="#7A5CC7" stroke-width="2.8" stroke-linecap="round"/>`;
+      s+=`<circle cx="${X(1)}" cy="${Y(0)}" r="5" fill="#7A5CC7"/>`;
+      s+=`<text x="${X(6.2)}" y="${Y(3.1)}" font-size="12.5" fill="#7A5CC7" font-weight="700">y = log₂ x</text>`;
+    }
+    svg.innerHTML=s;
+  }
+  ['y = 2ˣ','y = log₂ x','對稱線 y = x'].forEach((t,i)=>{
+    const b=document.createElement('button');
+    b.className='tbtn on'; b.textContent=t;
+    b.addEventListener('click',()=>{show[i]=!show[i];b.classList.toggle('on',show[i]);draw();});
+    btns.appendChild(b);
+  });
+  draw();
+})();
+
+</script>
+
+<script>
+document.querySelectorAll('.mc').forEach(mc=>{
+  const ans=mc.dataset.ans, st=mc.querySelector('.status');
+  mc.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+    if(mc.classList.contains('done'))return;
+    const k=b.dataset.k, fb=mc.querySelector('.fb[data-k="'+k+'"]');
+    if(k===ans){
+      b.classList.add('right'); mc.classList.add('done');
+      mc.querySelectorAll('.fb').forEach(f=>{f.classList.add('show'); if(f.dataset.k===ans)f.classList.add('ok'); else f.classList.add('no');});
+      st.textContent='答對了。其他選項錯在哪裡，也列在下面。'; st.style.color='var(--teal)';
+    }else{
+      b.classList.add('wrong'); fb.classList.add('show','no');
+      st.textContent='這個選項不對，原因寫在選項下方。可以再選一次。'; st.style.color='var(--no)';
+    }
+  }));
+});
+</script>
+</body>
+</html>
