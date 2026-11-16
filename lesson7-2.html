@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>錢會自己長大</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .lead{color:var(--ink-soft);margin-top:14px;font-size:1.04rem}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  .route{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin:16px 0;font-weight:500}
+  .route b{color:var(--violet)}
+  .route .tag{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin-bottom:6px}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:82px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:72px;text-align:right;color:var(--coral)}
+  .readout{font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:10px;background:#F3F6F9;border-radius:10px;padding:12px 15px}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 6px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.up{color:var(--coral);font-weight:700}
+  td.flat{color:var(--teal);font-weight:700}
+  .scroller{overflow-x:auto}
+  .reveal{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;cursor:pointer;background:#fff;text-align:center;transition:.15s}
+  .reveal:hover{border-color:var(--violet)}
+  .rq{font-weight:700;color:var(--violet);font-size:.96rem}
+  .ra{display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed var(--grid-strong)}
+  .reveal.on .ra{display:block}
+  .reveal.on .rq{color:var(--ink-soft)}
+  .hint{border:1.5px dashed var(--teal);border-radius:12px;padding:11px 15px;margin:12px 0;
+    background:#F4FBFA;cursor:pointer;transition:.15s}
+  .hint:hover{background:#E8F6F2}
+  .hint .ht{font-weight:700;color:var(--teal);font-size:.93rem}
+  .hint .ht::before{content:"▸ "}
+  .hint.on .ht::before{content:"▾ "}
+  .hint .hb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .hint.on .hb{display:block}
+  .hint .hb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .eqline{font-family:"JetBrains Mono",monospace;font-size:1.05rem;line-height:2.1;background:#F3F6F9;border-radius:10px;padding:14px 16px;margin-top:12px;overflow-x:auto}
+  .fill{display:inline-block;min-width:74px;border-bottom:2px solid var(--coral);height:1.5em;vertical-align:bottom}
+  .big{font-family:"JetBrains Mono",monospace;font-size:1.5rem;font-weight:700;color:var(--coral)}
+  .minifig{background:#FCFDFE;border:1.5px solid var(--grid);border-radius:10px;padding:8px;margin-top:12px}
+  .mcap{font-size:.82rem;color:var(--ink-soft);margin-top:6px;text-align:center}
+  .recall{background:#F4FBFA;border:1.5px dashed var(--teal);border-radius:12px;padding:13px 17px;margin:14px 0;font-size:.95rem;line-height:1.95}
+  .recall .rt{font-weight:800;color:var(--teal);font-size:.78rem;letter-spacing:.14em;display:block;margin-bottom:6px}
+  .recall .eq{font-family:"JetBrains Mono",monospace;font-size:1.02rem}
+  ul{margin:10px 0 0 20px}
+  li{margin:5px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>錢會<span class="hl">自己長大</span></h1>
+  <p class="lead">存款的利息、公司的營收目標、物價的上漲，都是每一年乘上固定的倍數。<br>算出「幾年之後會變成多少」用的是指數函數，算出「要幾年才會變成兩倍」用的是對數。</p>
+</header>
+
+<section class="card">
+  <h2>利息長在利息上</h2>
+  <p class="desc">存 10000 元，年利率 2%。一開始存進去的這 10000 元稱為<b>本金</b>。年利率 2% 的意思是：每過一年，存款會增加 2%。</p>
+
+  <div class="route">
+    <span class="tag">增加 2% 是乘多少</span>
+    增加 2%，就是原本的 100% 再加上 2%，也就是變成原本的 102%。<br>
+    寫成小數是 <b>1.02 倍</b>。<br>
+    所以「年利率 2%」的意思是：<b>每過一年，金額乘上 1.02</b>。
+  </div>
+
+  <div class="scroller">
+  <table>
+    <tr><th>經過幾年</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+    <tr><th>金額（元）</th><td>10000</td><td class="up">10200</td><td class="up">10404</td><td class="up">10612</td><td class="up">10824</td><td class="up">11041</td></tr>
+    <tr><th>這一年多了多少</th><td>—</td><td class="up">+200</td><td class="up">+204</td><td class="up">+208</td><td class="up">+212</td><td class="up">+217</td></tr>
+  </table>
+  </div>
+
+  <div class="plain">
+    第一年多了 200 元，第二年卻多了 204 元。差別在於第二年的 2% 是算在 10200 上，不是算在 10000 上。<br>
+    <b>第一年賺到的 200 元，第二年也開始幫忙賺錢。</b>這種利息再生利息的算法稱為<b>複利</b>。<br><br>
+    如果利息不滾進本金，每年都固定拿 200 元，這種算法稱為<b>單利</b>。單利五年後是 11000 元，比複利的 11041 元少。年數越長，差距越大。
+  </div>
+
+  <div class="plain">
+    每一年都乘 1.02，所以 x 年後的金額是：<br>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:1.1rem">y = 10000 × 1.02<sup>x</sup></span> 元
+  </div>
+</section>
+
+<section class="card">
+  <h2>單利和複利差多少</h2>
+  <p class="desc">同樣存 10000 元、同樣年利率 2%。一種利息不滾入本金，一種滾入。</p>
+
+  <div class="toggle" id="ciBtns"></div>
+  <div class="fig">
+    <svg id="ciSvg" viewBox="0 0 700 400" role="img" aria-label="單利與複利的比較"></svg>
+  </div>
+  <div class="readout" id="ciRead"></div>
+
+  <div class="plain">
+    前幾年兩條線幾乎重疊，看不出差別。<br>
+    年數拉長之後才分開，而且差距越來越大——因為複利那條每一年乘的基準都在變大。<br><br>
+    <b>不滾入本金是每年加固定的量，畫出來是直線。滾入本金是每年乘固定的倍數，畫出來是指數函數的曲線。</b>
+  </div>
+</section>
+
+<section class="card">
+  <h2>幾年會變成兩倍</h2>
+  <p class="desc">存 10000 元、年利率 2%，要等多久才會變成 20000 元。</p>
+
+  <div class="eqline">
+    10000 × 1.02<sup>x</sup> = 20000<br><br>
+    兩邊除以 10000：<br>
+    　1.02<sup>x</sup> = 2<br><br>
+    x 卡在指數的位置，這就是對數要處理的問題：<br>
+    　x = log<sub>1.02</sub> 2
+  </div>
+
+  <div class="plain">
+    底數是 1.02，計算機上當然沒有這個底數的按鍵。用換底換成以 10 為底：<br>
+    <span style="font-family:'JetBrains Mono',monospace">x = log<sub>10</sub> 2 ÷ log<sub>10</sub> 1.02 = 0.3010 ÷ 0.0086 ≈ 35.0</span><br><br>
+    年利率 2%，大約要 <b>35 年</b>才會變成兩倍。
+  </div>
+
+  <div class="note">本金 10000 元在第二步就被除掉了，表示答案跟存多少錢無關。存 1 萬或存 100 萬，變成兩倍所需的年數完全一樣——只跟利率有關。</div>
+
+  <div class="slider-row"><span class="slabel">年利率</span>
+    <input type="range" id="rS" min="1" max="20" value="2" step="1">
+    <span class="val" id="rV">2%</span>
+  </div>
+  <div class="fig">
+    <svg id="dblSvg" viewBox="0 0 700 340" role="img" aria-label="不同年利率變成兩倍所需的年數"></svg>
+  </div>
+  <div class="readout" id="dblRead"></div>
+
+  <div class="plain">
+    利率越高，變兩倍所需的年數越短，但兩者不是成比例。<br>
+    利率從 1% 變成 2%，年數從 70 年掉到 35 年，少了一半。<br>
+    利率從 10% 變成 11%，年數只從 7.3 年掉到 6.6 年，差不到一年。<br><br>
+    表裡每一列的利率乘上年數，都在 70 左右：1% × 70、2% × 35、10% × 7.3。翻倍所需的年數，大約就是 70 除以利率。利率在分母，所以利率小的時候動一點點，年數就變很多；利率大的時候同樣多 1%，年數只差一點。
+  </div>
+
+  <div class="reveal">
+    <div class="rq">年利率 6% 要幾年變兩倍</div>
+    <div class="ra">
+      <span style="font-family:'JetBrains Mono',monospace">x = log<sub>10</sub> 2 ÷ log<sub>10</sub> 1.06 = 0.3010 ÷ 0.0253 ≈ 11.9</span> 年<br><br>
+      大約 12 年。這跟鋼琴的 2<sup>1/12</sup> ≈ 1.0595 對得起來——每一步乘約 1.06，走 12 步變兩倍。
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>公司的年成長率</h2>
+  <p class="desc">「今年目標成長 10%」的意思，是每年變成前一年的 1.1 倍。每年都達成目標的話，每一年都乘 1.1。</p>
+
+  <div class="reveal">
+    <div class="rq">每年成長 10%，幾年後營收會變成三倍</div>
+    <div class="ra">
+      <span style="font-family:'JetBrains Mono',monospace">1.1<sup>x</sup> = 3</span><br>
+      <span style="font-family:'JetBrains Mono',monospace">x = log<sub>10</sub> 3 ÷ log<sub>10</sub> 1.1 = 0.4771 ÷ 0.0414 ≈ 11.5</span><br><br>
+      大約 11.5 年。年數只能一年一年算：1.1<sup>11</sup> ≈ 2.85，1.1<sup>12</sup> ≈ 3.14，所以 12 年後才會超過三倍。
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="rq">每年成長 10%，10 年後是原本的幾倍</div>
+    <div class="ra">
+      <span style="font-family:'JetBrains Mono',monospace">1.1<sup>10</sup> = 2.59</span><br><br>
+      約 2.6 倍。直覺上每年 10%、十年就是 100%，答案應該是 2 倍——但複利的效果讓它多出了 0.6 倍。
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>練習</h2>
+  <p class="desc">以下各題都用得到前面的兩個工具：知道年數求金額用指數，知道金額求年數用對數。<br>需要的數值：log<sub>10</sub> 2 = 0.3010、log<sub>10</sub> 1.01 = 0.0043、log<sub>10</sub> 1.03 = 0.0128、log<sub>10</sub> 1.05 = 0.0212</p>
+
+  <div class="reveal">
+    <div class="rq">一、年利率 5%，幾年會變成兩倍？</div>
+    <div class="ra">
+      <span style="font-family:'JetBrains Mono',monospace">1.05<sup>x</sup> = 2</span><br>
+      <span style="font-family:'JetBrains Mono',monospace">x = 0.3010 ÷ 0.0212 ≈ 14.2</span> 年<br><br>
+      年利率 2% 要 35 年，5% 只要 14 年。利率變成 2.5 倍，年數縮短到不到一半。
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="rq">二、年利率 1%，20 年後是原本的幾倍？</div>
+    <div class="ra">
+      這一題是知道年數求金額，用指數：<br>
+      <span style="font-family:'JetBrains Mono',monospace">1.01<sup>20</sup> = 1.22</span><br><br>
+      約 1.22 倍。直覺上每年 1%、二十年就是 20%，答案應該是 1.2 倍——複利讓它多了一點。利率低的時候，複利的效果不明顯。
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="rq">三、物價每年上漲 3%，幾年後東西會變成兩倍貴？</div>
+    <div class="ra">
+      物價上漲跟存款變多是同一個算法，每年乘 1.03：<br>
+      <span style="font-family:'JetBrains Mono',monospace">1.03<sup>x</sup> = 2</span><br>
+      <span style="font-family:'JetBrains Mono',monospace">x = 0.3010 ÷ 0.0128 ≈ 23.5</span> 年<br><br>
+      大約 24 年。也就是說，每年 3% 的漲幅看起來很小，但二十幾年後同樣的東西要花兩倍的錢。
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="rq">四、同樣存 20 年，年利率 4% 的金額是年利率 2% 的幾倍？</div>
+    <div class="ra">
+      先各自算出 20 年後是原本的幾倍：<br>
+      <span style="font-family:'JetBrains Mono',monospace">1.02<sup>20</sup> = 1.49</span>　　<span style="font-family:'JetBrains Mono',monospace">1.04<sup>20</sup> = 2.19</span><br>
+      兩者相除：<span style="font-family:'JetBrains Mono',monospace">2.19 ÷ 1.49 = 1.47</span> 倍<br><br>
+      利率變成兩倍，金額卻不是兩倍，而是 1.47 倍。<br>
+      這是因為兩邊都在做複利，分母那一邊也在長大。<b>利率加倍不等於結果加倍</b>，這是複利最容易被誤解的地方。
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>還沒解決的問題</h2>
+
+  <div class="plain">
+    地震的規模 6 和規模 7，聽起來只差一級。<br>
+    實際上釋放的能量差了三十幾倍。<br><br>
+    <b>為什麼規模的數字只差 1，實際的差距卻這麼大？</b>
+  </div>
+</section>
+
+</div>
+
+<script>
+document.querySelectorAll('.reveal').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+document.querySelectorAll('.hint').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+
+/* ---------- 單利與複利 ---------- */
+(function(){
+  const svg=document.getElementById('ciSvg'), btns=document.getElementById('ciBtns'), rd=document.getElementById('ciRead');
+  if(!svg) return;
+  const W=700,H=400,L=68,R=24,T=20,B=48,CW=W-L-R,CH=H-T-B;
+  const P=10000, r=0.02;
+  let years=10;
+  function draw(){
+    const yMax = Math.max(P*Math.pow(1+r,years), P*(1+r*years))*1.05;
+    const yMin = P*0.95;
+    const X=x=>L+CW*x/years, Y=v=>T+CH-CH*(v-yMin)/(yMax-yMin);
+    let s=`<rect x="${L}" y="${T}" width="${CW}" height="${CH}" fill="#FCFDFE" stroke="#DCE6EF"/>`;
+    const step = years<=10?2:(years<=30?5:10);
+    for(let i=0;i<=years;i+=step){
+      s+=`<line x1="${X(i)}" y1="${T}" x2="${X(i)}" y2="${T+CH}" stroke="#E8EEF4"/>`;
+      s+=`<text x="${X(i)}" y="${T+CH+19}" font-size="11" fill="#5B6B77" text-anchor="middle">${i}</text>`;
+    }
+    for(let k=0;k<=4;k++){
+      const v=yMin+(yMax-yMin)*k/4;
+      s+=`<line x1="${L}" y1="${Y(v)}" x2="${L+CW}" y2="${Y(v)}" stroke="#E8EEF4"/>`;
+      s+=`<text x="${L-6}" y="${Y(v)+4}" font-size="10" fill="#5B6B77" text-anchor="end">${Math.round(v).toLocaleString('en-US')}</text>`;
+    }
+    let p1='',p2='';
+    for(let x=0;x<=years;x+=years/240){
+      p1+=(p1===''?'M':'L')+X(x).toFixed(1)+' '+Y(P*(1+r*x)).toFixed(1)+' ';
+      p2+=(p2===''?'M':'L')+X(x).toFixed(1)+' '+Y(P*Math.pow(1+r,x)).toFixed(1)+' ';
+    }
+    s+=`<path d="${p1}" fill="none" stroke="#7A5CC7" stroke-width="2.8"/>`;
+    s+=`<path d="${p2}" fill="none" stroke="#E8593F" stroke-width="2.8"/>`;
+    s+=`<text x="${X(years*0.62)}" y="${Y(P*(1+r*years*0.62))+18}" font-size="12.5" fill="#7A5CC7" font-weight="700">利息不滾入本金</text>`;
+    s+=`<text x="${X(years*0.52)}" y="${Y(P*Math.pow(1+r,years*0.52))-10}" font-size="12.5" fill="#E8593F" font-weight="700">利息滾入本金（複利）</text>`;
+    s+=`<text x="${L+CW/2}" y="${H-6}" font-size="11.5" fill="#5B6B77" text-anchor="middle">經過幾年</text>`;
+    s+=`<text x="${L-2}" y="${T-6}" font-size="11.5" fill="#5B6B77" text-anchor="end">金額（元）</text>`;
+    svg.innerHTML=s;
+    const a=P*(1+r*years), b=P*Math.pow(1+r,years);
+    rd.innerHTML=`${years} 年後　不滾入 ${Math.round(a).toLocaleString('en-US')} 元　　滾入 ${Math.round(b).toLocaleString('en-US')} 元　　相差 ${Math.round(b-a).toLocaleString('en-US')} 元`;
+  }
+  [10,20,35,50].forEach((y,i)=>{
+    const b=document.createElement('button');
+    b.className='tbtn'+(i===0?' on':''); b.textContent=y+' 年';
+    b.addEventListener('click',()=>{years=y;draw();btns.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');});
+    btns.appendChild(b);
+  });
+  draw();
+})();
+
+/* ---------- 幾年變兩倍 ---------- */
+(function(){
+  const svg=document.getElementById('dblSvg'), sl=document.getElementById('rS'),
+        vv=document.getElementById('rV'), rd=document.getElementById('dblRead');
+  if(!svg) return;
+  const W=700,H=340,L=62,R=24,T=20,B=48,CW=W-L-R,CH=H-T-B;
+  const rMax=20, yMax=75;
+  const X=v=>L+CW*v/rMax, Y=v=>T+CH-CH*v/yMax;
+  const yrs=r=>Math.log10(2)/Math.log10(1+r/100);
+  function draw(){
+    const r=+sl.value; vv.textContent=r+'%';
+    let s=`<rect x="${L}" y="${T}" width="${CW}" height="${CH}" fill="#FCFDFE" stroke="#DCE6EF"/>`;
+    for(let v=0;v<=rMax;v+=4){
+      s+=`<line x1="${X(v)}" y1="${T}" x2="${X(v)}" y2="${T+CH}" stroke="#E8EEF4"/>`;
+      s+=`<text x="${X(v)}" y="${T+CH+19}" font-size="11" fill="#5B6B77" text-anchor="middle">${v}%</text>`;
+    }
+    for(let v=0;v<=70;v+=10){
+      s+=`<line x1="${L}" y1="${Y(v)}" x2="${L+CW}" y2="${Y(v)}" stroke="#E8EEF4"/>`;
+      s+=`<text x="${L-6}" y="${Y(v)+4}" font-size="10.5" fill="#5B6B77" text-anchor="end">${v}</text>`;
+    }
+    let p='';
+    for(let v=1;v<=rMax;v+=0.05) p+=(p===''?'M':'L')+X(v).toFixed(1)+' '+Y(yrs(v)).toFixed(1)+' ';
+    s+=`<path d="${p}" fill="none" stroke="#0E9C8B" stroke-width="2.8" stroke-linecap="round"/>`;
+    s+=`<line x1="${X(r)}" y1="${T}" x2="${X(r)}" y2="${T+CH}" stroke="#7A5CC7" stroke-width="1.6" stroke-dasharray="5 4"/>`;
+    s+=`<circle cx="${X(r)}" cy="${Y(yrs(r))}" r="7" fill="none" stroke="#7A5CC7" stroke-width="3"/>`;
+    s+=`<text x="${L+CW/2}" y="${H-6}" font-size="11.5" fill="#5B6B77" text-anchor="middle">年利率</text>`;
+    s+=`<text x="${L-2}" y="${T-6}" font-size="11.5" fill="#5B6B77" text-anchor="end">幾年變兩倍</text>`;
+    svg.innerHTML=s;
+    rd.innerHTML=`年利率 ${r}%　→　1.${r.toString().padStart(2,'0')}<sup>x</sup> = 2　→　x = 0.3010 ÷ ${Math.log10(1+r/100).toFixed(4)} ≈ <b>${yrs(r).toFixed(1)} 年</b>`;
+  }
+  sl.addEventListener('input',draw); draw();
+})();
+
+</script>
+</body>
+</html>

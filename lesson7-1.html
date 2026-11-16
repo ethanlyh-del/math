@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>鋼琴上的指數函數</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .lead{color:var(--ink-soft);margin-top:14px;font-size:1.04rem}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  .route{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin:16px 0;font-weight:500}
+  .route b{color:var(--violet)}
+  .route .tag{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin-bottom:6px}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:82px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:72px;text-align:right;color:var(--coral)}
+  .readout{font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:10px;background:#F3F6F9;border-radius:10px;padding:12px 15px}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 6px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.up{color:var(--coral);font-weight:700}
+  td.flat{color:var(--teal);font-weight:700}
+  .scroller{overflow-x:auto}
+  .reveal{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;cursor:pointer;background:#fff;text-align:center;transition:.15s}
+  .reveal:hover{border-color:var(--violet)}
+  .rq{font-weight:700;color:var(--violet);font-size:.96rem}
+  .ra{display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed var(--grid-strong)}
+  .reveal.on .ra{display:block}
+  .reveal.on .rq{color:var(--ink-soft)}
+  .hint{border:1.5px dashed var(--teal);border-radius:12px;padding:11px 15px;margin:12px 0;
+    background:#F4FBFA;cursor:pointer;transition:.15s}
+  .hint:hover{background:#E8F6F2}
+  .hint .ht{font-weight:700;color:var(--teal);font-size:.93rem}
+  .hint .ht::before{content:"▸ "}
+  .hint.on .ht::before{content:"▾ "}
+  .hint .hb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .hint.on .hb{display:block}
+  .hint .hb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .eqline{font-family:"JetBrains Mono",monospace;font-size:1.05rem;line-height:2.1;background:#F3F6F9;border-radius:10px;padding:14px 16px;margin-top:12px;overflow-x:auto}
+  .fill{display:inline-block;min-width:74px;border-bottom:2px solid var(--coral);height:1.5em;vertical-align:bottom}
+  .big{font-family:"JetBrains Mono",monospace;font-size:1.5rem;font-weight:700;color:var(--coral)}
+  .minifig{background:#FCFDFE;border:1.5px solid var(--grid);border-radius:10px;padding:8px;margin-top:12px}
+  .mcap{font-size:.82rem;color:var(--ink-soft);margin-top:6px;text-align:center}
+  .recall{background:#F4FBFA;border:1.5px dashed var(--teal);border-radius:12px;padding:13px 17px;margin:14px 0;font-size:.95rem;line-height:1.95}
+  .recall .rt{font-weight:800;color:var(--teal);font-size:.78rem;letter-spacing:.14em;display:block;margin-bottom:6px}
+  .recall .eq{font-family:"JetBrains Mono",monospace;font-size:1.02rem}
+  ul{margin:10px 0 0 20px}
+  li{margin:5px 0}
+
+  .mc{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;background:#fff}
+  .mc .mq{font-weight:700;margin-bottom:10px}
+  .mc .opt{display:block;width:100%;text-align:left;border:1.5px solid var(--grid-strong);background:#fff;border-radius:10px;padding:9px 13px;margin:7px 0;font:inherit;font-size:.96rem;color:var(--ink);cursor:pointer;transition:.15s}
+  .mc .opt:hover{border-color:var(--violet)}
+  .mc .opt.right{border-color:var(--teal);background:var(--teal-tint)}
+  .mc .opt.wrong{border-color:var(--no);background:#FBEAE8}
+  .mc .fb{display:none;margin:-2px 0 8px 14px;padding:6px 12px;font-size:.92rem;border-left:3px solid var(--grid-strong);color:var(--ink-soft)}
+  .mc .fb.show{display:block}
+  .mc .fb.ok{border-left-color:var(--teal);color:var(--ink)}
+  .mc .fb.no{border-left-color:var(--no)}
+  .mc .status{font-size:.88rem;font-weight:700;margin-top:6px;min-height:1.2em}
+  .sub{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin:20px 0 2px}
+
+  .review{border:1.5px solid var(--gold);border-radius:12px;padding:11px 15px;margin:12px 0;background:#FFFBF1;cursor:pointer;user-select:none;transition:.15s}
+  .review:hover{background:#FDF4DE}
+  .review .rvt{font-weight:700;color:#9A6B12;font-size:.93rem}
+  .review .rvt::before{content:"▸ "}
+  .review.on .rvt::before{content:"▾ "}
+  .review .rvb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .review.on .rvb{display:block}
+  .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
+
+  .upstream{background:#fff;border:1.5px solid var(--violet);border-radius:16px;padding:22px 22px 18px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  .upstream h2{color:var(--violet);margin-bottom:10px}
+  .upstream p{margin:0 0 10px;font-size:1rem;line-height:1.85}
+  .upstream p b{color:var(--violet)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>鋼琴上的<span class="hl">指數函數</span></h1>
+  <p class="lead">音樂聽起來跟數學沒有關係，但鋼琴上每一個鍵的頻率，是用指數函數算出來的。<br>八度、半音這些東西之所以成立，靠的就是一個固定的倍數。</p>
+</header>
+
+<section class="upstream">
+  <h2>上游思想：為什麼要學這個？</h2>
+  <p>到目前為止，指數和對數處理的都是細胞分裂、訊息轉傳這類例子。但同樣的結構，藏在很多看起來和數學無關的地方：鋼琴的音階怎麼排出來（音階是從低到高排好的一組音，例如 Do Re Mi Fa So La Si Do）、存款和公司營收的成長、新聞裡的地震規模和分貝。</p>
+  <p>這裡要練習一種新的眼光：在一個實際的情況裡，<b>找出「每一步乘上的那個倍數」</b>，就能把它翻譯成數學。</p>
+  <p>找出倍數有什麼用？第一，可以算出生活裡關心的答案：年利率 2% 的存款，要幾年才會變成兩倍？第二，可以讀懂新聞的數字：規模 7 和規模 6 只差 1，釋放的能量卻差了三十幾倍，「只差一級」其實差很多。</p>
+  <p>先找出鋼琴音階裡相鄰兩個鍵的倍數，再算存款要放幾年，最後讀懂用對數記錄的數字。</p>
+</section>
+
+
+<section class="card">
+  <h2>音高是什麼</h2>
+  <p class="desc">按下琴鍵，琴槌敲擊琴弦，琴弦擺動而發出聲音。</p>
+
+  <div class="route">
+    <span class="tag">頻率</span>
+    琴弦在 1 秒內震動的次數，稱為<b>頻率</b>，單位是赫茲（Hz）。<br>
+    震動越快，頻率越高，聽起來音就越高。<br>
+    國際標準把鍵盤中央的 La 定為 <b>440 赫茲</b>，也就是這條弦每秒震動 440 次。所有其他的音都是從這個基準算出來的。
+  </div>
+
+  <div class="plain">
+    音高聽起來是感覺，實際上是一個可以測量的數字。<br>
+    兩個人各彈一個 La，如果頻率都是 440，聽起來就是同一個音。
+  </div>
+</section>
+
+<section class="card">
+  <h2>高一個八度，頻率變兩倍</h2>
+  <p class="desc">從一個 Do 往上數到下一個 Do，連頭帶尾共 8 個音名（Do Re Mi Fa So La Si Do），所以稱為一個<b>八度</b>。</p>
+
+  <div class="scroller">
+  <table>
+    <tr><th>往上幾個八度</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+    <tr><th>頻率是原本的幾倍</th><td>1</td><td class="up">2</td><td class="up">4</td><td class="up">8</td><td class="up">16</td></tr>
+    <tr><th>寫成乘冪</th><td>2<sup>0</sup></td><td>2<sup>1</sup></td><td>2<sup>2</sup></td><td>2<sup>3</sup></td><td>2<sup>4</sup></td></tr>
+    <tr><th>從 440 赫茲算起</th><td>440</td><td>880</td><td>1760</td><td>3520</td><td><span class="fill"></span></td></tr>
+  </table>
+  </div>
+
+  <div class="plain">
+    每往上一個八度，頻率就乘上 2。這是<b>每一步乘同樣的數</b>，所以往上 x 個八度的頻率是：<br>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:1.1rem">y = 440 × 2<sup>x</sup></span> 赫茲<br><br>
+    耳朵聽起來只是 Do Re Mi Fa So La Si Do 一路往上，數學上跑的卻是指數函數。
+  </div>
+
+  <div class="note">「高一個八度頻率變 2 倍」這件事不是人規定的，是耳朵的事實——頻率成 2 倍的兩個音一起響，聽起來會非常和諧，幾乎像同一個音。相傳最早注意到這件事的是畢達哥拉斯，就是畢氏定理那位。傳說他經過打鐵舖，聽見某些鐵鎚的敲擊聲一起響特別悅耳。這個故事只是傳說，鐵鎚的重量其實不會這樣決定音高。可以確定的是，他的學派用不同長度的弦做實驗，發現弦長成簡單的比例（例如 2 : 1、3 : 2）時，兩個音一起響特別和諧。</div>
+</section>
+
+<section class="card">
+  <h2>一個八度走 12 步</h2>
+  <p class="desc">從一個 Do 走到高八度的 Do，每一步走到相鄰的鍵（白鍵、黑鍵都算），共走 12 步，經過白鍵 7 個、黑鍵 5 個（算起點、不算終點）。相鄰兩鍵之間的距離稱為一個<b>半音</b>。</p>
+
+  <div class="fig">
+    <svg id="keySvg" viewBox="0 0 700 200" role="img" aria-label="鋼琴一個八度的鍵盤"></svg>
+  </div>
+
+  <div class="ask">12 個半音走完剛好是一個八度，頻率變成 2 倍。那相鄰兩個半音之間，頻率的比例是多少？</div>
+
+  <div class="plain">
+    先排除一個直覺的答案：<b>不是把 2 除以 12</b>。<br>
+    因為頻率不是每個半音「加上」固定的量，而是每個半音「乘上」固定的倍數——走 12 步之後要變成 2 倍，是連乘 12 次的結果，不是累加 12 次。
+  </div>
+</section>
+
+<section class="card">
+  <h2>把倍數算出來</h2>
+  <p class="desc">設最低那個音的頻率是 x，每走一個半音要乘的倍數是 r。</p>
+
+  <div class="eqline">
+    起點　　　　x<br>
+    走 1 個半音　x r<br>
+    走 2 個半音　x r<sup>2</sup><br>
+    走 3 個半音　x r<sup>3</sup><br>
+    　　　……<br>
+    走 12 個半音　x r<sup>12</sup><br><br>
+    走完 12 個半音剛好是一個八度，頻率是起點的 2 倍：<br>
+    　x r<sup>12</sup> = 2x
+  </div>
+
+  <div class="plain">
+    兩邊同時除以 x，起點的頻率就消掉了——這表示答案跟從哪個音開始無關：<br>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:1.15rem">r<sup>12</sup> = 2</span>
+  </div>
+
+  <div class="ask">r 是多少？也就是：什麼數自己乘 12 次會等於 2？</div>
+
+  <div class="recall">
+    <span class="rt">先回顧</span>
+    指數是分數的時候，代表的是「自己乘幾次會還原」。<br>
+    <span class="eq">a<sup>1/2</sup></span> 是自己乘 2 次會得到 a 的數，<span class="eq">a<sup>1/3</sup></span> 是自己乘 3 次會得到 a 的數。<br>
+    分母決定要乘幾次。
+  </div>
+
+  <div class="eqline">
+    r<sup>12</sup> = 2<br><br>
+    兩邊同時取 1/12 次方：<br>
+    　(r<sup>12</sup>)<sup>1/12</sup> = 2<sup>1/12</sup><br><br>
+    左邊用指數的規則二，指數相乘：12 × 1/12 = 1<br>
+    　r<sup>1</sup> = 2<sup>1/12</sup><br><br>
+    　<b>r = 2<sup>1/12</sup> ≈ 1.0594630</b>
+  </div>
+
+  <div class="plain">
+    相鄰兩個半音之間，頻率的比例是 <b>2<sup>1/12</sup>，大約 1.0595</b>。<br>
+    每往上一個半音，頻率就乘上 1.0595，也就是增加大約 6%。<br>
+    連續乘 12 次之後剛好變成 2 倍。
+  </div>
+
+    <div class="review">
+    <div class="rvt">概念複習：百分比怎麼換成倍數？</div>
+    <div class="rvb">
+      <span class="lb">意思</span>% 是「每 100 份裡的幾份」，10% 就是 10/100 = 0.1。<br><span class="lb">增加</span>增加 10%，是原本的 1 倍再加上 0.1 倍，變成 <b>1.1 倍</b>。100 元增加 10% 是 100 × 1.1 = 110 元。<br><span class="lb">其他例子</span>增加 6% 是 × 1.06，增加 2% 是 × 1.02，減少 10% 是 × 0.9。<br><span class="lb">容易搞混</span>增加 10% 不是乘 10，也不是乘 0.1。
+    </div>
+  </div>
+  <div class="note">這套把一個八度平均切成 12 等份的做法稱為<b>平均律</b>，是現代音樂的主流。從 Do 到高八度的 Do，這 13 個頻率裡的每一個，都是前一個乘上 2<sup>1/12</sup>。像這樣每一項都是前一項乘上同一個數的一串數，稱為<b>等比數列</b>。<br><br>畢達哥拉斯的音階是用 3 : 2 這種簡單比例一個接一個疊出來的，疊了 12 次之後不會剛好回到 2 倍，總有一些音聽起來不準。十六世紀末，明朝的朱載堉和歐洲的數學家各自算出了 2<sup>1/12</sup>，把八度平分成 12 個相同的倍數，每一個鍵都可以當起點。</div>
+</section>
+
+<section class="card">
+  <h2>算出每一個鍵的頻率</h2>
+  <p class="desc">從 440 赫茲的 La 開始，往上走 n 個半音的頻率是 440 × 1.0595<sup>n</sup>，也就是 440 × 2<sup>n/12</sup>。</p>
+
+  <div class="slider-row"><span class="slabel">往上幾個半音</span>
+    <input type="range" id="nS" min="0" max="12" value="0" step="1">
+    <span class="val" id="nV">0</span>
+  </div>
+  <div class="fig">
+    <svg id="freqSvg" viewBox="0 0 700 340" role="img" aria-label="一個八度內各鍵的頻率"></svg>
+  </div>
+  <div class="readout" id="freqRead"></div>
+
+  <div class="plain">
+    最後一格走完 12 個半音，頻率是 880 赫茲，剛好是 440 的兩倍。<br>
+    中間每一格都比前一格高 6% 左右，但因為基準一直在變大，實際增加的赫茲數越往上越多：從 440 到 466 增加 26 赫茲，從 830 到 880 增加 50 赫茲。
+  </div>
+
+  <div class="reveal">
+    <div class="rq">往上 7 個半音（La 到 Mi）的頻率是多少</div>
+    <div class="ra">
+      <span style="font-family:'JetBrains Mono',monospace">440 × 2<sup>7/12</sup> = 440 × 1.4983 = 659.3</span> 赫茲<br><br>
+      這個 1.4983 幾乎剛好是 1.5。畢達哥拉斯當年定下的規則之一就是「So 的頻率是 Do 的 1.5 倍」——平均律算出來的值跟他的規則非常接近，但不完全相同。差的那一點點，是平分成 12 個相同倍數的代價：每一個鍵都能當起點，但 So 不再剛好是 Do 的 1.5 倍。
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>同一個數字的另一種讀法</h2>
+  <p class="desc">2<sup>1/12</sup> ≈ 1.0595，也就是每一步增加大約 6%。這個數字在另一個完全不同的領域也會出現。</p>
+
+  <div class="scroller">
+  <table>
+    <tr><th>走幾步</th><th>音樂</th><th>投資</th></tr>
+    <tr><td>每一步</td><td>往上一個半音</td><td>過一年</td></tr>
+    <tr><td>乘多少</td><td>× 1.0595</td><td>× 1.06（年利率 6%）</td></tr>
+    <tr><td>12 步之後</td><td>剛好 2 倍（高一個八度）</td><td>約 2.012 倍</td></tr>
+  </table>
+  </div>
+
+  <div class="plain">
+    年利率 6% 的存款，12 年後大約會變成兩倍。<br>
+    音樂家熟知的 1.06，跟投資領域熟知的 1.06，其實是同一件事——<b>每一步乘上固定倍數，走 12 步變兩倍</b>。<br><br>
+    兩個數字不完全一樣：音樂的是 1.0594630，12 次方剛好是 2；投資的 1.06 是取整數的年利率，12 次方是 2.012，多了一點點。
+  </div>
+</section>
+
+<section class="card">
+  <h2>基礎練習</h2>
+  <span class="sub">概念</span>
+  <div class="mc" data-ans="B">
+    <div class="mq">1. 一個量每一步都乘上同一個倍數，走 12 步之後剛好變成 2 倍。為什麼每一步的倍數是 2<sup>1/12</sup>，而不是 2 ÷ 12？</div>
+    <button class="opt" data-k="A">(A) 因為分數指數比較精確。</button>
+    <div class="fb" data-k="A">問題不在精不精確。2 ÷ 12 這個想法本身就不對。</div>
+    <button class="opt" data-k="B">(B) 因為每一步是乘上同一個倍數，12 步是連乘 12 次，不是加 12 次。</button>
+    <div class="fb" data-k="B">把 2 平分成 12 份是加法的想法。每一步乘 r、連乘 12 次等於 2，就是 r<sup>12</sup> = 2，所以 r = 2<sup>1/12</sup>。</div>
+    <button class="opt" data-k="C">(C) 因為數學規定倍數要寫成指數。</button>
+    <div class="fb" data-k="C">這不是規定，而是從「連乘 12 次等於 2」推出來的。</div>
+    <button class="opt" data-k="D">(D) 因為 2 ÷ 12 除不盡。</button>
+    <div class="fb" data-k="D">就算除得盡也不對，因為每一步是乘，不是平分。</div>
+    <div class="status"></div>
+  </div>
+  <div class="mc" data-ans="D">
+    <div class="mq">2. 設起點是 x，每一步乘 r，走 12 步之後是起點的 2 倍，寫成 x · r<sup>12</sup> = 2x。為什麼算出來的 r 和起點 x 無關？</div>
+    <button class="opt" data-k="A">(A) 因為 x 通常設成 1。</button>
+    <div class="fb" data-k="A">起點設成多少都可以，r 都一樣。這是結果，不是原因。</div>
+    <button class="opt" data-k="B">(B) 因為 r 比 x 重要。</button>
+    <div class="fb" data-k="B">這句話沒有回答為什麼無關。</div>
+    <button class="opt" data-k="C">(C) 因為起點不同，r 也會跟著調整。</button>
+    <div class="fb" data-k="C">剛好相反。r 不會跟著起點改變。</div>
+    <button class="opt" data-k="D">(D) 因為兩邊同時除以 x，x 就消掉了，倍數只取決於「幾步變成幾倍」。</button>
+    <div class="fb" data-k="D">x 在等號兩邊都有，同時除以 x 之後剩下 r<sup>12</sup> = 2，式子裡已經沒有 x。</div>
+    <div class="status"></div>
+  </div>
+  <div class="mc" data-ans="C">
+    <div class="mq">3. 為什麼每一步都乘同一個倍數，每一步增加的量卻越來越多？</div>
+    <button class="opt" data-k="A">(A) 因為倍數一步比一步大。</button>
+    <div class="fb" data-k="A">倍數每一步都一樣，變大的是每一步的起點。</div>
+    <button class="opt" data-k="B">(B) 因為計算有誤差，累積起來越來越多。</button>
+    <div class="fb" data-k="B">這不是誤差，算得再精確也一樣。</div>
+    <button class="opt" data-k="C">(C) 因為每一步的起點都比前一步大，同樣的倍數乘在更大的數上，增加的量就更多。</button>
+    <div class="fb" data-k="C">例如每一步乘 1.06：100 變成 106，增加 6；1000 變成 1060，增加 60。</div>
+    <button class="opt" data-k="D">(D) 因為指數函數規定要越長越快。</button>
+    <div class="fb" data-k="D">這不是規定，而是「每一步都乘在更大的數上」的結果。</div>
+    <div class="status"></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>還沒解決的問題</h2>
+
+  <div class="plain">
+    年利率 6% 要 12 年才會變兩倍。<br>
+    那年利率 2% 呢？年利率 5% 呢？<br><br>
+    <b>要知道幾年會變兩倍，式子該怎麼列、怎麼解？</b>
+  </div>
+</section>
+
+</div>
+
+<script>
+document.querySelectorAll('.reveal').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+document.querySelectorAll('.hint').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+
+/* ---------- 鍵盤 ---------- */
+(function(){
+  const svg=document.getElementById('keySvg'); if(!svg) return;
+  const W=700,H=200, wn=8, wW=64, x0=(W-wn*wW)/2, top=30, wH=124;
+  const whiteNames=['Do','Re','Mi','Fa','So','La','Si','Do'];
+  const blackAfter=[0,1,3,4,5];
+  let s='';
+  for(let i=0;i<wn;i++){
+    const x=x0+i*wW;
+    s+=`<rect x="${x}" y="${top}" width="${wW-2}" height="${wH}" rx="5" fill="#fff" stroke="#22303C" stroke-width="1.6"/>`;
+    s+=`<text x="${x+wW/2-1}" y="${top+wH-12}" font-size="12.5" text-anchor="middle" fill="#5B6B77">${whiteNames[i]}</text>`;
+  }
+  blackAfter.forEach(i=>{
+    const x=x0+(i+1)*wW-16;
+    s+=`<rect x="${x}" y="${top}" width="30" height="76" rx="4" fill="#22303C"/>`;
+  });
+  s+=`<path d="M${x0+6} ${top+wH+22} L${x0+wn*wW-8} ${top+wH+22}" stroke="#7A5CC7" stroke-width="2"/>`;
+  s+=`<path d="M${x0+6} ${top+wH+16} L${x0+6} ${top+wH+28}" stroke="#7A5CC7" stroke-width="2"/>`;
+  s+=`<path d="M${x0+wn*wW-8} ${top+wH+16} L${x0+wn*wW-8} ${top+wH+28}" stroke="#7A5CC7" stroke-width="2"/>`;
+  s+=`<text x="${W/2}" y="${top+wH+46}" font-size="13" text-anchor="middle" fill="#7A5CC7" font-weight="700">一個八度　中間經過 12 個鍵（白鍵 7 個、黑鍵 5 個）</text>`;
+  s+=`<text x="${W/2}" y="18" font-size="12" text-anchor="middle" fill="#5B6B77">相鄰兩鍵之間是一個半音</text>`;
+  svg.innerHTML=s;
+})();
+
+/* ---------- 各鍵頻率 ---------- */
+(function(){
+  const svg=document.getElementById('freqSvg'), sl=document.getElementById('nS'),
+        vv=document.getElementById('nV'), rd=document.getElementById('freqRead');
+  if(!svg) return;
+  const W=700,H=340,L=64,R=22,T=22,B=52,CW=W-L-R,CH=H-T-B;
+  const names=['La','La♯','Si','Do','Do♯','Re','Re♯','Mi','Fa','Fa♯','So','So♯','La'];
+  const yMin=400,yMax=920;
+  const X=i=>L+CW*(i+0.5)/13, Y=v=>T+CH-CH*(v-yMin)/(yMax-yMin);
+  function draw(){
+    const n=+sl.value; vv.textContent=n;
+    let s=`<rect x="${L}" y="${T}" width="${CW}" height="${CH}" fill="#FCFDFE" stroke="#DCE6EF"/>`;
+    for(let v=400;v<=900;v+=100){
+      s+=`<line x1="${L}" y1="${Y(v)}" x2="${L+CW}" y2="${Y(v)}" stroke="#E8EEF4"/>`;
+      s+=`<text x="${L-6}" y="${Y(v)+4}" font-size="10.5" fill="#5B6B77" text-anchor="end">${v}</text>`;
+    }
+    for(let i=0;i<=12;i++){
+      const f=440*Math.pow(2,i/12);
+      const bw=CW/13*0.62, x=X(i)-bw/2;
+      const on=i<=n;
+      s+=`<rect x="${x}" y="${Y(f)}" width="${bw}" height="${T+CH-Y(f)}" rx="3" fill="${on?'#E8593F':'#E8EEF4'}" opacity="${on?(i===n?1:.55):1}"/>`;
+      s+=`<text x="${X(i)}" y="${T+CH+18}" font-size="10.5" fill="${on?'#22303C':'#A8B6C2'}" text-anchor="middle">${names[i]}</text>`;
+      s+=`<text x="${X(i)}" y="${T+CH+34}" font-size="10" fill="#5B6B77" text-anchor="middle">${i}</text>`;
+    }
+    s+=`<line x1="${L}" y1="${Y(880)}" x2="${L+CW}" y2="${Y(880)}" stroke="#E0A32E" stroke-width="1.8" stroke-dasharray="6 4"/>`;
+    s+=`<text x="${L+CW-4}" y="${Y(880)-7}" font-size="11" fill="#B3821E" font-weight="700" text-anchor="end">880 赫茲　高一個八度</text>`;
+    s+=`<text x="${L+CW/2}" y="${H-6}" font-size="11.5" fill="#5B6B77" text-anchor="middle">往上幾個半音</text>`;
+    s+=`<text x="${L-2}" y="${T-7}" font-size="11.5" fill="#5B6B77" text-anchor="end">頻率（赫茲）</text>`;
+    svg.innerHTML=s;
+    const f=440*Math.pow(2,n/12);
+    rd.innerHTML=`往上 ${n} 個半音（${names[n]}）　440 × 2<sup>${n}/12</sup> = <b>${f.toFixed(1)}</b> 赫茲`;
+  }
+  sl.addEventListener('input',draw); draw();
+})();
+
+</script>
+
+<script>
+document.querySelectorAll('.mc').forEach(mc=>{
+  const ans=mc.dataset.ans, st=mc.querySelector('.status');
+  mc.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+    if(mc.classList.contains('done'))return;
+    const k=b.dataset.k, fb=mc.querySelector('.fb[data-k="'+k+'"]');
+    if(k===ans){
+      b.classList.add('right'); mc.classList.add('done');
+      mc.querySelectorAll('.fb').forEach(f=>{f.classList.add('show'); if(f.dataset.k===ans)f.classList.add('ok'); else f.classList.add('no');});
+      st.textContent='答對了。其他選項錯在哪裡，也列在下面。'; st.style.color='var(--teal)';
+    }else{
+      b.classList.add('wrong'); fb.classList.add('show','no');
+      st.textContent='這個選項不對，原因寫在選項下方。可以再選一次。'; st.style.color='var(--no)';
+    }
+  }));
+});
+</script>
+
+<script>
+document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+</script>
+</body>
+</html>

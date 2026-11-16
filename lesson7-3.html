@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>只差一級，差很多</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:light only;
+    --paper:#FBFAF7;--grid:#DCE6EF;--grid-strong:#C3D3E0;--ink:#22303C;--ink-soft:#5B6B77;
+    --coral:#E8593F;--teal:#0E9C8B;--violet:#7A5CC7;--gold:#E0A32E;
+    --coral-tint:#FBE4DE;--teal-tint:#DCF1EE;--violet-tint:#EAE3F7;--gold-tint:#F8ECCF;--no:#C4574E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;color-scheme:light only;background:#FBFAF7}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+  header{padding:50px 0 24px}
+  h1{font-size:clamp(1.9rem,6.2vw,2.7rem);font-weight:900;line-height:1.18;letter-spacing:-.01em}
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.34em;background:var(--gold-tint);z-index:-1;transform:rotate(-1deg)}
+  .lead{color:var(--ink-soft);margin-top:14px;font-size:1.04rem}
+  .card{background:#fff;border:1.5px solid var(--grid-strong);border-radius:16px;padding:24px 22px 26px;margin:18px 0;box-shadow:4px 5px 0 rgba(34,48,60,.05)}
+  h2{font-size:1.28rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+  .desc{color:var(--ink-soft);margin:8px 0 16px;font-size:1rem}
+  .ask{background:var(--coral-tint);border-left:4px solid var(--coral);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-weight:500}
+  .ask::before{content:"❓ "}
+  .plain{background:#F3F6F9;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.96rem}
+  .plain b{color:var(--ink)}
+  .note{font-size:.9rem;color:var(--ink-soft);margin-top:12px;padding-left:14px;border-left:3px solid var(--gold)}
+  .route{background:var(--violet-tint);border:1.5px solid var(--violet);border-radius:14px;padding:15px 18px;margin:16px 0;font-weight:500}
+  .route b{color:var(--violet)}
+  .route .tag{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin-bottom:6px}
+  svg{display:block;width:100%;height:auto}
+  .fig{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:14px;margin-bottom:8px}
+  .toggle{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tbtn{border:1.5px solid var(--grid-strong);background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink);transition:.15s;font-family:inherit}
+  .tbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .slider-row{display:flex;align-items:center;gap:13px;margin:8px 0}
+  .slabel{font-size:.9rem;font-weight:700;min-width:82px}
+  input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--grid-strong);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.18)}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--coral);cursor:pointer}
+  .val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:1.05rem;min-width:72px;text-align:right;color:var(--coral)}
+  .readout{font-family:"JetBrains Mono",monospace;font-size:1.02rem;margin-top:10px;background:#F3F6F9;border-radius:10px;padding:12px 15px}
+  table{border-collapse:collapse;width:100%;font-family:"JetBrains Mono",monospace;font-size:.95rem;margin-top:10px}
+  th,td{border:1.5px solid var(--grid-strong);padding:8px 6px;text-align:center}
+  th{background:#F3F6F9;font-weight:700;font-size:.82rem}
+  td.up{color:var(--coral);font-weight:700}
+  td.flat{color:var(--teal);font-weight:700}
+  .scroller{overflow-x:auto}
+  .reveal{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;cursor:pointer;background:#fff;text-align:center;transition:.15s}
+  .reveal:hover{border-color:var(--violet)}
+  .rq{font-weight:700;color:var(--violet);font-size:.96rem}
+  .ra{display:none;margin-top:12px;padding-top:12px;border-top:1.5px dashed var(--grid-strong)}
+  .reveal.on .ra{display:block}
+  .reveal.on .rq{color:var(--ink-soft)}
+  .hint{border:1.5px dashed var(--teal);border-radius:12px;padding:11px 15px;margin:12px 0;
+    background:#F4FBFA;cursor:pointer;transition:.15s}
+  .hint:hover{background:#E8F6F2}
+  .hint .ht{font-weight:700;color:var(--teal);font-size:.93rem}
+  .hint .ht::before{content:"▸ "}
+  .hint.on .ht::before{content:"▾ "}
+  .hint .hb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .hint.on .hb{display:block}
+  .hint .hb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .eqline{font-family:"JetBrains Mono",monospace;font-size:1.05rem;line-height:2.1;background:#F3F6F9;border-radius:10px;padding:14px 16px;margin-top:12px;overflow-x:auto}
+  .fill{display:inline-block;min-width:74px;border-bottom:2px solid var(--coral);height:1.5em;vertical-align:bottom}
+  .big{font-family:"JetBrains Mono",monospace;font-size:1.5rem;font-weight:700;color:var(--coral)}
+  .minifig{background:#FCFDFE;border:1.5px solid var(--grid);border-radius:10px;padding:8px;margin-top:12px}
+  .mcap{font-size:.82rem;color:var(--ink-soft);margin-top:6px;text-align:center}
+  .recall{background:#F4FBFA;border:1.5px dashed var(--teal);border-radius:12px;padding:13px 17px;margin:14px 0;font-size:.95rem;line-height:1.95}
+  .recall .rt{font-weight:800;color:var(--teal);font-size:.78rem;letter-spacing:.14em;display:block;margin-bottom:6px}
+  .recall .eq{font-family:"JetBrains Mono",monospace;font-size:1.02rem}
+  ul{margin:10px 0 0 20px}
+  li{margin:5px 0}
+
+  .mc{border:1.5px solid var(--grid-strong);border-radius:12px;padding:14px 16px;margin-top:14px;background:#fff}
+  .mc .mq{font-weight:700;margin-bottom:10px}
+  .mc .opt{display:block;width:100%;text-align:left;border:1.5px solid var(--grid-strong);background:#fff;border-radius:10px;padding:9px 13px;margin:7px 0;font:inherit;font-size:.96rem;color:var(--ink);cursor:pointer;transition:.15s}
+  .mc .opt:hover{border-color:var(--violet)}
+  .mc .opt.right{border-color:var(--teal);background:var(--teal-tint)}
+  .mc .opt.wrong{border-color:var(--no);background:#FBEAE8}
+  .mc .fb{display:none;margin:-2px 0 8px 14px;padding:6px 12px;font-size:.92rem;border-left:3px solid var(--grid-strong);color:var(--ink-soft)}
+  .mc .fb.show{display:block}
+  .mc .fb.ok{border-left-color:var(--teal);color:var(--ink)}
+  .mc .fb.no{border-left-color:var(--no)}
+  .mc .status{font-size:.88rem;font-weight:700;margin-top:6px;min-height:1.2em}
+  .sub{display:block;font-size:.76rem;letter-spacing:.16em;color:var(--violet);font-weight:800;margin:20px 0 2px}
+
+  .review{border:1.5px solid var(--gold);border-radius:12px;padding:11px 15px;margin:12px 0;background:#FFFBF1;cursor:pointer;user-select:none;transition:.15s}
+  .review:hover{background:#FDF4DE}
+  .review .rvt{font-weight:700;color:#9A6B12;font-size:.93rem}
+  .review .rvt::before{content:"▸ "}
+  .review.on .rvt::before{content:"▾ "}
+  .review .rvb{display:none;margin-top:10px;font-size:.94rem;line-height:1.95;color:var(--ink)}
+  .review.on .rvb{display:block}
+  .review .rvb .eq{font-family:"JetBrains Mono",monospace;font-size:1rem}
+  .review .rvb .lb{display:inline-block;font-size:.78rem;font-weight:800;color:#9A6B12;letter-spacing:.08em;margin-right:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>只差一級<span class="hl">，差很多</span></h1>
+  <p class="lead">地震的規模、聲音的分貝、溶液的酸鹼值，這些數字每增加 1，背後的量都不是多一點，而是乘上好幾倍。<br>這種記錄數字的方式就是對數。看懂它，才不會把新聞上的數字讀錯。</p>
+</header>
+
+<section class="card">
+  <h2>規模差 1 級，能量差多少</h2>
+  <p class="desc">地震的大小用<b>規模</b>表示。規模不是直接量出來的數字，而是把釋放的能量取對數之後得到的。</p>
+
+  <div class="route">
+    <span class="tag">規模怎麼定的</span>
+    規模每增加 1，釋放的能量變成原本的 <b>10<sup>1.5</sup> 倍</b>。<br>
+    10<sup>1.5</sup> = 10 × 10<sup>0.5</sup> = 10 × &radic;10 ≈ 10 × 3.162 ≈ <b>31.6</b><br><br>
+    也就是說，規模 6 的地震釋放的能量，大約是規模 5 的 31.6 倍。
+  </div>
+
+    <div class="review">
+    <div class="rvt">概念複習：10^0.5 為什麼是 √10？</div>
+    <div class="rvb">
+      <span class="lb">回顧</span>指數是 1/2 時，代表開根號：<span class="eq">a<sup>1/2</sup> = √a</span>。0.5 就是 1/2，所以 <span class="eq">10<sup>0.5</sup> = √10 ≈ 3.162</span>，因為 3.162 × 3.162 ≈ 10。<br><span class="lb">拆開</span>乘冪相乘，指數相加：<span class="eq">10<sup>1.5</sup> = 10<sup>1 + 0.5</sup> = 10<sup>1</sup> × 10<sup>0.5</sup></span>
+    </div>
+  </div>
+  <div class="scroller">
+  <table>
+    <tr><th>規模</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr>
+    <tr><th>能量是規模 4 的幾倍</th><td>1</td><td class="up">31.6</td><td class="up">1,000</td><td class="up">31,600</td><td class="up">1,000,000</td></tr>
+    <tr><th>寫成乘冪</th><td>10<sup>0</sup></td><td>10<sup>1.5</sup></td><td>10<sup>3</sup></td><td>10<sup>4.5</sup></td><td>10<sup>6</sup></td></tr>
+  </table>
+  </div>
+
+  <div class="plain">
+    規模 4 到規模 8，數字上只差 4，能量卻差了<b>一百萬倍</b>。<br>
+    規模差 2 級，能量差 31.6 × 31.6 ≈ 1000 倍。<br><br>
+    新聞上說「規模 7.3 的地震」和「規模 6.3 的地震」，聽起來只差一點，實際釋放的能量差了 31.6 倍。1999 年的集集地震規模 7.3，就是這個等級。
+  </div>
+
+  <div class="ask">為什麼不直接寫能量的數字，要用規模這種寫法？</div>
+
+  <div class="reveal">
+    <div class="rq">把能量直接寫出來會變成什麼樣子</div>
+    <div class="ra">
+      規模 4 的地震釋放的能量大約是 6 × 10<sup>10</sup> 焦耳，規模 8 大約是 6 × 10<sup>16</sup> 焦耳（焦耳是能量的單位）。<br>
+      寫成完整的數字是 60,000,000,000 和 60,000,000,000,000,000。<br><br>
+      兩個數字並排，一眼看不出差幾倍，還要數零的個數。<br>
+      換成規模，就只是 4 和 8 兩個數字。<b>取對數之後，位數很多的數字被壓縮成好記的大小。</b>
+    </div>
+  </div>
+  <div class="review">
+    <div class="rvt">概念複習：6 × 10¹⁰ 這種寫法</div>
+    <div class="rvb">
+      <span class="lb">意思</span>很大的數，寫成「一個數 × 10 的幾次方」。10¹⁰ 是 1 後面接 10 個 0。<br><span class="lb">例子</span><span class="eq">6 × 10¹⁰ = 60,000,000,000</span><br><span class="lb">好處</span>10 的次方數就是 0 的個數，不必一個一個數零，兩個數也容易比大小。
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>還有哪些是這樣記的</h2>
+
+  <div class="scroller">
+  <table>
+    <tr><th>名稱</th><th>記錄的是</th><th>數字增加 1 代表</th></tr>
+    <tr><td>地震規模</td><td>釋放的能量</td><td>能量變 31.6 倍</td></tr>
+    <tr><td>分貝</td><td>聲音的強度</td><td>強度變 1.26 倍（增加 10 分貝才是 10 倍）</td></tr>
+    <tr><td>pH 值</td><td>溶液的酸度</td><td>酸度變成十分之一（數字越大越不酸）</td></tr>
+  </table>
+  </div>
+
+  <div class="plain">
+    這三種記法的共通點是：<b>數字加 1，實際的量乘上一個固定的倍數</b>。<br>
+    會這樣設計，是因為這些量的範圍太大。人耳聽得到的最小聲音到會痛的聲音，強度差了一兆倍；如果直接用強度當單位，數字要寫十三位。
+  </div>
+
+  <div class="hint">
+    <div class="ht">提示　pH 值為什麼數字越大越不酸？</div>
+    <div class="hb">
+      pH 記錄的是溶液裡氫離子的濃度（氫離子是溶液裡讓它變酸的一種微小粒子，越多越酸），而且是<b>取對數之後再加上負號</b>。<br>
+      <span class="eq">pH = &minus;log<sub>10</sub>（氫離子濃度）</span><br><br>
+      濃度越高越酸，但取 log 再加負號之後，數字就反過來了：<br>
+      <span class="eq">濃度 0.01 → pH 2</span>　很酸<br>
+      <span class="eq">濃度 0.0001 → pH 4</span>　比較不酸<br><br>
+      加負號是為了讓常見的範圍落在 0 到 14 這種好寫的數字上，否則全部都是負數。
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>五件事其實是同一件</h2>
+
+  <div class="scroller">
+  <table>
+    <tr><th>情況</th><th>每一步乘多少</th><th>反過來問的是</th></tr>
+    <tr><td>細胞分裂</td><td>× 2</td><td>分裂幾次才到一百萬個</td></tr>
+    <tr><td>訊息轉傳</td><td>× 3</td><td>幾輪才超過全班人數</td></tr>
+    <tr><td>鋼琴的半音</td><td>× 1.0595</td><td>走幾個半音是一個八度</td></tr>
+    <tr><td>存款的複利</td><td>× 1.02</td><td>幾年才會變成兩倍</td></tr>
+    <tr><td>地震的能量</td><td>× 31.6</td><td>能量差 1000 倍，規模差幾級</td></tr>
+  </table>
+  </div>
+
+  <div class="plain">
+    細胞、訊息、鋼琴、存款、地震，這五件事表面上毫不相干。<br>
+    但它們的數學結構完全一樣：<b>每一步乘上固定的倍數</b>。<br><br>
+    知道走了幾步，要算出結果，用的是指數函數。<br>
+    知道結果，要反過來算走了幾步，用的是對數。<br><br>
+    中間那一欄的倍數各不相同，有的是 2，有的是 1.0595，有的是 31.6。找出那個倍數是什麼，就是把一個實際的情況翻譯成數學的第一步。
+  </div>
+</section>
+
+<section class="card">
+  <h2>基礎練習</h2>
+  <span class="sub">概念</span>
+  <div class="mc" data-ans="B">
+    <div class="mq">1. 為什麼範圍很大的量，常改用取對數的方式記錄？</div>
+    <button class="opt" data-k="A">(A) 因為取對數之後比較精確。</button>
+    <div class="fb" data-k="A">取對數不會讓量測更精確，只是換一種記法。</div>
+    <button class="opt" data-k="B">(B) 因為取對數之後，相差幾兆倍的數字會變成好寫、好比較的大小。</button>
+    <div class="fb" data-k="B">例如 60,000,000,000 和 60,000,000,000,000,000，換成規模就只是 4 和 8。</div>
+    <button class="opt" data-k="C">(C) 因為這些量本來就量不出來。</button>
+    <div class="fb" data-k="C">這些量都量得到，只是數字太大或太小，不好讀。</div>
+    <button class="opt" data-k="D">(D) 因為國際規定科學數據要取對數。</button>
+    <div class="fb" data-k="D">沒有這種規定。用不用對數，要看數字的範圍大不大。</div>
+    <div class="status"></div>
+  </div>
+  <div class="mc" data-ans="A">
+    <div class="mq">2. 為什麼用對數記錄時，數字只差 1，實際的量卻差很多？</div>
+    <button class="opt" data-k="A">(A) 因為數字每加 1，實際的量是乘上一個固定的倍數，不是加上一個固定的量。</button>
+    <div class="fb" data-k="A">對數記錄的是「乘了幾次」。數字加 1，就是多乘一次。</div>
+    <button class="opt" data-k="B">(B) 因為數字越大，代表的量就越多。</button>
+    <div class="fb" data-k="B">這句話是對的，但沒有說明為什麼只差 1 就差很多。</div>
+    <button class="opt" data-k="C">(C) 因為量測儀器不夠精確。</button>
+    <div class="fb" data-k="C">這和儀器無關，是記錄方式本身的性質。</div>
+    <button class="opt" data-k="D">(D) 因為小數點後面的數字被省略了。</button>
+    <div class="fb" data-k="D">和省略小數無關。就算寫出小數，差 1 仍然代表乘一次固定的倍數。</div>
+    <div class="status"></div>
+  </div>
+  <div class="mc" data-ans="D">
+    <div class="mq">3. 在 y = 10<sup>x</sup> 的記錄方式裡，為什麼小於 1 的量，記錄出來的 x 是負數？</div>
+    <button class="opt" data-k="A">(A) 因為負數代表數量是負的。</button>
+    <div class="fb" data-k="A">x 是負的，但量 y 仍然是正的，只是小於 1。</div>
+    <button class="opt" data-k="B">(B) 因為小於 1 的量不重要。</button>
+    <div class="fb" data-k="B">這和重不重要無關。</div>
+    <button class="opt" data-k="C">(C) 因為取對數時都要加一個負號。</button>
+    <div class="fb" data-k="C">只有 pH 這種記法另外加了負號。y = 10<sup>x</sup> 沒有加負號。</div>
+    <button class="opt" data-k="D">(D) 因為 10 的負幾次方代表 1 除以 10 的幾次方，結果小於 1，例如 0.001 = 10<sup>&minus;3</sup>。</button>
+    <div class="fb" data-k="D">10<sup>&minus;3</sup> = 1 ÷ 10<sup>3</sup> = 0.001，所以量是 0.001 時，x 是 &minus;3。</div>
+    <div class="status"></div>
+  </div>
+  <span class="sub">思考題</span>
+  <div class="reveal">
+    <div class="rq">4. 聲音每增加 10 分貝，強度變成 10 倍。為什麼增加 1 分貝，強度是變成 1.26 倍，而不是 1 加上十分之一的 1.1 倍？</div>
+    <div class="ra">增加 10 分貝是一步一步乘上同一個倍數，乘 10 次變成 10 倍，所以每一步的倍數 r 要滿足 <span style="font-family:'JetBrains Mono',monospace">r<sup>10</sup> = 10</span>，<span style="font-family:'JetBrains Mono',monospace">r = 10<sup>1/10</sup> ≈ 1.26</span>。<br>把 10 倍平均分成 10 份的想法，跟把 2 除以 12 當成半音的倍數是同一種錯。</div>
+  </div>
+</section>
+
+<section class="card" style="border:none;background:transparent;box-shadow:none;padding:0">
+  <div style="border:1.5px dashed var(--violet);border-radius:14px;padding:20px 22px;background:#FBFAFE">
+    <h3 style="font-size:1.1rem;font-weight:800;color:var(--violet);margin-bottom:12px">回家作業</h3>
+    <p style="margin-top:14px;line-height:2"><b>一、</b>年利率 4%，幾年會變成兩倍？（log<sub>10</sub> 1.04 = 0.0170）</p>
+    <p style="margin-top:14px;line-height:2"><b>二、</b>找一則用到數字的新聞，而且新聞裡的數字看起來可疑或說不通。<br>
+    記下新聞的標題和來源，用一句話說明可疑的地方。</p>
+    <p style="margin-top:10px;line-height:2">可以從這些地方看起：</p>
+    <ul style="margin:6px 0 0 20px;line-height:2">
+      <li>標題寫「暴增」「翻倍」，但沒說是從多少變成多少</li>
+      <li>說「一半的人都這樣」，但沒說問了多少人</li>
+      <li>圖表的刻度看起來怪怪的，或是沒有從 0 開始</li>
+      <li>兩個數字被拿來比較，但單位或時間範圍不一樣</li>
+      <li>只給了百分比，沒給實際的數量</li>
+    </ul>
+    <p style="margin-top:10px;line-height:2">找不到可疑的新聞，也可以找一則數字意思看不懂的新聞。</p>
+  </div>
+</section>
+
+</div>
+
+<script>
+document.querySelectorAll('.reveal').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+document.querySelectorAll('.hint').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+
+
+</script>
+
+<script>
+document.querySelectorAll('.mc').forEach(mc=>{
+  const ans=mc.dataset.ans, st=mc.querySelector('.status');
+  mc.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+    if(mc.classList.contains('done'))return;
+    const k=b.dataset.k, fb=mc.querySelector('.fb[data-k="'+k+'"]');
+    if(k===ans){
+      b.classList.add('right'); mc.classList.add('done');
+      mc.querySelectorAll('.fb').forEach(f=>{f.classList.add('show'); if(f.dataset.k===ans)f.classList.add('ok'); else f.classList.add('no');});
+      st.textContent='答對了。其他選項錯在哪裡，也列在下面。'; st.style.color='var(--teal)';
+    }else{
+      b.classList.add('wrong'); fb.classList.add('show','no');
+      st.textContent='這個選項不對，原因寫在選項下方。可以再選一次。'; st.style.color='var(--no)';
+    }
+  }));
+});
+</script>
+
+<script>
+document.querySelectorAll('.review').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+</script>
+</body>
+</html>
