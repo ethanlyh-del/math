@@ -120,6 +120,36 @@
 </section>
 
 <section class="card">
+  <h2>畫成圖形</h2>
+  <p class="desc">把幾個 x 的值代進 y = log<sub>2</sub> x，算出對應的 y，再把這些點畫在座標上，就能看到對數函數長什麼樣子。每一個 y 都是在問：2 的幾次方等於 x？</p>
+
+  <div class="scroller">
+  <table>
+    <tr><th>x</th><td>1/4</td><td>1/2</td><td>1</td><td>2</td><td>4</td><td>8</td><td>16</td></tr>
+    <tr><th>y = log<sub>2</sub> x</th><td>&minus;2</td><td>&minus;1</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+    <tr><th>因為</th><td>2<sup>&minus;2</sup> = 1/4</td><td>2<sup>&minus;1</sup> = 1/2</td><td>2<sup>0</sup> = 1</td><td>2<sup>1</sup> = 2</td><td>2<sup>2</sup> = 4</td><td>2<sup>3</sup> = 8</td><td>2<sup>4</sup> = 16</td></tr>
+  </table>
+  </div>
+
+  <div class="toggle" id="dpBtns"></div>
+  <div class="fig">
+    <svg id="dpSvg" viewBox="0 0 700 440" role="img" aria-label="y = log2 x 描點畫圖"></svg>
+  </div>
+
+  <div class="plain">
+    x = 1 時 y = 0，所以圖形通過 (1, 0) 這個點。原因是 2 的 0 次方等於 1。<br><br>
+    x 往 0 靠近時，例如 1/2、1/4、1/8，y 是 &minus;1、&minus;2、&minus;3，越來越小。曲線往下越來越貼近縱軸，卻不會碰到，縱軸就是這條曲線的<b>漸近線</b>。x 不能是 0 或負數，所以縱軸左邊沒有圖形。<br><br>
+    x 往右時，曲線一直往上爬，但越爬越平：x 從 1 走到 16，y 只從 0 爬到 4。
+  </div>
+
+  <div class="route">
+    <span class="tag">名稱</span>
+    變數出現在真數位置上的函數，叫做<b>對數函數</b>。<br>
+    y = log<sub>2</sub> x、y = log<sub>10</sub> x、y = log<sub>0.5</sub> x 都是對數函數。
+  </div>
+</section>
+
+<section class="card">
   <h2>log 怎麼隨真數變化</h2>
   <p class="desc">真數從小變大的時候，log 算出來的值怎麼跑。</p>
 
@@ -170,6 +200,27 @@
     <span class="tag">反函數</span>
     把輸入和輸出對調之後得到的函數，稱為<b>反函數</b>。<br>
     y = 2<sup>x</sup> 和 y = log<sub>2</sub> x 互為反函數，圖形上表現為沿著 y = x 這條斜線對稱。
+  </div>
+</section>
+
+<section class="card">
+  <h2>底數換成別的數</h2>
+  <p class="desc">前面畫的都是底數為 2 的情況。底數換成別的數，圖形的走向會跟著改變。淡灰色的虛線是 y = log<sub>2</sub> x，用來比較。</p>
+
+  <div class="slider-row"><span class="slabel">底數 b</span>
+    <input type="range" id="bS" min="0.2" max="10" value="10" step="0.1">
+    <span class="val" id="bV">10.0</span>
+  </div>
+  <div class="fig">
+    <svg id="bSvg" viewBox="0 0 700 440" role="img" aria-label="不同底數的對數函數圖形"></svg>
+  </div>
+  <div class="readout" id="bRead"></div>
+
+  <div class="plain">
+    <b>底數大於 1</b>　曲線往右上升。底數越大，曲線越平。底數大，每乘一次就跨得很遠，走到同一個真數需要的次數比較少，例如 log<sub>10</sub> 100 = 2，而 log<sub>2</sub> 100 大約是 6.64。<br><br>
+    <b>底數介於 0 與 1 之間</b>　曲線往右下降。以底數 0.5 為例：0.5 的 1 次方是 0.5，2 次方是 0.25，乘得越多，數字越小。所以真數越小，次數越大；真數大於 1 時，次數變成負的，例如 0.5<sup>&minus;1</sup> = 2，所以 log<sub>0.5</sub> 2 = &minus;1。<br><br>
+    <b>底數等於 1</b>　1 的任何次方都是 1，問「1 的幾次方等於 5」沒有答案，問「1 的幾次方等於 1」則每一個次數都對。所以底數不能是 1，沒有以 1 為底的對數函數。<br><br>
+    不論底數是哪一個，圖形都通過 (1, 0)。原因是任何不是 0 的數，0 次方都是 1。
   </div>
 </section>
 
@@ -360,6 +411,82 @@ document.querySelectorAll('.hint').forEach(el=>el.addEventListener('click',()=>e
     s+=`<text x="${L-2}" y="${T-6}" font-size="11.5" fill="#5B6B77" text-anchor="end">log₂ 真數</text>`;
     svg.innerHTML=s;
     rd.innerHTML=`log<sub>2</sub> ${t.toLocaleString('en-US')} = ${val.toFixed(3)}　　也就是 2 的 ${val.toFixed(3)} 次方等於 ${t.toLocaleString('en-US')}`;
+  }
+  sl.addEventListener('input',draw); draw();
+})();
+
+/* ---------- 描點畫圖 ---------- */
+(function(){
+  const svg=document.getElementById('dpSvg'), btns=document.getElementById('dpBtns');
+  const W=700,H=440,L=50,R=22,T=20,B=40,CW=W-L-R,CH=H-T-B;
+  const x0=-2,x1=17,y0=-4,y1=5;
+  const X=v=>L+CW*(v-x0)/(x1-x0), Y=v=>T+CH-CH*(v-y0)/(y1-y0);
+  const pts=[[0.25,-2,'1/4'],[0.5,-1,'1/2'],[1,0,'1'],[2,1,'2'],[4,2,'4'],[8,3,'8'],[16,4,'16']];
+  let curve=false;
+  function draw(){
+    let s=`<rect x="${L}" y="${T}" width="${CW}" height="${CH}" fill="#FCFDFE" stroke="#DCE6EF"/>`;
+    for(let v=x0;v<=x1;v++) s+=`<line x1="${X(v)}" y1="${T}" x2="${X(v)}" y2="${T+CH}" stroke="#EDF2F6"/>`;
+    for(let v=y0;v<=y1;v++) s+=`<line x1="${L}" y1="${Y(v)}" x2="${L+CW}" y2="${Y(v)}" stroke="#EDF2F6"/>`;
+    for(let v=0;v<=x1;v+=2) if(v) s+=`<text x="${X(v)}" y="${Y(0)+16}" font-size="10.5" fill="#5B6B77" text-anchor="middle">${v}</text>`;
+    for(let v=y0;v<=y1;v++) if(v) s+=`<text x="${X(0)-7}" y="${Y(v)+4}" font-size="10.5" fill="#5B6B77" text-anchor="end">${String(v).replace('-','−')}</text>`;
+    s+=`<line x1="${L}" y1="${Y(0)}" x2="${L+CW}" y2="${Y(0)}" stroke="#22303C" stroke-width="1.6"/>`;
+    s+=`<line x1="${X(0)}" y1="${T}" x2="${X(0)}" y2="${T+CH}" stroke="#22303C" stroke-width="1.6"/>`;
+    if(curve){
+      let p='';
+      for(let x=0.07;x<=x1;x+=0.01){ const v=Math.log2(x); if(v<y0) continue; p+=(p===''?'M':'L')+X(x).toFixed(1)+' '+Y(v).toFixed(1)+' '; }
+      s+=`<path d="${p}" fill="none" stroke="#7A5CC7" stroke-width="2.8" stroke-linecap="round"/>`;
+      s+=`<text x="${X(11)}" y="${Y(3.9)}" font-size="12.5" fill="#7A5CC7" font-weight="700">y = log₂ x</text>`;
+    }
+    pts.forEach(([x,y,lab])=>{
+      s+=`<circle cx="${X(x)}" cy="${Y(y)}" r="5.5" fill="#7A5CC7"/>`;
+      const dx = x<1.5 ? 12 : 8, anchor='start';
+      s+=`<text x="${X(x)+dx}" y="${Y(y)+(x<1.5?4:-8)}" font-size="11" fill="#22303C" text-anchor="${anchor}">(${lab}, ${String(y).replace('-','−')})</text>`;
+    });
+    s+=`<text x="${L+CW-4}" y="${Y(0)-6}" font-size="11.5" fill="#5B6B77" text-anchor="end">x</text>`;
+    s+=`<text x="${X(0)+6}" y="${T+14}" font-size="11.5" fill="#5B6B77">y</text>`;
+    svg.innerHTML=s;
+  }
+  const b=document.createElement('button'); b.className='tbtn'; b.textContent='把點連成曲線';
+  b.addEventListener('click',()=>{curve=!curve;b.classList.toggle('on',curve);b.textContent=curve?'只看點':'把點連成曲線';draw();});
+  btns.appendChild(b); draw();
+})();
+
+/* ---------- 底數換成別的數 ---------- */
+(function(){
+  const svg=document.getElementById('bSvg'), sl=document.getElementById('bS'),
+        vv=document.getElementById('bV'), rd=document.getElementById('bRead');
+  const W=700,H=440,L=50,R=22,T=20,B=40,CW=W-L-R,CH=H-T-B;
+  const x0=-1,x1=17,y0=-5,y1=5;
+  const X=v=>L+CW*(v-x0)/(x1-x0), Y=v=>T+CH-CH*(v-y0)/(y1-y0);
+  function path(f){
+    let p='', pen=false;
+    for(let x=0.01;x<=x1;x+=0.01){
+      const v=f(x);
+      if(!isFinite(v)||v<y0-0.5||v>y1+0.5){pen=false;continue;}
+      p+=(pen?'L':'M')+X(x).toFixed(1)+' '+Y(Math.max(y0,Math.min(y1,v))).toFixed(1)+' '; pen=true;
+    }
+    return p;
+  }
+  function draw(){
+    let b=Math.round(+sl.value*10)/10; vv.textContent=b.toFixed(1);
+    let s=`<rect x="${L}" y="${T}" width="${CW}" height="${CH}" fill="#FCFDFE" stroke="#DCE6EF"/>`;
+    for(let v=x0;v<=x1;v++) s+=`<line x1="${X(v)}" y1="${T}" x2="${X(v)}" y2="${T+CH}" stroke="#EDF2F6"/>`;
+    for(let v=y0;v<=y1;v++) s+=`<line x1="${L}" y1="${Y(v)}" x2="${L+CW}" y2="${Y(v)}" stroke="#EDF2F6"/>`;
+    for(let v=0;v<=x1;v+=2) if(v) s+=`<text x="${X(v)}" y="${Y(0)+16}" font-size="10.5" fill="#5B6B77" text-anchor="middle">${v}</text>`;
+    for(let v=y0;v<=y1;v++) if(v) s+=`<text x="${X(0)-7}" y="${Y(v)+4}" font-size="10.5" fill="#5B6B77" text-anchor="end">${String(v).replace('-','−')}</text>`;
+    s+=`<line x1="${L}" y1="${Y(0)}" x2="${L+CW}" y2="${Y(0)}" stroke="#22303C" stroke-width="1.6"/>`;
+    s+=`<line x1="${X(0)}" y1="${T}" x2="${X(0)}" y2="${T+CH}" stroke="#22303C" stroke-width="1.6"/>`;
+    s+=`<path d="${path(Math.log2)}" fill="none" stroke="#B8C2CC" stroke-width="2" stroke-dasharray="6 5"/>`;
+    if(Math.abs(b-1)<1e-9){
+      rd.innerHTML='底數是 1 時，1 的任何次方都是 1，沒有對數函數。';
+    }else{
+      const f=x=>Math.log(x)/Math.log(b);
+      s+=`<path d="${path(f)}" fill="none" stroke="#7A5CC7" stroke-width="2.8" stroke-linecap="round"/>`;
+      s+=`<circle cx="${X(1)}" cy="${Y(0)}" r="5" fill="#7A5CC7"/>`;
+      const t=8, v=f(t), vs=v.toFixed(2).replace('-','−');
+      rd.innerHTML=`y = log<sub>${b}</sub> x　　x = 8 時，y = ${vs}，也就是 ${b} 的 ${vs} 次方等於 8`;
+    }
+    svg.innerHTML=s;
   }
   sl.addEventListener('input',draw); draw();
 })();
