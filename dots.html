@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>點點</title>
+<style>
+:root{--bg:#fbfaf7;--ink:#1d1d1f;--card:#fff;--line:#d6d2c8;--acc:#2f6f5e;--soft:#e7f0ec}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif}
+body{display:flex;flex-direction:column;padding:16px;gap:14px;user-select:none;-webkit-user-select:none}
+.sets{display:flex;gap:10px}
+.sets button{flex:1;font-size:18px;padding:12px 4px}
+button{font:inherit;font-size:20px;padding:14px 10px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink)}
+button.on{border-color:var(--acc);background:var(--soft)}
+button.main{background:var(--acc);color:#fff;border-color:var(--acc);font-size:26px}
+button:disabled{opacity:.35}
+#stage{flex:1;min-height:240px;background:var(--card);border:2px solid var(--line);border-radius:22px;position:relative;overflow:hidden}
+canvas{width:100%;height:100%;display:block}
+#cover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:64px;color:var(--line)}
+.row{display:flex;gap:10px}.row button{flex:1}
+.pips{display:flex;justify-content:center;gap:8px}
+.pips i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.pips i.on{background:var(--acc)}
+</style></head><body>
+<div class="sets"><button id="l0" class="on">少一點</button><button id="l1">多一點</button></div>
+<div class="sets"><button id="g0" class="on">第 1 組</button><button id="g1">第 2 組</button><button id="g2">第 3 組</button><button id="g3">第 4 組</button></div>
+<div id="stage"><canvas id="c"></canvas><div id="cover">?</div></div>
+<div class="pips" id="pips"></div>
+<button class="main" id="look">看</button>
+<div class="row"><button id="prev">上一張</button><button id="again">再看一次</button><button id="next">下一張</button></div>
+<script>
+function cl(cx,cy,n){const a=0.13/1.6;const m={1:[[0,0]],2:[[-a,0],[a,0]],3:[[-a,-a*0.8],[a,-a*0.8],[0,a]],4:[[-a,-a],[a,-a],[-a,a],[a,a]]}[n];return m.map(p=>[cx+p[0],cy+p[1]]);}
+function grid(c,r,x0,y0,dx,dy,skip){const s=new Set((skip||[]).map(p=>p.join(',')));const o=[];for(let j=0;j<r;j++)for(let i=0;i<c;i++){if(!s.has(i+','+j))o.push([x0+i*dx,y0+j*dy]);}return o;}
+function dice(n,cx,cy){const h=0.17;const m={1:[[0,0]],2:[[-h,-h],[h,h]],3:[[-h,-h],[0,0],[h,h]],4:[[-h,-h],[h,-h],[-h,h],[h,h]],5:[[-h,-h],[h,-h],[-h,h],[h,h],[0,0]],6:[[-h,-h],[-h,0],[-h,h],[h,-h],[h,0],[h,h]]}[n];return m.map(p=>[cx+p[0],cy+p[1]]);}
+function ring(n,cx,cy,r,center){const o=center?[[cx,cy]]:[];for(let i=0;i<n;i++){const t=Math.PI/2+i*2*Math.PI/n;o.push([cx+r*Math.cos(t),cy+r*Math.sin(t)]);}return o;}
+function plus(cx,cy,k,dx,dy){const o=[[cx,cy]];for(let i=1;i<=k;i++){o.push([cx+i*dx,cy],[cx-i*dx,cy],[cx,cy+i*dy],[cx,cy-i*dy]);}return o;}
+function xs(cx,cy,k,d){const o=[[cx,cy]];for(let i=1;i<=k;i++){[[1,1],[1,-1],[-1,1],[-1,-1]].forEach(s=>o.push([cx+s[0]*i*d*1.25,cy+s[1]*i*d]));}return o;}
+function tri(rows,cx,y0,dx,dy){const o=[];for(let r=0;r<rows;r++){const n=rows-r;for(let i=0;i<n;i++)o.push([cx+(i-(n-1)/2)*dx,y0+r*dy]);}return o;}
+const J=(...a)=>[].concat(...a);
+// SETS[level][group][card]; level 0 = 4–8 dots, level 1 = 6–12 dots
+const SETS=[
+[
+ [dice(5,0.7,0.5), grid(3,2,0.4,0.35,0.3,0.3),
+  [[0.35,0.3],[0.35,0.5],[0.35,0.7],[0.7,0.5],[1.05,0.3],[1.05,0.5],[1.05,0.7]],
+  J(cl(0.3,0.72,2),cl(0.95,0.68,3),cl(0.6,0.25,1)), J(cl(0.38,0.4,4),cl(1.0,0.62,3)),
+  grid(3,3,0.45,0.2,0.25,0.3,[[2,2]])],
+ [dice(6,0.7,0.5), J(grid(4,1,0.25,0.65,0.3,0),grid(3,1,0.4,0.35,0.3,0)),
+  plus(0.7,0.5,1,0.22,0.22),
+  J(cl(0.3,0.68,3),cl(1.05,0.7,2),cl(0.68,0.27,3)), J(cl(0.3,0.3,2),cl(0.7,0.75,2),cl(1.1,0.35,2)),
+  grid(4,2,0.25,0.35,0.3,0.3,[[3,1]])],
+ [dice(4,0.7,0.5), grid(4,2,0.25,0.35,0.3,0.3),
+  tri(3,0.7,0.25,0.25,0.25),
+  J(cl(0.35,0.62,4),cl(1.0,0.35,2)), J(cl(0.3,0.3,3),cl(1.05,0.68,3),cl(0.7,0.78,1)),
+  grid(3,3,0.45,0.2,0.25,0.3,[[1,1]])],
+ [J(dice(3,0.4,0.5),dice(3,1.0,0.5)), J(grid(5,1,0.2,0.62,0.25,0),grid(2,1,0.2,0.32,0.25,0)),
+  xs(0.7,0.5,1,0.2),
+  J(cl(0.3,0.7,2),cl(1.05,0.68,3),cl(0.65,0.27,3)), J(cl(0.3,0.33,3),cl(0.7,0.75,2),cl(1.1,0.35,2)),
+  grid(3,3,0.45,0.2,0.25,0.3,[[2,1]])]
+],
+[
+ [J([[0.15,0.3],[0.4,0.3],[0.15,0.7],[0.4,0.7]],[[0.8,0.25],[1.2,0.25],[1.0,0.5],[0.8,0.75],[1.2,0.75]]),
+  grid(5,2,0.3,0.35,0.2,0.3,[[3,1],[4,1]]), plus(0.7,0.5,2,0.17,0.13),
+  J(cl(0.3,0.7,3),cl(1.05,0.72,4),cl(0.65,0.27,4)), J(cl(0.3,0.3,3),cl(0.35,0.75,3),cl(1.05,0.28,3),cl(1.0,0.75,3)),
+  grid(4,3,0.3,0.2,0.27,0.3,[[3,0]])],
+ [J(dice(6,0.4,0.5),dice(3,1.0,0.5)), grid(5,2,0.3,0.35,0.2,0.3,[[4,0]]), ring(6,0.7,0.5,0.26,true),
+  J(cl(0.3,0.7,4),cl(1.05,0.7,4),cl(0.68,0.27,3)), J(cl(0.28,0.3,3),cl(0.35,0.75,3),cl(1.08,0.3,2),cl(1.05,0.75,2)),
+  grid(4,3,0.3,0.2,0.27,0.3,[[0,0],[3,2]])],
+ [J(dice(5,0.4,0.5),dice(5,1.0,0.5)), grid(6,2,0.2,0.35,0.2,0.3), xs(0.7,0.5,2,0.15),
+  J(cl(0.28,0.3,4),cl(0.35,0.75,3),cl(1.08,0.3,3),cl(1.05,0.75,2)), J(cl(0.3,0.68,2),cl(0.72,0.28,3),cl(1.1,0.7,3),cl(0.7,0.8,2)),
+  grid(4,3,0.3,0.2,0.27,0.3,[[1,1],[2,1]])],
+ [J(dice(4,0.4,0.5),dice(6,1.0,0.5)), J(grid(5,1,0.3,0.65,0.2,0),grid(3,1,0.3,0.35,0.2,0)), tri(4,0.7,0.18,0.22,0.21),
+  J(cl(0.3,0.7,4),cl(1.05,0.7,4),cl(0.68,0.27,4)), J(cl(0.28,0.3,3),cl(0.35,0.75,3),cl(1.08,0.3,3),cl(1.05,0.75,2)),
+  grid(3,3,0.45,0.2,0.25,0.3,[[1,1]])]
+]
+];
+function drawDots(ctx,w,h,pts){const s=Math.min(w/1.4,h/1.0),ox=(w-1.4*s)/2,oy=(h-1.0*s)/2;ctx.fillStyle='#1d1d1f';pts.forEach(p=>{ctx.beginPath();ctx.arc(ox+p[0]*s,oy+(1-p[1])*s,0.05*s,0,Math.PI*2);ctx.fill();});}
+
+let lv=0,grp=0,idx=0,timer=null,seen=false;
+const c=document.getElementById('c'),ctx=c.getContext('2d'),cover=document.getElementById('cover');
+function hide(){ctx.clearRect(0,0,c.width,c.height);cover.style.display='flex';}
+function flash(){clearTimeout(timer);const r=c.getBoundingClientRect(),d=window.devicePixelRatio||1;c.width=r.width*d;c.height=r.height*d;ctx.setTransform(d,0,0,d,0,0);ctx.translate(r.width*0.05,r.height*0.05);cover.style.display='none';drawDots(ctx,r.width*0.9,r.height*0.9,SETS[lv][grp][idx]);seen=true;upd();timer=setTimeout(hide,2000);}
+function pips(){const p=document.getElementById('pips');p.innerHTML='';SETS[lv][grp].forEach((_,i)=>{const e=document.createElement('i');if(i===idx)e.className='on';p.appendChild(e);});}
+function upd(){document.getElementById('again').disabled=!seen;document.getElementById('prev').disabled=idx===0;document.getElementById('next').disabled=idx===SETS[lv][grp].length-1;pips();}
+function go(i){clearTimeout(timer);idx=i;seen=false;hide();upd();}
+document.getElementById('look').onclick=flash;document.getElementById('again').onclick=flash;
+document.getElementById('prev').onclick=()=>go(idx-1);document.getElementById('next').onclick=()=>go(idx+1);
+[0,1].forEach(k=>document.getElementById('l'+k).onclick=()=>{lv=k;[0,1].forEach(j=>document.getElementById('l'+j).classList.toggle('on',j===k));go(0);});
+[0,1,2,3].forEach(k=>document.getElementById('g'+k).onclick=()=>{grp=k;[0,1,2,3].forEach(j=>document.getElementById('g'+j).classList.toggle('on',j===k));go(0);});
+window.addEventListener('resize',hide);upd();
+</script></body></html>
