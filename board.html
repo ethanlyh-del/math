@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>一起看</title>
+<style>
+:root{--bg:#fbfaf7;--ink:#1d1d1f;--card:#fff;--line:#d6d2c8;--acc:#2f6f5e;--soft:#e7f0ec;--mute:#7a766d}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif}
+body{display:flex;flex-direction:column;user-select:none;-webkit-user-select:none}
+nav{display:flex;gap:8px;padding:12px 16px;border-bottom:2px solid var(--line);background:var(--card)}
+nav button{flex:1}
+button{font:inherit;font-size:19px;padding:12px 10px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink)}
+button.on{border-color:var(--acc);background:var(--soft)}
+button.main{background:var(--acc);color:#fff;border-color:var(--acc)}
+button:disabled{opacity:.35}
+section{flex:1;display:none;flex-direction:column;gap:12px;padding:14px 16px;min-height:0;overflow:auto}
+section.on{display:flex}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sp{flex:1}
+/* dots */
+#dstage{flex:1;min-height:260px;background:var(--card);border:2px solid var(--line);border-radius:20px;position:relative;touch-action:none}
+#dstage canvas{position:absolute;inset:0;width:100%;height:100%}
+.sw{width:44px;height:44px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line);padding:0}
+.sw.on{box-shadow:0 0 0 3px var(--ink)}
+#keeps{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;min-height:0}
+#keeps img{height:110px;border:2px solid var(--line);border-radius:12px;background:#fff;flex:none}
+#big{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;padding:20px;z-index:9}
+#big img{max-width:100%;max-height:100%;background:#fff;border-radius:16px}
+.num{font-size:20px;min-width:56px}
+/* split */
+#target{font-size:120px;font-weight:700;line-height:1;text-align:center}
+#tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:10px}
+#tiles button{font-size:38px;padding:14px 0;font-weight:600}
+#tiles button.sel{background:var(--acc);color:#fff;border-color:var(--acc)}
+#now{font-size:40px;text-align:center;min-height:52px;color:var(--mute)}
+#now.ok{color:var(--acc)}
+#ways{display:flex;flex-direction:column;gap:6px;font-size:34px}
+#ways div{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:6px 14px}
+#msg{text-align:center;color:var(--mute);min-height:24px;font-size:18px}
+/* tally */
+#tally{flex:1;min-height:200px;background:var(--card);border:2px solid var(--line);border-radius:20px;padding:18px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:6px 22px;font-size:64px;line-height:1.1;font-family:"Times New Roman",serif}
+#tally span{letter-spacing:6px}
+#tnum{font-size:28px;text-align:center;color:var(--mute);min-height:34px}
+</style></head><body>
+<nav><button data-t="d" class="on">點點</button><button data-t="s">拆一拆</button><button data-t="t">記羊</button></nav>
+
+<section id="d" class="on">
+ <div class="row">
+  <button id="dl0" class="on">少一點</button><button id="dl1">多一點</button><span style="width:8px"></span><button id="dg0" class="on">1 組</button><button id="dg1">2 組</button><button id="dg2">3 組</button><button id="dg3">4 組</button>
+  <span class="sp"></span>
+  <button id="dprev">‹</button><span class="num" id="dno"></span><button id="dnext">›</button>
+ </div>
+ <div id="dstage"><canvas id="dbase"></canvas><canvas id="dink"></canvas></div>
+ <div class="row">
+  <button class="sw on" style="background:#d1495b" data-c="#d1495b"></button>
+  <button class="sw" style="background:#2e86de" data-c="#2e86de"></button>
+  <button class="sw" style="background:#e9a23b" data-c="#e9a23b"></button>
+  <button class="sw" style="background:#2f9e5f" data-c="#2f9e5f"></button>
+  <span class="sp"></span>
+  <button id="dundo">復原</button><button id="dclear">擦掉</button><button class="main" id="dkeep">留下這個看法</button>
+ </div>
+ <div id="keeps"></div>
+</section>
+
+<section id="s">
+ <div class="row">
+  <button id="r6">1 到 6</button><button id="r9" class="on">1 到 9</button><button id="r12">1 到 12</button>
+  <span class="sp"></span>
+  <button id="tminus">−</button><button id="tplus">＋</button>
+ </div>
+ <div id="target">8</div>
+ <div id="tiles"></div>
+ <div id="now"></div>
+ <div class="row"><button id="sclear">重選</button><span class="sp"></span><button class="main" id="sadd" disabled>寫下來</button></div>
+ <div id="msg"></div>
+ <div id="ways"></div>
+</section>
+
+<section id="t">
+ <div class="row">
+  <button class="main" id="tadd">羊出去一隻</button><button id="tsub">羊回來一隻</button>
+  <span class="sp"></span>
+  <button id="tgroup">五條一組</button><button id="tshow">數字</button><button id="treset">重來</button>
+ </div>
+ <div id="tally"></div>
+ <div id="tnum"></div>
+</section>
+
+<div id="big"><img id="bigimg" alt=""></div>
+<script>
+function cl(cx,cy,n){const a=0.13/1.6;const m={1:[[0,0]],2:[[-a,0],[a,0]],3:[[-a,-a*0.8],[a,-a*0.8],[0,a]],4:[[-a,-a],[a,-a],[-a,a],[a,a]]}[n];return m.map(p=>[cx+p[0],cy+p[1]]);}
+function grid(c,r,x0,y0,dx,dy,skip){const s=new Set((skip||[]).map(p=>p.join(',')));const o=[];for(let j=0;j<r;j++)for(let i=0;i<c;i++){if(!s.has(i+','+j))o.push([x0+i*dx,y0+j*dy]);}return o;}
+function dice(n,cx,cy){const h=0.17;const m={1:[[0,0]],2:[[-h,-h],[h,h]],3:[[-h,-h],[0,0],[h,h]],4:[[-h,-h],[h,-h],[-h,h],[h,h]],5:[[-h,-h],[h,-h],[-h,h],[h,h],[0,0]],6:[[-h,-h],[-h,0],[-h,h],[h,-h],[h,0],[h,h]]}[n];return m.map(p=>[cx+p[0],cy+p[1]]);}
+function ring(n,cx,cy,r,center){const o=center?[[cx,cy]]:[];for(let i=0;i<n;i++){const t=Math.PI/2+i*2*Math.PI/n;o.push([cx+r*Math.cos(t),cy+r*Math.sin(t)]);}return o;}
+function plus(cx,cy,k,dx,dy){const o=[[cx,cy]];for(let i=1;i<=k;i++){o.push([cx+i*dx,cy],[cx-i*dx,cy],[cx,cy+i*dy],[cx,cy-i*dy]);}return o;}
+function xs(cx,cy,k,d){const o=[[cx,cy]];for(let i=1;i<=k;i++){[[1,1],[1,-1],[-1,1],[-1,-1]].forEach(s=>o.push([cx+s[0]*i*d*1.25,cy+s[1]*i*d]));}return o;}
+function tri(rows,cx,y0,dx,dy){const o=[];for(let r=0;r<rows;r++){const n=rows-r;for(let i=0;i<n;i++)o.push([cx+(i-(n-1)/2)*dx,y0+r*dy]);}return o;}
+const J=(...a)=>[].concat(...a);
+// SETS[level][group][card]; level 0 = 4–8 dots, level 1 = 6–12 dots
+const SETS=[
+[
+ [dice(5,0.7,0.5), grid(3,2,0.4,0.35,0.3,0.3),
+  [[0.35,0.3],[0.35,0.5],[0.35,0.7],[0.7,0.5],[1.05,0.3],[1.05,0.5],[1.05,0.7]],
+  J(cl(0.3,0.72,2),cl(0.95,0.68,3),cl(0.6,0.25,1)), J(cl(0.38,0.4,4),cl(1.0,0.62,3)),
+  grid(3,3,0.45,0.2,0.25,0.3,[[2,2]])],
+ [dice(6,0.7,0.5), J(grid(4,1,0.25,0.65,0.3,0),grid(3,1,0.4,0.35,0.3,0)),
+  plus(0.7,0.5,1,0.22,0.22),
+  J(cl(0.3,0.68,3),cl(1.05,0.7,2),cl(0.68,0.27,3)), J(cl(0.3,0.3,2),cl(0.7,0.75,2),cl(1.1,0.35,2)),
+  grid(4,2,0.25,0.35,0.3,0.3,[[3,1]])],
+ [dice(4,0.7,0.5), grid(4,2,0.25,0.35,0.3,0.3),
+  tri(3,0.7,0.25,0.25,0.25),
+  J(cl(0.35,0.62,4),cl(1.0,0.35,2)), J(cl(0.3,0.3,3),cl(1.05,0.68,3),cl(0.7,0.78,1)),
+  grid(3,3,0.45,0.2,0.25,0.3,[[1,1]])],
+ [J(dice(3,0.4,0.5),dice(3,1.0,0.5)), J(grid(5,1,0.2,0.62,0.25,0),grid(2,1,0.2,0.32,0.25,0)),
+  xs(0.7,0.5,1,0.2),
+  J(cl(0.3,0.7,2),cl(1.05,0.68,3),cl(0.65,0.27,3)), J(cl(0.3,0.33,3),cl(0.7,0.75,2),cl(1.1,0.35,2)),
+  grid(3,3,0.45,0.2,0.25,0.3,[[2,1]])]
+],
+[
+ [J([[0.15,0.3],[0.4,0.3],[0.15,0.7],[0.4,0.7]],[[0.8,0.25],[1.2,0.25],[1.0,0.5],[0.8,0.75],[1.2,0.75]]),
+  grid(5,2,0.3,0.35,0.2,0.3,[[3,1],[4,1]]), plus(0.7,0.5,2,0.17,0.13),
+  J(cl(0.3,0.7,3),cl(1.05,0.72,4),cl(0.65,0.27,4)), J(cl(0.3,0.3,3),cl(0.35,0.75,3),cl(1.05,0.28,3),cl(1.0,0.75,3)),
+  grid(4,3,0.3,0.2,0.27,0.3,[[3,0]])],
+ [J(dice(6,0.4,0.5),dice(3,1.0,0.5)), grid(5,2,0.3,0.35,0.2,0.3,[[4,0]]), ring(6,0.7,0.5,0.26,true),
+  J(cl(0.3,0.7,4),cl(1.05,0.7,4),cl(0.68,0.27,3)), J(cl(0.28,0.3,3),cl(0.35,0.75,3),cl(1.08,0.3,2),cl(1.05,0.75,2)),
+  grid(4,3,0.3,0.2,0.27,0.3,[[0,0],[3,2]])],
+ [J(dice(5,0.4,0.5),dice(5,1.0,0.5)), grid(6,2,0.2,0.35,0.2,0.3), xs(0.7,0.5,2,0.15),
+  J(cl(0.28,0.3,4),cl(0.35,0.75,3),cl(1.08,0.3,3),cl(1.05,0.75,2)), J(cl(0.3,0.68,2),cl(0.72,0.28,3),cl(1.1,0.7,3),cl(0.7,0.8,2)),
+  grid(4,3,0.3,0.2,0.27,0.3,[[1,1],[2,1]])],
+ [J(dice(4,0.4,0.5),dice(6,1.0,0.5)), J(grid(5,1,0.3,0.65,0.2,0),grid(3,1,0.3,0.35,0.2,0)), tri(4,0.7,0.18,0.22,0.21),
+  J(cl(0.3,0.7,4),cl(1.05,0.7,4),cl(0.68,0.27,4)), J(cl(0.28,0.3,3),cl(0.35,0.75,3),cl(1.08,0.3,3),cl(1.05,0.75,2)),
+  grid(3,3,0.45,0.2,0.25,0.3,[[1,1]])]
+]
+];
+function drawDots(ctx,w,h,pts){const s=Math.min(w/1.4,h/1.0),ox=(w-1.4*s)/2,oy=(h-1.0*s)/2;ctx.fillStyle='#1d1d1f';pts.forEach(p=>{ctx.beginPath();ctx.arc(ox+p[0]*s,oy+(1-p[1])*s,0.05*s,0,Math.PI*2);ctx.fill();});}
+
+// tabs
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===b.dataset.t));if(b.dataset.t==='d')dRedraw();});
+// ---- dots
+let dlv=0,dgrp=0,didx=0,color='#d1495b',strokes=[],cur=null;
+const st=document.getElementById('dstage'),base=document.getElementById('dbase'),ink=document.getElementById('dink'),bctx=base.getContext('2d'),ictx=ink.getContext('2d');
+function fit(cv,cx){const r=cv.getBoundingClientRect(),d=window.devicePixelRatio||1;cv.width=r.width*d;cv.height=r.height*d;cx.setTransform(d,0,0,d,0,0);return r;}
+function dRedraw(){const r=fit(base,bctx);fit(ink,ictx);const m=0.06;bctx.save();bctx.translate(r.width*m,r.height*m);drawDots(bctx,r.width*(1-2*m),r.height*(1-2*m),SETS[dlv][dgrp][didx]);bctx.restore();inkRedraw();document.getElementById('dno').textContent=(didx+1)+' / '+SETS[dlv][dgrp].length;document.getElementById('dprev').disabled=didx===0;document.getElementById('dnext').disabled=didx===SETS[dlv][dgrp].length-1;}
+function inkRedraw(){const r=ink.getBoundingClientRect();ictx.clearRect(0,0,r.width,r.height);ictx.lineCap='round';ictx.lineJoin='round';strokes.forEach(s=>{ictx.strokeStyle=s.c;ictx.lineWidth=Math.max(5,r.width*0.008);ictx.beginPath();s.p.forEach((q,i)=>{const x=q[0]*r.width,y=q[1]*r.height;i?ictx.lineTo(x,y):ictx.moveTo(x,y);});ictx.stroke();});}
+function pos(e){const r=ink.getBoundingClientRect();return[(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height];}
+st.addEventListener('pointerdown',e=>{st.setPointerCapture(e.pointerId);cur={c:color,p:[pos(e)]};strokes.push(cur);inkRedraw();});
+st.addEventListener('pointermove',e=>{if(!cur)return;cur.p.push(pos(e));inkRedraw();});
+['pointerup','pointercancel'].forEach(t=>st.addEventListener(t,()=>{cur=null;}));
+document.querySelectorAll('.sw').forEach(b=>b.onclick=()=>{color=b.dataset.c;document.querySelectorAll('.sw').forEach(x=>x.classList.toggle('on',x===b));});
+document.getElementById('dundo').onclick=()=>{strokes.pop();inkRedraw();};
+document.getElementById('dclear').onclick=()=>{strokes=[];inkRedraw();};
+function dgo(i){didx=i;strokes=[];dRedraw();}
+document.getElementById('dprev').onclick=()=>dgo(didx-1);document.getElementById('dnext').onclick=()=>dgo(didx+1);
+[0,1].forEach(k=>document.getElementById('dl'+k).onclick=()=>{dlv=k;[0,1].forEach(j=>document.getElementById('dl'+j).classList.toggle('on',j===k));dgo(0);});
+[0,1,2,3].forEach(k=>document.getElementById('dg'+k).onclick=()=>{dgrp=k;[0,1,2,3].forEach(j=>document.getElementById('dg'+j).classList.toggle('on',j===k));dgo(0);});
+document.getElementById('dkeep').onclick=()=>{if(!strokes.length)return;const o=document.createElement('canvas');o.width=base.width;o.height=base.height;const x=o.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,o.width,o.height);x.drawImage(base,0,0);x.drawImage(ink,0,0);const im=new Image();im.src=o.toDataURL('image/png');im.onclick=()=>{document.getElementById('bigimg').src=im.src;document.getElementById('big').style.display='flex';};document.getElementById('keeps').appendChild(im);strokes=[];inkRedraw();};
+document.getElementById('big').onclick=()=>{document.getElementById('big').style.display='none';};
+new ResizeObserver(()=>{if(document.getElementById('d').classList.contains('on'))dRedraw();}).observe(st);
+// ---- split
+let max=9,target=8,sel=new Set(),ways={};
+function tiles(){const t=document.getElementById('tiles');t.innerHTML='';for(let i=1;i<=max;i++){const b=document.createElement('button');b.textContent=i;if(sel.has(i))b.className='sel';b.onclick=()=>{sel.has(i)?sel.delete(i):sel.add(i);sRender();};t.appendChild(b);}}
+function key(){return[...sel].sort((a,b)=>a-b);}
+function sRender(){document.getElementById('target').textContent=target;tiles();const k=key(),sum=k.reduce((a,b)=>a+b,0),now=document.getElementById('now');now.textContent=k.length?k.join(' + ')+' = '+sum:'';now.classList.toggle('ok',sum===target&&k.length>0);document.getElementById('sadd').disabled=!(sum===target&&k.length);const w=document.getElementById('ways');w.innerHTML='';(ways[target]||[]).forEach(a=>{const d=document.createElement('div');d.textContent=a.length===1?String(a[0]):a.join(' + ');w.appendChild(d);});document.getElementById('msg').textContent='';}
+document.getElementById('sadd').onclick=()=>{const k=key(),s=k.join('+');ways[target]=ways[target]||[];if(ways[target].some(a=>a.join('+')===s)){sel.clear();sRender();document.getElementById('msg').textContent='這個已經寫過了';return;}ways[target].push(k);sel.clear();sRender();};
+document.getElementById('sclear').onclick=()=>{sel.clear();sRender();};
+document.getElementById('tminus').onclick=()=>{if(target>1){target--;sel.clear();sRender();}};
+document.getElementById('tplus').onclick=()=>{if(target<12){target++;sel.clear();sRender();}};
+[6,9,12].forEach(n=>document.getElementById('r'+n).onclick=()=>{max=n;[6,9,12].forEach(m=>document.getElementById('r'+m).classList.toggle('on',m===n));if(n===6&&target>6)target=6;sel=new Set([...sel].filter(x=>x<=n));sRender();});
+sRender();
+// ---- tally
+let n=0,group=false,shownum=false;
+function tRender(){const t=document.getElementById('tally');t.innerHTML='';if(group){const g=Math.floor(n/5),r=n%5;for(let i=0;i<g;i++){const s=document.createElement('span');s.textContent='⋀';t.appendChild(s);}if(r){const s=document.createElement('span');s.textContent='|'.repeat(r);t.appendChild(s);}}else{for(let i=0;i<n;i+=5){const s=document.createElement('span');s.textContent='|'.repeat(Math.min(5,n-i));t.appendChild(s);}}document.getElementById('tnum').textContent=shownum?String(n):'';document.getElementById('tgroup').classList.toggle('on',group);document.getElementById('tshow').classList.toggle('on',shownum);document.getElementById('tsub').disabled=n===0;}
+document.getElementById('tadd').onclick=()=>{n++;tRender();};
+document.getElementById('tsub').onclick=()=>{if(n>0)n--;tRender();};
+document.getElementById('tgroup').onclick=()=>{group=!group;tRender();};
+document.getElementById('tshow').onclick=()=>{shownum=!shownum;tRender();};
+document.getElementById('treset').onclick=()=>{n=0;tRender();};
+tRender();
+dRedraw();
+</script></body></html>
